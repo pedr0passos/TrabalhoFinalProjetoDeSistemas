@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package model;
+package dao;
 
 import java.util.List;
+import model.Usuario;
 
 /**
  *
@@ -12,14 +13,14 @@ import java.util.List;
  */
 public interface UsuarioDAO {
     
-    public void inserir(Usuario usuario);
+    void inserir(Usuario usuario);
     
-    public List<Usuario> listar();
+    List<Usuario> listar();
     
-    public Usuario buscarPorId(Long id);
+    Usuario buscarPorId(Long id);
     
-    public void atualizar(Usuario usuario);
+    void atualizar(Usuario usuario);
     
-    public void deletar(Long id);
+    void deletar(Long id);
     
 }

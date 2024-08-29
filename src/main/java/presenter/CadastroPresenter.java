@@ -1,10 +1,8 @@
-package presenter;
-
-/**
- * @author Catterina Vittorazzi Salvador
- * @author Pedro Henrique Passos Rocha
- * @author João Victor Mascarenhas
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+package presenter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,29 +11,34 @@ import java.util.List;
 import javax.swing.JDesktopPane;
 import model.Usuario;
 import observer.Observer;
-import view.LoginView;
+import view.CadastroView;
 
-public class LoginPresenter implements Observer {
+/**
+ *
+ * @author pedro
+ */
+
+public class CadastroPresenter implements Observer {
     
     private final List<Observer> observers = new ArrayList<>();
     
     private final Usuario model;
-    private LoginView view;
+    private CadastroView view;
     
-    public LoginPresenter(Usuario model, JDesktopPane panel) {
+    public CadastroPresenter(Usuario model, JDesktopPane panel) {
         this.model = model;
         criarView();
         panel.add(view);
     }
     
     public final void criarView() {
-        view = new LoginView(); 
-        view.setVisible(true);
-        view.getBotaoLogin().addActionListener(new ActionListener() {
+        view = new CadastroView(); 
+        view.setVisible(false);
+        view.getBotaoSalvarUsuario().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-
+                    
                 } catch ( NumberFormatException exception) {
                     exception.getStackTrace();                    
                 }

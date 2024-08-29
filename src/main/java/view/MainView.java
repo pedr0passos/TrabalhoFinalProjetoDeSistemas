@@ -23,6 +23,8 @@ public class MainView extends javax.swing.JFrame {
         mainPane = new javax.swing.JDesktopPane();
         jToolBar1 = new javax.swing.JToolBar();
         menuBar = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         btnMenuConfigurar = new javax.swing.JMenu();
         mItemConfigurarLog = new javax.swing.JMenuItem();
 
@@ -31,6 +33,7 @@ public class MainView extends javax.swing.JFrame {
         setResizable(false);
 
         mainPane.setBackground(new java.awt.Color(232, 232, 232));
+        mainPane.setEnabled(false);
 
         jToolBar1.setRollover(true);
 
@@ -53,8 +56,22 @@ public class MainView extends javax.swing.JFrame {
 
         menuBar.setDoubleBuffered(true);
 
+        jMenu1.setText("Usuarios");
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/adicionar-usuario.png"))); // NOI18N
+        jMenuItem1.setText("Novo Usuario");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        menuBar.add(jMenu1);
+
         btnMenuConfigurar.setText("Configurar");
 
+        mItemConfigurarLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/engrenagem.png"))); // NOI18N
         mItemConfigurarLog.setText("Configurar Log");
         btnMenuConfigurar.add(mItemConfigurarLog);
 
@@ -65,6 +82,10 @@ public class MainView extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
     
     public void addConfigurarLogActionListener(ActionListener listener) {
         mItemConfigurarLog.addActionListener(listener);
@@ -89,6 +110,8 @@ public class MainView extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu btnMenuConfigurar;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem mItemConfigurarLog;
     private javax.swing.JDesktopPane mainPane;
