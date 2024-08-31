@@ -5,6 +5,7 @@
 package dao;
 
 import java.util.List;
+import java.util.Optional;
 import model.Usuario;
 
 /**
@@ -17,7 +18,7 @@ public interface UsuarioDAO {
     
     List<Usuario> listar();
     
-    Usuario buscarPorId(Long id);
+    Optional<Usuario> buscarPorId(Long id);
     
     void atualizar(Usuario usuario);
     

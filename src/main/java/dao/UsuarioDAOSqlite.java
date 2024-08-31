@@ -15,11 +15,11 @@ import model.Usuario;
  * @author Pedro Henrique Passos Rocha
  */
 
-public class UsuarioDAOMySQL implements UsuarioDAO {
+public class UsuarioDAOSqlite implements UsuarioDAO {
     
     private Connection conexao;
     
-    public UsuarioDAOMySQL() {
+    public UsuarioDAOSqlite() {
         try {
             conexao = DriverManager.getConnection("<ConnectionString");
         } catch (SQLException ex) {

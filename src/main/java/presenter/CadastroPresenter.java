@@ -18,7 +18,7 @@ import view.CadastroView;
  * @author pedro
  */
 
-public class CadastroPresenter implements Observer {
+public class CadastroPresenter {
     
     private final List<Observer> observers = new ArrayList<>();
     
@@ -44,10 +44,5 @@ public class CadastroPresenter implements Observer {
                 }
             }
         });
-    }
-    
-    @Override
-    public void update() {
-        
     }
 }

@@ -15,7 +15,7 @@ import model.Usuario;
 import observer.Observer;
 import view.LoginView;
 
-public class LoginPresenter implements Observer {
+public class LoginPresenter {
     
     private final List<Observer> observers = new ArrayList<>();
     
@@ -41,10 +41,15 @@ public class LoginPresenter implements Observer {
                 }
             }
         });
-    }
-    
-    @Override
-    public void update() {
-        
+        view.getBotaoLogin().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+
+                } catch ( NumberFormatException exception) {
+                    exception.getStackTrace();                    
+                }
+            }
+        });
     }
 }
