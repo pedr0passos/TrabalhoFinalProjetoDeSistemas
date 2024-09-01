@@ -12,9 +12,10 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- *
- * @author Joao Victor
+ * @author Pedro Henrique Passos Rocha 
+ * @author Joao Victor Mascarenhas
  */
+
 public class UsuarioService {
     private final UsuarioDAO usuarioDAO;
     
@@ -26,8 +27,12 @@ public class UsuarioService {
         usuarioDAO.inserir(usuario);
     }
     
-    public Optional<Usuario> buscarUsuarioPorId(Long id) {
+    public Optional<Usuario> buscarUsuarioPorId(String id) {
         return usuarioDAO.buscarPorId(id);
+    }
+    
+    public Optional<Usuario> buscarUsuarioPorNome(String nome) {
+        return usuarioDAO.buscarPorNome(nome);
     }
     
     public List<Usuario> listarUsuarios() {

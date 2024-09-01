@@ -4,7 +4,9 @@
  */
 package model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  *
@@ -13,23 +15,26 @@ import java.util.ArrayList;
  */
 public class Usuario {
     
-    private Long id;
+    private UUID id;
     private String userName;
     private String senha;
+    private LocalDate dataCriacao;
     private ArrayList<Notificacao> notificacoes;
     
     public Usuario() {}
     
     public Usuario(String userName, String senha) {
+        this.id = UUID.randomUUID();
         this.userName = userName;
         this.senha = senha;
+        this.dataCriacao = LocalDate.now();
     }
 
-    public Long getId() {
+    public UUID getId() {
         return this.id;
     }
     
-    public String getUsername() {
+    public String getUserName() {
         return userName;
     }
 
@@ -37,7 +42,15 @@ public class Usuario {
         return senha;
     }
 
-    public void setId(Long id) {
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public ArrayList<Notificacao> getNotificacoes() {
+        return notificacoes;
+    }
+
+    public void setId(UUID id) {
         this.id = id;
     }
     
@@ -47,6 +60,10 @@ public class Usuario {
     
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
     
     public void adicionarNotificacao(Notificacao novaNotificacao) {

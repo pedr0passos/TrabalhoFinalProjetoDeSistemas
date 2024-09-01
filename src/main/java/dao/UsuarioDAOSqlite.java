@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import java.sql.Connection;
@@ -10,15 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import model.Usuario;
 
 /**
  * @author Catterina Vittorazzi Salvador
  * @author Pedro Henrique Passos Rocha
+ * @author João Victor Mascarenhas 
  */
 
 public class UsuarioDAOSqlite implements UsuarioDAO {
@@ -36,35 +35,37 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
     
     @Override
     public void inserir(Usuario usuario) {
-        String sql = "INSERT INTO usuarios (username, senha) VALUES (?, ?)";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setString(1, usuario.getUsername());
-            stmt.setString(2, usuario.getSenha());
+        String sql = "INSERT INTO usuarios (id, username, senha, dataCriacao) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+
+            String idStr = usuario.getId().toString();
+            String dataCriacaoStr = usuario.getDataCriacao().toString();
+
+            stmt.setString(1, idStr); 
+            stmt.setString(2, usuario.getUserName());
+            stmt.setString(3, usuario.getSenha());
+            stmt.setString(4, dataCriacaoStr); 
+
             stmt.executeUpdate();
 
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    usuario.setId(generatedKeys.getLong(1)); // Assume que o ID é um Long
-                } else {
-                    throw new SQLException("Falha ao inserir usuário, nenhum ID obtido.");
-                }
-            }
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao inserir usuário: " + e.getMessage());
         }
     }
+
     
     @Override
-    public Optional<Usuario> buscarPorId(Long id) {
+    public Optional<Usuario> buscarPorId(String id) {
         String sql = "SELECT * FROM usuarios WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setLong(1, id);
+            stmt.setString(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     Usuario usuario = new Usuario();
-                    usuario.setId(rs.getLong("id"));
+                    usuario.setId(UUID.fromString(rs.getString("id"))); 
                     usuario.setUsername(rs.getString("username"));
                     usuario.setSenha(rs.getString("senha"));
+                    usuario.setDataCriacao(LocalDate.parse(rs.getString("dataCriacao"))); 
                     return Optional.of(usuario);
                 } else {
                     return Optional.empty();
@@ -72,6 +73,29 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao buscar usuário pelo ID: " + e.getMessage());
+        }
+    }
+
+    
+    @Override
+    public Optional<Usuario> buscarPorNome(String nome) {
+        String sql = "SELECT * FROM usuarios WHERE username = ?";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setString(1, nome);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Usuario usuario = new Usuario();
+                    usuario.setId(UUID.fromString(rs.getString("id")));
+                    usuario.setUsername(rs.getString("username"));
+                    usuario.setSenha(rs.getString("senha"));
+                    usuario.setDataCriacao(LocalDate.parse(rs.getString("dataCriacao"))); 
+                    return Optional.of(usuario);
+                } else {
+                    return Optional.empty();
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar usuário pelo nome: " + e.getMessage());
         }
     }
     
@@ -84,9 +108,10 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
             
             while (rs.next()) {
                 Usuario usuario = new Usuario();
-                usuario.setId(rs.getLong("id"));
-                usuario.setUsername(rs.getString("username"));
-                usuario.setSenha(rs.getString("senha"));
+                    usuario.setId(UUID.fromString(rs.getString("id"))); 
+                    usuario.setUsername(rs.getString("username"));
+                    usuario.setSenha(rs.getString("senha"));
+                    usuario.setDataCriacao(LocalDate.parse(rs.getString("dataCriacao"))); 
                 usuarios.add(usuario);
             }
         } catch (SQLException e) {
@@ -99,9 +124,9 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
     public void atualizar(Usuario usuario) {
         String sql = "UPDATE usuarios SET username = ?, senha = ? WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setString(1, usuario.getUsername());
+            stmt.setString(1, usuario.getUserName());
             stmt.setString(2, usuario.getSenha());
-            stmt.setLong(3, usuario.getId());
+            stmt.setString(3, usuario.getId().toString());
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao atualizar usuário: " + e.getMessage());
