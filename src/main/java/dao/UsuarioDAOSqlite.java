@@ -4,10 +4,16 @@
  */
 package dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import model.Usuario;
 
 /**
@@ -20,10 +26,11 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
     private Connection conexao;
     
     public UsuarioDAOSqlite() {
+        String url = "jdbc:sqlite:db/database.db";
         try {
-            conexao = DriverManager.getConnection("<ConnectionString");
+            conexao = DriverManager.getConnection(url);
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao conectar ao banco de dados" + ex.getMessage());
+            throw new RuntimeException("Erro ao conectar ao banco de dados: " + ex.getMessage());
         }
     }
     
@@ -74,7 +81,7 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
         List<Usuario> usuarios = new ArrayList<>();
         try (Statement stmt = conexao.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-
+            
             while (rs.next()) {
                 Usuario usuario = new Usuario();
                 usuario.setId(rs.getLong("id"));
