@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package presenter;
 
 /**
@@ -15,40 +11,45 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDesktopPane;
-import model.ClienteModel;
+import model.Usuario;
 import observer.Observer;
 import view.LoginView;
 
-public class LoginPresenter implements Observer {
+public class LoginPresenter {
     
     private final List<Observer> observers = new ArrayList<>();
     
-    private final ClienteModel model;
+    private final Usuario model;
     private LoginView view;
     
-    public LoginPresenter(ClienteModel model, JDesktopPane panel) {
+    public LoginPresenter(Usuario model, JDesktopPane panel) {
         this.model = model;
         criarView();
         panel.add(view);
     }
     
     public final void criarView() {
-    view = new LoginView(); 
-    view.setVisible(true);
-    view.getBotaoLogin().addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                
-            } catch ( NumberFormatException exception) {
-                exception.getStackTrace();                    
+        view = new LoginView(); 
+        view.setVisible(true);
+        view.getBotaoLogin().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+
+                } catch ( NumberFormatException exception) {
+                    exception.getStackTrace();                    
+                }
             }
-        }
-    });
-}
-    
-    @Override
-    public void update() {
-        
+        });
+        view.getBotaoLogin().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+
+                } catch ( NumberFormatException exception) {
+                    exception.getStackTrace();                    
+                }
+            }
+        });
     }
 }

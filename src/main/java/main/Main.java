@@ -1,7 +1,7 @@
 package main;
 
-import model.ClienteModel;
-import presenter.LoginPresenter;
+import model.*;
+import presenter.*;
 import view.*;
 
 /**
@@ -11,14 +11,12 @@ import view.*;
 public class Main {
     public static void main(String[] args) {
         
+        var usuarioModel = new Usuario();
         var mainView = new MainView();
+        var panel = mainView.getMainPane();
         mainView.setVisible(true);
         
-        var clienteModel = new ClienteModel();
-        
-        var desktopPane = mainView.getMainPane();
-
-        var loginPresenter = new LoginPresenter(clienteModel, desktopPane);
-        
+        var loginPresenter = new LoginPresenter(usuarioModel, panel);
+        var cadastroPresenter = new CadastroPresenter(usuarioModel, panel);
     }
 }
