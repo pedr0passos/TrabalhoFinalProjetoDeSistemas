@@ -26,7 +26,7 @@ public class Solicitacao {
     }
 
     public String getNomeUsuario() {
-        return usuario.getUsername();
+        return usuario.getUserName();
     }
 
     public LocalDate getDataSolicitacao() {

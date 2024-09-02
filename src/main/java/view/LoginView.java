@@ -5,11 +5,13 @@
 package view;
 
 import javax.swing.JButton;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
- *
- * @author pedro
+ * @author Catterina Vittorazzi Salvador
+ * @author Pedro Henrique Passos Rocha 
+ * @author João Victor Mascarenhas
  */
 
 public class LoginView extends javax.swing.JInternalFrame {
@@ -24,12 +26,12 @@ public class LoginView extends javax.swing.JInternalFrame {
 
         lblLogin = new javax.swing.JLabel();
         txtNomeUsuario = new javax.swing.JTextField();
-        txtSenha = new javax.swing.JTextField();
         lblSenha = new javax.swing.JLabel();
         lblNomeUsuario = new javax.swing.JLabel();
         btnCadastrar = new javax.swing.JButton();
         lblNaoPossuiConta = new javax.swing.JLabel();
         btnEntrar = new javax.swing.JButton();
+        txtSenha = new javax.swing.JPasswordField();
 
         setTitle("Entrar");
         setMaximumSize(new java.awt.Dimension(310, 418));
@@ -41,10 +43,8 @@ public class LoginView extends javax.swing.JInternalFrame {
         getContentPane().add(lblLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, -1, -1));
 
         txtNomeUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        getContentPane().add(txtNomeUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 140, 176, 34));
-
-        txtSenha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        getContentPane().add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 176, 34));
+        txtNomeUsuario.setMaximumSize(new java.awt.Dimension(64, 26));
+        getContentPane().add(txtNomeUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 140, 180, 34));
 
         lblSenha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblSenha.setText("Senha:");
@@ -66,6 +66,10 @@ public class LoginView extends javax.swing.JInternalFrame {
         btnEntrar.setText("Entrar");
         getContentPane().add(btnEntrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 290, 80, 30));
 
+        txtSenha.setMaximumSize(new java.awt.Dimension(64, 26));
+        txtSenha.setMinimumSize(new java.awt.Dimension(64, 26));
+        getContentPane().add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 222, 180, 34));
+
         setBounds(0, 0, 318, 518);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -77,12 +81,12 @@ public class LoginView extends javax.swing.JInternalFrame {
         return txtNomeUsuario;
     }
 
-    public JTextField getTxtSenha() {
+    public JPasswordField getTxtSenha() {
         return txtSenha;
     }
 
     public JButton getBotaoLogin() {
-        return btnCadastrar;
+        return btnEntrar;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -93,6 +97,6 @@ public class LoginView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblNomeUsuario;
     private javax.swing.JLabel lblSenha;
     private javax.swing.JTextField txtNomeUsuario;
-    private javax.swing.JTextField txtSenha;
+    private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }
