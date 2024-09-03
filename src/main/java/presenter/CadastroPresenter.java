@@ -43,9 +43,7 @@ public class CadastroPresenter {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    
                     String username = view.getTxtNomeUsuario().getText();
-                    
                     if (service.buscarUsuarioPorNome(username).isEmpty()) {
                         String senha = new String(view.getTxtSenha().getPassword());
                         String confirmarSenha = new String(view.getTxtConfirmarSenha().getPassword());
@@ -57,7 +55,6 @@ public class CadastroPresenter {
                             JOptionPane.showMessageDialog(view, "Senhas diferentes na confirmação.", "Erro", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
-
                         var usuario = new Usuario(username, senha);
                         service.cadastrarUsuario(usuario);
                         notificarObservadores();

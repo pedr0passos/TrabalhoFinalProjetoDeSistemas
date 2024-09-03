@@ -7,7 +7,8 @@ import view.*;
 
 /**
  * @author Pedro Henrique Passos Rocha
- * 
+ * @author Catterina Vittorazzi Salvador
+ * @author João Victor Mascarenhas
  */
 
 public class Main {
@@ -21,5 +22,6 @@ public class Main {
         mainView.setVisible(true);
         
         var loginPresenter = new LoginPresenter(usuarioModel, panel, usuarioService);
+        var registrosPresenter = new RegistrosPresenter(usuarioModel, panel, usuarioService);
     }
 }
