@@ -29,6 +29,9 @@ public class MainView extends javax.swing.JFrame {
         lblNomeUsuarioLogado = new javax.swing.JLabel();
         lblTipoUsuarioLogado = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
+        botao = new javax.swing.JMenu();
+        btnInformacoesConta = new javax.swing.JMenuItem();
+        btnSair = new javax.swing.JMenuItem();
         menuUsuarios = new javax.swing.JMenu();
         NovoUsuario = new javax.swing.JMenuItem();
         menuConfigurar = new javax.swing.JMenu();
@@ -78,6 +81,23 @@ public class MainView extends javax.swing.JFrame {
 
         menuBar.setDoubleBuffered(true);
 
+        botao.setText("Conta");
+
+        btnInformacoesConta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/usuario.png"))); // NOI18N
+        btnInformacoesConta.setText("Informações da Conta");
+        btnInformacoesConta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInformacoesContaActionPerformed(evt);
+            }
+        });
+        botao.add(btnInformacoesConta);
+
+        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/sair.png"))); // NOI18N
+        btnSair.setText("Sair");
+        botao.add(btnSair);
+
+        menuBar.add(botao);
+
         menuUsuarios.setText("Usuarios");
 
         NovoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/adicionar-usuario.png"))); // NOI18N
@@ -112,6 +132,10 @@ public class MainView extends javax.swing.JFrame {
     private void btnNotificacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificacoesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnNotificacoesActionPerformed
+
+    private void btnInformacoesContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesContaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInformacoesContaActionPerformed
     
     public void addConfigurarLogActionListener(ActionListener listener) {
         ConfigurarLog.addActionListener(listener);
@@ -137,7 +161,10 @@ public class MainView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem ConfigurarLog;
     private javax.swing.JMenuItem NovoUsuario;
+    private javax.swing.JMenu botao;
+    private javax.swing.JMenuItem btnInformacoesConta;
     private javax.swing.JButton btnNotificacoes;
+    private javax.swing.JMenuItem btnSair;
     private javax.swing.JLabel lblNomeUsuarioLogado;
     private javax.swing.JLabel lblTipoUsuarioLogado;
     private javax.swing.JDesktopPane mainPane;

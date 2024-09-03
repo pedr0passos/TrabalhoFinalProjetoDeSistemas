@@ -6,20 +6,13 @@ package presenter;
  * @author João Victor Mascarenhas
  */
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import javax.swing.JDesktopPane;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
+import view.*;
 import model.Usuario;
 import observer.Observer;
 import service.UsuarioService;
-import view.CadastroView;
-import view.LoginView;
 
 public class LoginPresenter {
     
