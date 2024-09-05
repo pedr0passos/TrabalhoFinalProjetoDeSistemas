@@ -50,6 +50,7 @@ public class LoginPresenter {
                             if (usuario.get().getSenha().equals(senhaDigitada)) {
                                 JOptionPane.showMessageDialog(view, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                                 view.dispose();
+                                logarUsuario();
                             } else {
                                 JOptionPane.showMessageDialog(view, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
                             }
@@ -101,6 +102,10 @@ public class LoginPresenter {
     
     public void removerObserver(Observer observer) {
         observers.remove(observer);
+    }
+    
+    public void logarUsuario() {
+        notificarObservadores();
     }
     
     private void notificarObservadores() {

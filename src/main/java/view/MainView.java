@@ -1,21 +1,23 @@
 package view;
 
 import java.awt.event.ActionListener;
-import javax.swing.JDesktopPane;
+import javax.swing.*;
 import model.Usuario;
-import presenter.CadastroPresenter;
+import observer.Observer;
+import presenter.*;
 import service.UsuarioService;
 
 /**
  * @author 
  * Pedro Henrique Passos Rocha
  * Catterina Salvador
+ * João Victor Mascarenhas
  */
 
-public class MainView extends javax.swing.JFrame {
+public class MainView extends javax.swing.JFrame implements Observer {
 
     public MainView() {
-        configuraLookAndFeel();    
+        configuraLookAndFeel();  
         initComponents();
     }
 
@@ -26,25 +28,28 @@ public class MainView extends javax.swing.JFrame {
         mainPane = new javax.swing.JDesktopPane();
         toolBar = new javax.swing.JToolBar();
         btnNotificacoes = new javax.swing.JButton();
-        lblNomeUsuarioLogado = new javax.swing.JLabel();
-        lblTipoUsuarioLogado = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
-        botao = new javax.swing.JMenu();
+        menuConta = new javax.swing.JMenu();
         btnInformacoesConta = new javax.swing.JMenuItem();
         btnSair = new javax.swing.JMenuItem();
         menuUsuarios = new javax.swing.JMenu();
         NovoUsuario = new javax.swing.JMenuItem();
+        RegistrosDeUsuario = new javax.swing.JMenuItem();
         menuConfigurar = new javax.swing.JMenu();
         ConfigurarLog = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Notificadora");
-        setResizable(false);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setType(java.awt.Window.Type.POPUP);
 
         mainPane.setBackground(new java.awt.Color(232, 232, 232));
         mainPane.setEnabled(false);
+        mainPane.setMaximumSize(new java.awt.Dimension(1461, 846));
+        mainPane.setMinimumSize(new java.awt.Dimension(1461, 846));
 
         btnNotificacoes.setText("Notificações");
+        btnNotificacoes.setEnabled(false);
         btnNotificacoes.setFocusable(false);
         btnNotificacoes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnNotificacoes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -55,24 +60,18 @@ public class MainView extends javax.swing.JFrame {
         });
         toolBar.add(btnNotificacoes);
 
-        lblNomeUsuarioLogado.setText("<nome-usuario-logado>");
-        toolBar.add(lblNomeUsuarioLogado);
-
-        lblTipoUsuarioLogado.setText("<tipo-usuario-logado>");
-        toolBar.add(lblTipoUsuarioLogado);
-
         mainPane.setLayer(toolBar, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout mainPaneLayout = new javax.swing.GroupLayout(mainPane);
         mainPane.setLayout(mainPaneLayout);
         mainPaneLayout.setHorizontalGroup(
             mainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1450, Short.MAX_VALUE)
+            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1461, Short.MAX_VALUE)
         );
         mainPaneLayout.setVerticalGroup(
             mainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPaneLayout.createSequentialGroup()
-                .addContainerGap(635, Short.MAX_VALUE)
+                .addContainerGap(821, Short.MAX_VALUE)
                 .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -81,7 +80,8 @@ public class MainView extends javax.swing.JFrame {
 
         menuBar.setDoubleBuffered(true);
 
-        botao.setText("Conta");
+        menuConta.setText("Conta");
+        menuConta.setEnabled(false);
 
         btnInformacoesConta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/usuario.png"))); // NOI18N
         btnInformacoesConta.setText("Informações da Conta");
@@ -90,18 +90,19 @@ public class MainView extends javax.swing.JFrame {
                 btnInformacoesContaActionPerformed(evt);
             }
         });
-        botao.add(btnInformacoesConta);
+        menuConta.add(btnInformacoesConta);
 
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/sair.png"))); // NOI18N
         btnSair.setText("Sair");
-        botao.add(btnSair);
+        menuConta.add(btnSair);
 
-        menuBar.add(botao);
+        menuBar.add(menuConta);
 
         menuUsuarios.setText("Usuarios");
+        menuUsuarios.setEnabled(false);
 
         NovoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/adicionar-usuario.png"))); // NOI18N
-        NovoUsuario.setText("Novo Usuario");
+        NovoUsuario.setText("Novo Usuário");
         NovoUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NovoUsuarioActionPerformed(evt);
@@ -109,9 +110,18 @@ public class MainView extends javax.swing.JFrame {
         });
         menuUsuarios.add(NovoUsuario);
 
+        RegistrosDeUsuario.setText("Registros de Usuário");
+        RegistrosDeUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistrosDeUsuarioActionPerformed(evt);
+            }
+        });
+        menuUsuarios.add(RegistrosDeUsuario);
+
         menuBar.add(menuUsuarios);
 
         menuConfigurar.setText("Configurar");
+        menuConfigurar.setEnabled(false);
 
         ConfigurarLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/engrenagem.png"))); // NOI18N
         ConfigurarLog.setText("Configurar Log");
@@ -136,6 +146,10 @@ public class MainView extends javax.swing.JFrame {
     private void btnInformacoesContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesContaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnInformacoesContaActionPerformed
+
+    private void RegistrosDeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrosDeUsuarioActionPerformed
+        var registrosPresenter = new RegistrosPresenter(new Usuario(), this.getMainPane(), new UsuarioService());
+    }//GEN-LAST:event_RegistrosDeUsuarioActionPerformed
     
     public void addConfigurarLogActionListener(ActionListener listener) {
         ConfigurarLog.addActionListener(listener);
@@ -157,19 +171,32 @@ public class MainView extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }    
     }
+
+    @Override
+    public void update() {
+        menuConta.setEnabled(true);
+        menuUsuarios.setEnabled(true);
+        menuConfigurar.setEnabled(true);
+        btnNotificacoes.setEnabled(true);
+        var lblNomeUsuarioLogado = new JLabel("<nome-usuario>");
+        var lblTipoUsuarioLogado = new JLabel("<tipo-usuario>");
+        
+        toolBar.add(lblNomeUsuarioLogado);
+        toolBar.add(lblTipoUsuarioLogado);
+    }
+   
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem ConfigurarLog;
     private javax.swing.JMenuItem NovoUsuario;
-    private javax.swing.JMenu botao;
+    private javax.swing.JMenuItem RegistrosDeUsuario;
     private javax.swing.JMenuItem btnInformacoesConta;
     private javax.swing.JButton btnNotificacoes;
     private javax.swing.JMenuItem btnSair;
-    private javax.swing.JLabel lblNomeUsuarioLogado;
-    private javax.swing.JLabel lblTipoUsuarioLogado;
     private javax.swing.JDesktopPane mainPane;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuConfigurar;
+    private javax.swing.JMenu menuConta;
     private javax.swing.JMenu menuUsuarios;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
