@@ -23,7 +23,7 @@ public class Main {
         
         mainView.setVisible(true);
         
-        var loginPresenter = new LoginPresenter(usuario, panel, usuarioService);
+        var loginPresenter = new LoginPresenter(usuario, panel, usuarioService, mainView);
         
         loginPresenter.adicionarObserver(mainView);
     }

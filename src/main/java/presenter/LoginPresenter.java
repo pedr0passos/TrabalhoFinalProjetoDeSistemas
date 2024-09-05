@@ -19,16 +19,18 @@ public class LoginPresenter {
     private final List<Observer> observers = new ArrayList<>();
     private final UsuarioService service;
     private CadastroPresenter cadastroPresenter;
+    private MainView mainView;
     
-    private final Usuario model;
+    private Usuario model;
     private LoginView view;
     private CadastroView cadastroView;
     private JDesktopPane desktopPane;
     
-    public LoginPresenter(Usuario model, JDesktopPane panel, UsuarioService service) {
+    public LoginPresenter(Usuario model, JDesktopPane panel, UsuarioService service, MainView mainView) {
         this.model = model;
         this.desktopPane = panel;
         this.service = service;
+        this.mainView = mainView;
         
         criarView();
         panel.add(view);
@@ -49,6 +51,9 @@ public class LoginPresenter {
                         if (usuarioEncontrado(usuario)) {
                             if (usuario.get().getSenha().equals(senhaDigitada)) {
                                 JOptionPane.showMessageDialog(view, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                                model = usuario.get();
+                                mainView.getLblNomeUsuarioLogado().setText(model.getUserName());
+                                mainView.getLblTipoUsuarioLogado().setText(model.getTipo());
                                 view.dispose();
                                 logarUsuario();
                             } else {

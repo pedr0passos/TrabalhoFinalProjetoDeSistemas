@@ -16,6 +16,9 @@ import service.UsuarioService;
 
 public class MainView extends javax.swing.JFrame implements Observer {
 
+    private JLabel lblNomeUsuarioLogado = new JLabel();   
+    private JLabel lblTipoUsuarioLogado = new JLabel();
+    
     public MainView() {
         configuraLookAndFeel();  
         initComponents();
@@ -48,10 +51,13 @@ public class MainView extends javax.swing.JFrame implements Observer {
         mainPane.setMaximumSize(new java.awt.Dimension(1461, 846));
         mainPane.setMinimumSize(new java.awt.Dimension(1461, 846));
 
+        toolBar.setEnabled(false);
+
         btnNotificacoes.setText("Notificações");
         btnNotificacoes.setEnabled(false);
         btnNotificacoes.setFocusable(false);
         btnNotificacoes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNotificacoes.setMargin(new java.awt.Insets(2, 14, 3, 50));
         btnNotificacoes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnNotificacoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,6 +160,14 @@ public class MainView extends javax.swing.JFrame implements Observer {
     public void addConfigurarLogActionListener(ActionListener listener) {
         ConfigurarLog.addActionListener(listener);
     }
+
+    public JLabel getLblNomeUsuarioLogado() {
+        return lblNomeUsuarioLogado;
+    }
+
+    public JLabel getLblTipoUsuarioLogado() {
+        return lblTipoUsuarioLogado;
+    }
     
     public JDesktopPane getMainPane() {
         return mainPane;
@@ -178,9 +192,6 @@ public class MainView extends javax.swing.JFrame implements Observer {
         menuUsuarios.setEnabled(true);
         menuConfigurar.setEnabled(true);
         btnNotificacoes.setEnabled(true);
-        var lblNomeUsuarioLogado = new JLabel("<nome-usuario>");
-        var lblTipoUsuarioLogado = new JLabel("<tipo-usuario>");
-        
         toolBar.add(lblNomeUsuarioLogado);
         toolBar.add(lblTipoUsuarioLogado);
     }
