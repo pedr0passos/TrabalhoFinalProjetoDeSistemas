@@ -10,14 +10,14 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author pedro
+ * @author Joao Victor
  */
-public class CadastroView extends javax.swing.JInternalFrame {
+public class AlterarSenhaView extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form CadastroView
+     * Creates new form AlterarSenhaView
      */
-    public CadastroView() {
+    public AlterarSenhaView() {
         initComponents();
     }
 
@@ -33,15 +33,14 @@ public class CadastroView extends javax.swing.JInternalFrame {
         lblNomeUsuario = new javax.swing.JLabel();
         lblSenhaUsuario = new javax.swing.JLabel();
         txtNomeUsuario = new javax.swing.JTextField();
-        btnSalvarUsuario = new javax.swing.JButton();
+        btnAlterarUsuario = new javax.swing.JButton();
         lblConfirmarSenha = new javax.swing.JLabel();
         txtConfirmarSenha = new javax.swing.JPasswordField();
         txtSenha = new javax.swing.JPasswordField();
 
         setClosable(true);
-        setTitle("Cadastrar Usuario");
-        setMaximumSize(new java.awt.Dimension(557, 328));
-        setMinimumSize(new java.awt.Dimension(557, 328));
+        setIconifiable(true);
+        setTitle("Alterar Senha");
 
         lblNomeUsuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblNomeUsuario.setText("Nome:");
@@ -51,8 +50,8 @@ public class CadastroView extends javax.swing.JInternalFrame {
 
         txtNomeUsuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        btnSalvarUsuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnSalvarUsuario.setText("Salvar");
+        btnAlterarUsuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnAlterarUsuario.setText("Salvar");
 
         lblConfirmarSenha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblConfirmarSenha.setText("Confirmar Senha:");
@@ -69,7 +68,7 @@ public class CadastroView extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnSalvarUsuario)
+                        .addComponent(btnAlterarUsuario)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(lblConfirmarSenha)
                             .addGap(18, 18, 18)
@@ -78,7 +77,7 @@ public class CadastroView extends javax.swing.JInternalFrame {
                             .addComponent(lblSenhaUsuario)
                             .addGap(19, 19, 19)
                             .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,7 +86,7 @@ public class CadastroView extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNomeUsuario)
                     .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSenhaUsuario)
                     .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -96,33 +95,31 @@ public class CadastroView extends javax.swing.JInternalFrame {
                     .addComponent(lblConfirmarSenha)
                     .addComponent(txtConfirmarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
-                .addComponent(btnSalvarUsuario)
+                .addComponent(btnAlterarUsuario)
                 .addGap(29, 29, 29))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public JButton getBotaoSalvarUsuario() {
-        return btnSalvarUsuario;
-    }
-    public JTextField getTxtNomeUsuario() {
-        return txtNomeUsuario;
+    public JButton getBtnAlterarUsuario() {
+        return btnAlterarUsuario;
     }
 
     public JPasswordField getTxtConfirmarSenha() {
         return txtConfirmarSenha;
     }
 
+    public JTextField getTxtNomeUsuario() {
+        return txtNomeUsuario;
+    }
+
     public JPasswordField getTxtSenha() {
         return txtSenha;
     }
-    
-    
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSalvarUsuario;
+    private javax.swing.JButton btnAlterarUsuario;
     private javax.swing.JLabel lblConfirmarSenha;
     private javax.swing.JLabel lblNomeUsuario;
     private javax.swing.JLabel lblSenhaUsuario;

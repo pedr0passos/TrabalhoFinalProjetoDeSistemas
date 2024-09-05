@@ -13,9 +13,7 @@ import javax.swing.JOptionPane;
 import model.Usuario;
 import observer.Observer;
 import service.UsuarioService;
-
 import view.CadastroView;
-import view.LoginView;
 
 /**
  *
@@ -27,53 +25,55 @@ public class CadastroPresenter {
     private final List<Observer> observers = new ArrayList<>();
     
     private final Usuario model;
-    private CadastroView cadastroView;
-    private LoginView loginView;
-    private final UsuarioService usuarioService;
+    private CadastroView view;
+    private final UsuarioService service;
     
-    public CadastroPresenter(Usuario model, JDesktopPane panel) {
+    public CadastroPresenter(Usuario model, JDesktopPane panel, UsuarioService service) {
         this.model = model;
-        this.usuarioService = new UsuarioService();
+        this.service = service;
+        
         criarView();
-        panel.add(cadastroView);
-        panel.add(loginView);
+        panel.add(view);
     }
     
     public final void criarView() {
-        cadastroView = new CadastroView(); 
-        loginView = new LoginView();
-        cadastroView.setVisible(false);
-        cadastroView.getBotaoSalvarUsuario().addActionListener(new ActionListener() {
+        view = new CadastroView(); 
+        view.setVisible(true);
+        view.getBotaoSalvarUsuario().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String username = cadastroView.getTxtNomeUsuario().getText();
-                    String senha = new String(cadastroView.getTxtSenha().getPassword());
-                    String confirmarSenha = new String(cadastroView.getTxtConfirmarSenha().getPassword());
-                    
-                    if (username.isEmpty() || senha.isEmpty()) {
-                        JOptionPane.showMessageDialog(cadastroView, "Nome de usuário e senha são obrigatórios.");
-                        return;
-                    }else if(!senha.equals(confirmarSenha)){
-                        JOptionPane.showMessageDialog(cadastroView, "Senha invalida");
-                        return;
+                    String username = view.getTxtNomeUsuario().getText();
+                    if (service.buscarUsuarioPorNome(username).isEmpty()) {
+                        String senha = new String(view.getTxtSenha().getPassword());
+                        String confirmarSenha = new String(view.getTxtConfirmarSenha().getPassword());
+
+                        if (username.isEmpty() || senha.isEmpty()) {
+                            JOptionPane.showMessageDialog(view, "Nome de usuário e senha são obrigatórios.", "Erro", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }else if(!senha.equals(confirmarSenha)){
+                            JOptionPane.showMessageDialog(view, "Senhas diferentes na confirmação.", "Erro", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        var usuario = new Usuario(username, senha);
+                        service.cadastrarUsuario(usuario);
+                        notificarObservadores();
+                        JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
+                        limparDados();
+                    } else {
+                        JOptionPane.showMessageDialog(view, "Já existe um usuário com esse nome.", "Erro", JOptionPane.ERROR_MESSAGE);
                     }
-                    
-                    model.setUsername(username);
-                    model.setSenha(senha);
-                    
-                    usuarioService.cadastrarUsuario(model);
-                    
-                    notificarObservadores();
-                    
-                    JOptionPane.showMessageDialog(cadastroView, "Usuário cadastrado com sucesso!");
-                    cadastroView.dispose();
-                    
                 } catch ( NumberFormatException exception) {
                     exception.getStackTrace();
                 }
             }
         });
+    }
+    
+    private void limparDados() {
+        view.getTxtNomeUsuario().setText("");
+        view.getTxtSenha().setText("");
+        view.getTxtConfirmarSenha().setText("");
     }
     
     public void adicionarObserver(Observer observer) {

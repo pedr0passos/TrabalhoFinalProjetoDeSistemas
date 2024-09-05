@@ -2,6 +2,9 @@ package view;
 
 import java.awt.event.ActionListener;
 import javax.swing.JDesktopPane;
+import model.Usuario;
+import presenter.CadastroPresenter;
+import service.UsuarioService;
 
 /**
  * @author 
@@ -21,15 +24,18 @@ public class MainView extends javax.swing.JFrame {
     private void initComponents() {
 
         mainPane = new javax.swing.JDesktopPane();
-        jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        toolBar = new javax.swing.JToolBar();
+        btnNotificacoes = new javax.swing.JButton();
+        lblNomeUsuarioLogado = new javax.swing.JLabel();
+        lblTipoUsuarioLogado = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        btnMenuConfigurar = new javax.swing.JMenu();
-        mItemConfigurarLog = new javax.swing.JMenuItem();
+        botao = new javax.swing.JMenu();
+        btnInformacoesConta = new javax.swing.JMenuItem();
+        btnSair = new javax.swing.JMenuItem();
+        menuUsuarios = new javax.swing.JMenu();
+        NovoUsuario = new javax.swing.JMenuItem();
+        menuConfigurar = new javax.swing.JMenu();
+        ConfigurarLog = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Notificadora");
@@ -38,36 +44,36 @@ public class MainView extends javax.swing.JFrame {
         mainPane.setBackground(new java.awt.Color(232, 232, 232));
         mainPane.setEnabled(false);
 
-        jButton1.setText("Notificações");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnNotificacoes.setText("Notificações");
+        btnNotificacoes.setFocusable(false);
+        btnNotificacoes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNotificacoes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNotificacoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnNotificacoesActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton1);
+        toolBar.add(btnNotificacoes);
 
-        jLabel1.setText("<nome-usuario-logado>");
-        jToolBar1.add(jLabel1);
+        lblNomeUsuarioLogado.setText("<nome-usuario-logado>");
+        toolBar.add(lblNomeUsuarioLogado);
 
-        jLabel2.setText("<tipo-usuario-logado>");
-        jToolBar1.add(jLabel2);
+        lblTipoUsuarioLogado.setText("<tipo-usuario-logado>");
+        toolBar.add(lblTipoUsuarioLogado);
 
-        mainPane.setLayer(jToolBar1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        mainPane.setLayer(toolBar, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout mainPaneLayout = new javax.swing.GroupLayout(mainPane);
         mainPane.setLayout(mainPaneLayout);
         mainPaneLayout.setHorizontalGroup(
             mainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1450, Short.MAX_VALUE)
+            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 1450, Short.MAX_VALUE)
         );
         mainPaneLayout.setVerticalGroup(
             mainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPaneLayout.createSequentialGroup()
                 .addContainerGap(635, Short.MAX_VALUE)
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
 
@@ -75,26 +81,43 @@ public class MainView extends javax.swing.JFrame {
 
         menuBar.setDoubleBuffered(true);
 
-        jMenu1.setText("Usuarios");
+        botao.setText("Conta");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/adicionar-usuario.png"))); // NOI18N
-        jMenuItem1.setText("Novo Usuario");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        btnInformacoesConta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/usuario.png"))); // NOI18N
+        btnInformacoesConta.setText("Informações da Conta");
+        btnInformacoesConta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                btnInformacoesContaActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        botao.add(btnInformacoesConta);
 
-        menuBar.add(jMenu1);
+        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/sair.png"))); // NOI18N
+        btnSair.setText("Sair");
+        botao.add(btnSair);
 
-        btnMenuConfigurar.setText("Configurar");
+        menuBar.add(botao);
 
-        mItemConfigurarLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/engrenagem.png"))); // NOI18N
-        mItemConfigurarLog.setText("Configurar Log");
-        btnMenuConfigurar.add(mItemConfigurarLog);
+        menuUsuarios.setText("Usuarios");
 
-        menuBar.add(btnMenuConfigurar);
+        NovoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/adicionar-usuario.png"))); // NOI18N
+        NovoUsuario.setText("Novo Usuario");
+        NovoUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NovoUsuarioActionPerformed(evt);
+            }
+        });
+        menuUsuarios.add(NovoUsuario);
+
+        menuBar.add(menuUsuarios);
+
+        menuConfigurar.setText("Configurar");
+
+        ConfigurarLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/engrenagem.png"))); // NOI18N
+        ConfigurarLog.setText("Configurar Log");
+        menuConfigurar.add(ConfigurarLog);
+
+        menuBar.add(menuConfigurar);
 
         setJMenuBar(menuBar);
 
@@ -102,16 +125,20 @@ public class MainView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void NovoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NovoUsuarioActionPerformed
+        var cadastroPresenter = new CadastroPresenter(new Usuario(), this.getMainPane(), new UsuarioService());
+    }//GEN-LAST:event_NovoUsuarioActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnNotificacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificacoesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnNotificacoesActionPerformed
+
+    private void btnInformacoesContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesContaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInformacoesContaActionPerformed
     
     public void addConfigurarLogActionListener(ActionListener listener) {
-        mItemConfigurarLog.addActionListener(listener);
+        ConfigurarLog.addActionListener(listener);
     }
     
     public JDesktopPane getMainPane() {
@@ -132,16 +159,19 @@ public class MainView extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu btnMenuConfigurar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JMenuItem mItemConfigurarLog;
+    private javax.swing.JMenuItem ConfigurarLog;
+    private javax.swing.JMenuItem NovoUsuario;
+    private javax.swing.JMenu botao;
+    private javax.swing.JMenuItem btnInformacoesConta;
+    private javax.swing.JButton btnNotificacoes;
+    private javax.swing.JMenuItem btnSair;
+    private javax.swing.JLabel lblNomeUsuarioLogado;
+    private javax.swing.JLabel lblTipoUsuarioLogado;
     private javax.swing.JDesktopPane mainPane;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu menuConfigurar;
+    private javax.swing.JMenu menuUsuarios;
+    private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 
 }

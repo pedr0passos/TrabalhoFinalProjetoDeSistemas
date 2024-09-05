@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package dao;
 
 import java.util.List;
@@ -9,7 +5,8 @@ import java.util.Optional;
 import model.Usuario;
 
 /**
- *
+ * @author Pedro Henrique Passos Rocha 
+ * @author João Victor Mascarenhas 
  * @author Catterina Salvador
  */
 public interface UsuarioDAO {
@@ -18,10 +15,11 @@ public interface UsuarioDAO {
     
     List<Usuario> listar();
     
-    Optional<Usuario> buscarPorId(Long id);
+    Optional<Usuario> buscarPorId(String id);
+    
+    Optional<Usuario> buscarPorNome(String nome);
     
     void atualizar(Usuario usuario);
     
     void deletar(Long id);
-    
 }
