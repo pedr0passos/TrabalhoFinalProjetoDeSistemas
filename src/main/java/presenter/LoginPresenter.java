@@ -20,6 +20,7 @@ public class LoginPresenter {
     private final UsuarioService service;
     private CadastroPresenter cadastroPresenter;
     private MainView mainView;
+    private AlterarSenhaPresenter alterarSenhaPresenter;
     
     private Usuario model;
     private LoginView view;
@@ -48,6 +49,9 @@ public class LoginPresenter {
                     
                     if (!camposIsNull(nomeDigitado, senhaDigitada)) {
                         var usuario = service.buscarUsuarioPorNome(nomeDigitado);
+                        //esses dois models abaixo são as informações minimas necessarias a serem passadas para o AlterarSenhaPresenter, sem eles nao funciona passando apenas o model, pois o model é null
+                        model.setUsername(nomeDigitado);
+                        model.setId(usuario.get().getId());
                         if (usuarioEncontrado(usuario)) {
                             if (usuario.get().getSenha().equals(senhaDigitada)) {
                                 JOptionPane.showMessageDialog(view, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
@@ -56,6 +60,7 @@ public class LoginPresenter {
                                 mainView.getLblTipoUsuarioLogado().setText(model.getTipo());
                                 view.dispose();
                                 logarUsuario();
+                                mostrarAlterarSenhaView();
                             } else {
                                 JOptionPane.showMessageDialog(view, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
                             }
@@ -99,6 +104,10 @@ public class LoginPresenter {
     
     private void mostrarCadastroView() {
         cadastroPresenter = new CadastroPresenter(model, desktopPane, service);
+    }
+    
+    private void mostrarAlterarSenhaView() {
+        alterarSenhaPresenter = new AlterarSenhaPresenter(model, desktopPane, service);
     }
     
     public void adicionarObserver(Observer observer) {
