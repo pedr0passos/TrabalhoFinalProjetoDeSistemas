@@ -19,12 +19,12 @@ public class LoginPresenter {
     private final List<Observer> observers = new ArrayList<>();
     private final UsuarioService service;
     private CadastroPresenter cadastroPresenter;
-    private MainView mainView;
+    private final MainView mainView;
     
     private Usuario model;
     private LoginView view;
     private CadastroView cadastroView;
-    private JDesktopPane desktopPane;
+    private final JDesktopPane desktopPane;
     
     public LoginPresenter(Usuario model, JDesktopPane panel, UsuarioService service, MainView mainView) {
         this.model = model;
@@ -66,7 +66,7 @@ public class LoginPresenter {
                         JOptionPane.showMessageDialog(view, "Os campos de nome e senha não podem estar vazios.", "Erro", JOptionPane.WARNING_MESSAGE);
                     }
                 } catch ( NumberFormatException exception) {
-                    System.out.println(exception.getStackTrace());                   
+                    System.out.println(Arrays.toString(exception.getStackTrace()));                   
                 }
             }
         });

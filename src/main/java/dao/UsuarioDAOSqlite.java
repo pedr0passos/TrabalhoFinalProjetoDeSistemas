@@ -89,6 +89,8 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
                     usuario.setUsername(rs.getString("username"));
                     usuario.setSenha(rs.getString("senha"));
                     usuario.setDataCriacao(LocalDate.parse(rs.getString("dataCriacao"))); 
+                    usuario.setTipo(rs.getString("tipo"));
+                    usuario.setAdministrador(rs.getBoolean("administrador"));
                     return Optional.of(usuario);
                 } else {
                     return Optional.empty();
