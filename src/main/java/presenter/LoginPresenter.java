@@ -19,16 +19,19 @@ public class LoginPresenter {
     private final List<Observer> observers = new ArrayList<>();
     private final UsuarioService service;
     private CadastroPresenter cadastroPresenter;
+    private MainView mainView;
+    private AlterarSenhaPresenter alterarSenhaPresenter;
     
-    private final Usuario model;
+    private Usuario model;
     private LoginView view;
     private CadastroView cadastroView;
     private JDesktopPane desktopPane;
     
-    public LoginPresenter(Usuario model, JDesktopPane panel, UsuarioService service) {
+    public LoginPresenter(Usuario model, JDesktopPane panel, UsuarioService service, MainView mainView) {
         this.model = model;
         this.desktopPane = panel;
         this.service = service;
+        this.mainView = mainView;
         
         criarView();
         panel.add(view);
@@ -46,10 +49,18 @@ public class LoginPresenter {
                     
                     if (!camposIsNull(nomeDigitado, senhaDigitada)) {
                         var usuario = service.buscarUsuarioPorNome(nomeDigitado);
+                        //esses dois models abaixo são as informações minimas necessarias a serem passadas para o AlterarSenhaPresenter, sem eles nao funciona passando apenas o model, pois o model é null
+                        model.setUsername(nomeDigitado);
+                        model.setId(usuario.get().getId());
                         if (usuarioEncontrado(usuario)) {
                             if (usuario.get().getSenha().equals(senhaDigitada)) {
                                 JOptionPane.showMessageDialog(view, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                                model = usuario.get();
+                                mainView.getLblNomeUsuarioLogado().setText(model.getUserName());
+                                mainView.getLblTipoUsuarioLogado().setText(model.getTipo());
                                 view.dispose();
+                                logarUsuario();
+                                mostrarAlterarSenhaView();
                             } else {
                                 JOptionPane.showMessageDialog(view, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
                             }
@@ -95,12 +106,20 @@ public class LoginPresenter {
         cadastroPresenter = new CadastroPresenter(model, desktopPane, service);
     }
     
+    private void mostrarAlterarSenhaView() {
+        alterarSenhaPresenter = new AlterarSenhaPresenter(model, desktopPane, service);
+    }
+    
     public void adicionarObserver(Observer observer) {
         observers.add(observer);
     }
     
     public void removerObserver(Observer observer) {
         observers.remove(observer);
+    }
+    
+    public void logarUsuario() {
+        notificarObservadores();
     }
     
     private void notificarObservadores() {

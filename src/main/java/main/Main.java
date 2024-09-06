@@ -13,15 +13,22 @@ import view.*;
 
 public class Main {
 
+    private static final Usuario usuario = new Usuario();
+    
     public static void main(String[] args) {
         
         var usuarioService = new UsuarioService();
-        var usuarioModel = new Usuario();
         var mainView = new MainView();
         var panel = mainView.getMainPane();
+        
         mainView.setVisible(true);
         
-        var loginPresenter = new LoginPresenter(usuarioModel, panel, usuarioService);
-        var registrosPresenter = new RegistrosPresenter(usuarioModel, panel, usuarioService);
+        var loginPresenter = new LoginPresenter(usuario, panel, usuarioService, mainView);
+        
+        loginPresenter.adicionarObserver(mainView);
+    }
+    
+    public static Usuario getUsuario() {
+        return usuario;
     }
 }

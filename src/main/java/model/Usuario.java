@@ -19,17 +19,24 @@ public class Usuario {
     private String userName;
     private String senha;
     private Boolean isAutorizado;
+    private String tipo;
+    private boolean administrador;
     private LocalDate dataCriacao;
     private ArrayList<Notificacao> notificacoes;
     
     public Usuario() {}
     
-    public Usuario(String userName, String senha) {
+    public Usuario(String userName, String senha, boolean administrador) {
         this.id = UUID.randomUUID();
         this.userName = userName;
         this.senha = senha;
         this.isAutorizado = false;
         this.dataCriacao = LocalDate.now();
+        this.administrador = administrador;
+        if (administrador)
+            this.tipo = "Administrador";
+        else 
+            this.tipo = "Usuário";
     }
 
     public UUID getId() {
@@ -42,6 +49,14 @@ public class Usuario {
 
     public String getSenha() {
         return senha;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public boolean isAdministrador() {
+        return administrador;
     }
 
     public LocalDate getDataCriacao() {

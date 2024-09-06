@@ -34,8 +34,10 @@ public class LoginView extends javax.swing.JInternalFrame {
         txtSenha = new javax.swing.JPasswordField();
 
         setTitle("Entrar");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMaximumSize(new java.awt.Dimension(310, 418));
         setMinimumSize(new java.awt.Dimension(310, 418));
+        setOpaque(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblLogin.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -70,7 +72,7 @@ public class LoginView extends javax.swing.JInternalFrame {
         txtSenha.setMinimumSize(new java.awt.Dimension(64, 26));
         getContentPane().add(txtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 222, 180, 34));
 
-        setBounds(0, 0, 318, 518);
+        setBounds(570, 150, 318, 518);
     }// </editor-fold>//GEN-END:initComponents
 
     public JButton getBtnCadastrar() {
