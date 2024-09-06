@@ -55,7 +55,7 @@ public class CadastroPresenter {
                             JOptionPane.showMessageDialog(view, "Senhas diferentes na confirmação.", "Erro", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
-                        var usuario = new Usuario(username, senha);
+                        var usuario = new Usuario(username, senha, false);
                         service.cadastrarUsuario(usuario);
                         notificarObservadores();
                         JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
