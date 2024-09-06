@@ -115,7 +115,7 @@ public class CadastroView extends javax.swing.JInternalFrame {
     public JButton getBotaoSalvarUsuario() {
         return btnSalvarUsuario;
     }
-        public JTextField getTxtNomeUsuario() {
+    public JTextField getTxtNomeUsuario() {
         return txtNomeUsuario;
     }
 
