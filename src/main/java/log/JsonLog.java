@@ -1,11 +1,8 @@
 package log;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author 
@@ -14,35 +11,61 @@ import java.time.LocalDateTime;
  */
 
 public class JsonLog {
-    public void gravarLogJson(String operacao) throws FileNotFoundException {
+
+    private static final String FILE_PATH = "src\\main\\java\\logs\\JsonLog.json";
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+    public void gravarLogJson(String operacao, String nome, String usuario) throws IOException {
         File file = createFile();
-        try {
-            BufferedWriter myWriter = new BufferedWriter(new FileWriter(file, true));
-            myWriter.write("{ \"log\": { ");
-            myWriter.write("\"dataHora\" :" + "\"" + LocalDateTime.now().toString() + "\"" + ",");
-            myWriter.write("\t\"operacao\" :" + "\"" + operacao + "\" } } ");
-            myWriter.write("\n");
-            myWriter.close();
-            System.out.println("Arquivo escrito com Sucesso.");
-        } catch (IOException e) {
-            System.out.println("Erro.");
-            e.printStackTrace();
+        String novoLog = criarLogEntry(operacao, nome, usuario);
+
+        // Ler o conteúdo existente do arquivo JSON
+        StringBuilder conteudoAtual = new StringBuilder();
+        if (file.length() != 0) {
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String linha;
+                while ((linha = br.readLine()) != null) {
+                    conteudoAtual.append(linha).append("\n");
+                }
+            }
+
+            // Remover o último colchete e a nova linha para adicionar o novo log
+            int index = conteudoAtual.lastIndexOf("\n]}");
+            if (index != -1) {
+                conteudoAtual.delete(index, conteudoAtual.length());
+                conteudoAtual.append(",\n").append(novoLog).append("\n]}");
+            }
+        } else {
+            conteudoAtual.append("{\"logs\": [\n").append(novoLog).append("\n]}");
         }
+
+        // Escrever o conteúdo atualizado no arquivo
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(conteudoAtual.toString());
+        }
+
+        System.out.println("Log JSON atualizado com sucesso.");
+    }
+
+    private String criarLogEntry(String operacao, String nome, String usuario) {
+        String dataHora = LocalDateTime.now().format(DATE_FORMATTER);
+        return String.format(
+            "{ \"dataHora\": \"%s\", \"operacao\": \"%s\", \"nome\": \"%s\", \"usuario\": \"%s\" }",
+            dataHora, operacao, nome, usuario
+        );
     }
 
     public File createFile() {
         try {
-            File json = new File("src\\main\\java\\registros\\JsonLog.json");
-            System.out.println(json.getAbsolutePath());
-            if (json.createNewFile()) {
-                System.out.println("Arquivo criado: " + json.getName());
-                return json;
+            File jsonFile = new File(FILE_PATH);
+            if (jsonFile.createNewFile()) {
+                System.out.println("Arquivo JSON criado: " + jsonFile.getName());
             } else {
-                System.out.println("Arquivo ja existe.");
-                return json;
+                System.out.println("Arquivo JSON já existe.");
             }
+            return jsonFile;
         } catch (IOException e) {
-            System.out.println("Erro.");
+            System.out.println("Erro ao criar o arquivo JSON.");
             e.printStackTrace();
             return null;
         }

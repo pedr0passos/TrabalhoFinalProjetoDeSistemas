@@ -10,6 +10,7 @@ import model.Usuario;
 import observer.Observer;
 import service.UsuarioService;
 import view.AlterarSenhaView;
+import log.*;
 
 /**
  *
@@ -40,6 +41,12 @@ public class AlterarSenhaPresenter {
         view.getBtnAlterarUsuario().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Log log;
+//                if (true) {//ta true pq nao sei pegar a condição ainda
+//                    log = new CsvAdapter(new CsvLog());
+//                } else if (false) {//ta false pq nao sei pegar a condição ainda
+                    log = new JsonAdapter(new JsonLog());
+//                }
                 try {
                     String senha = new String(view.getTxtSenha().getPassword());
                     String confirmarSenha = new String(view.getTxtConfirmarSenha().getPassword());
@@ -59,10 +66,12 @@ public class AlterarSenhaPresenter {
                     service.atualizarUsuario(model);
 
                     notificarObservadores();
+                    log.gravarLog("Alteração de senha", model.getUserName(), "admin", true, null);//trocar "admin" para usuario.getTipo quando for implementado tipo
                     JOptionPane.showMessageDialog(view, "Senha alterada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     limparDados();
 
                 } catch (NumberFormatException exception) {
+                    log.gravarLog("Alteração de senha", model.getUserName(), "admin", false, "Erro ao alterar senha");//trocar "admin" para usuario.getTipo quando for implementado tipo
                     exception.getStackTrace();
                 }
             }
