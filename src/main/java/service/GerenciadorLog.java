@@ -10,6 +10,6 @@ import log.Log;
 
 public class GerenciadorLog {
     public void processarLogs(String operacao, Log log) {
-        log.gravarLog(operacao);
+        // log.gravarLog(operacao);
     }
 }
