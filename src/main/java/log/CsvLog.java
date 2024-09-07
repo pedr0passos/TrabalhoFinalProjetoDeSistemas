@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
  * @author 
  * Pedro Henrique Passos
  * Catterina Salvador
+ * João Victor Mascarenhas
  */
 
 public class CsvLog {

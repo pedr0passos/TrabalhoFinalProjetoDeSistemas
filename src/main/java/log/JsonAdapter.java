@@ -4,8 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 /**
  * @author 
  * Pedro Henrique Passos Rocha
@@ -13,8 +12,8 @@ import java.time.format.DateTimeFormatter;
  */
 
 public class JsonAdapter implements Log {
-
-    private JsonLog jsonLog;
+    
+    private final JsonLog jsonLog;
 
     public JsonAdapter(JsonLog jsonLog) {
         this.jsonLog = jsonLog;

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package log;
 
 import java.io.FileNotFoundException;
@@ -10,8 +6,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Joao Victor
+ * @author Pedro Henrique Passos Rocha
+ * @author Joao Victor Mascarenhas
+ * @author Catterina Vittorazzi Salvador
  */
 
 public class CsvAdapter implements Log {

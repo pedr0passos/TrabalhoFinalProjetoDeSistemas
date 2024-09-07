@@ -43,7 +43,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="NovoUsuario">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/images/adicionar-usuario.png"/>
+                  <Image iconType="3" name="/images/sinal-de-adicao.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Novo Usu&#xe1;rio"/>
               </Properties>
@@ -53,6 +53,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="RegistrosDeUsuario">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/images/usuario.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Registros de Usu&#xe1;rio"/>
               </Properties>
               <Events>
@@ -74,6 +77,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Configurar Log"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ConfigurarLogActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -160,7 +166,7 @@
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-                  <Insets value="[2, 14, 3, 50]"/>
+                  <Insets value="[2, 20, 3, 20]"/>
                 </Property>
                 <Property name="verticalTextPosition" type="int" value="3"/>
               </Properties>

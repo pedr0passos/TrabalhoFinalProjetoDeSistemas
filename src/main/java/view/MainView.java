@@ -16,8 +16,8 @@ import service.UsuarioService;
 
 public class MainView extends javax.swing.JFrame implements Observer {
 
-    private JLabel lblNomeUsuarioLogado = new JLabel();   
-    private JLabel lblTipoUsuarioLogado = new JLabel();
+    private final JLabel lblNomeUsuarioLogado = new JLabel();   
+    private final JLabel lblTipoUsuarioLogado = new JLabel();
     
     public MainView() {
         configuraLookAndFeel();  
@@ -57,7 +57,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
         btnNotificacoes.setEnabled(false);
         btnNotificacoes.setFocusable(false);
         btnNotificacoes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnNotificacoes.setMargin(new java.awt.Insets(2, 14, 3, 50));
+        btnNotificacoes.setMargin(new java.awt.Insets(2, 20, 3, 20));
         btnNotificacoes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnNotificacoes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,7 +107,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
         menuUsuarios.setText("Usuarios");
         menuUsuarios.setEnabled(false);
 
-        NovoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/adicionar-usuario.png"))); // NOI18N
+        NovoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/sinal-de-adicao.png"))); // NOI18N
         NovoUsuario.setText("Novo Usuário");
         NovoUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,6 +116,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
         });
         menuUsuarios.add(NovoUsuario);
 
+        RegistrosDeUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/usuario.png"))); // NOI18N
         RegistrosDeUsuario.setText("Registros de Usuário");
         RegistrosDeUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,6 +132,11 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
         ConfigurarLog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/engrenagem.png"))); // NOI18N
         ConfigurarLog.setText("Configurar Log");
+        ConfigurarLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConfigurarLogActionPerformed(evt);
+            }
+        });
         menuConfigurar.add(ConfigurarLog);
 
         menuBar.add(menuConfigurar);
@@ -156,6 +162,10 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private void RegistrosDeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrosDeUsuarioActionPerformed
         var registrosPresenter = new RegistrosPresenter(new Usuario(), this.getMainPane(), new UsuarioService());
     }//GEN-LAST:event_RegistrosDeUsuarioActionPerformed
+
+    private void ConfigurarLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigurarLogActionPerformed
+        
+    }//GEN-LAST:event_ConfigurarLogActionPerformed
     
     public void addConfigurarLogActionListener(ActionListener listener) {
         ConfigurarLog.addActionListener(listener);
@@ -193,6 +203,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
         menuConfigurar.setEnabled(true);
         btnNotificacoes.setEnabled(true);
         toolBar.add(lblNomeUsuarioLogado);
+        toolBar.add(Box.createHorizontalStrut(15));
         toolBar.add(lblTipoUsuarioLogado);
     }
    

@@ -86,6 +86,16 @@ public class Usuario {
     public void adicionarNotificacao(Notificacao novaNotificacao) {
         notificacoes.add(novaNotificacao);
     }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setAdministrador(boolean administrador) {
+        this.administrador = administrador;
+    }
+    
+    
     
     private void lerNotificacao() {
         
