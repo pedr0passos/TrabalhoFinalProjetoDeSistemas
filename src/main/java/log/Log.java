@@ -6,5 +6,5 @@ package log;
  */
 
 public interface Log {
-    void gravarLog(String operacao);
+    void gravarLog(String operacao, String nome, String usuario, boolean sucesso, String mensagemFalha);
 }
