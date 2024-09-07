@@ -134,10 +134,11 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
     }
     
     @Override
-    public void deletar(Long id) {
+    public void deletar(UUID id) {
         String sql = "DELETE FROM usuarios WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setLong(1, id);
+            String idStr = id.toString();
+            stmt.setString(1, idStr);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao deletar usuário: " + e.getMessage());

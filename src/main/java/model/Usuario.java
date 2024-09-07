@@ -18,6 +18,7 @@ public class Usuario {
     private UUID id;
     private String userName;
     private String senha;
+    private Boolean isAutorizado;
     private String tipo;
     private boolean administrador;
     private LocalDate dataCriacao;
@@ -29,6 +30,7 @@ public class Usuario {
         this.id = UUID.randomUUID();
         this.userName = userName;
         this.senha = senha;
+        this.isAutorizado = false;
         this.dataCriacao = LocalDate.now();
         this.administrador = administrador;
         if (administrador)

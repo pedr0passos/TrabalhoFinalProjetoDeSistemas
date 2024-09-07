@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.util.UUID;
+
 /**
  *
  * @author pedro
@@ -11,27 +13,14 @@ package model;
 
 public class Administrador extends Usuario {
 
-    public Administrador() {
-    }
-    
-    public void autorizarUsuario() {
-        
-    }
-    
-    public void enviarNotificacao() {
-        
-    }
-    
-    public void CriarUsuario() {
-        
-    }
-    
-    public void EditarUsuario() {
-        
-    }
+    private UUID id;
+    private UUID idUsuario;
 
-    public void ExcluirUsuario() {
-        
+    public Administrador() {}
+
+    public Administrador(UUID idUsuario) {
+        this.id = UUID.randomUUID();
+        this.idUsuario = idUsuario;
     }
     
 }

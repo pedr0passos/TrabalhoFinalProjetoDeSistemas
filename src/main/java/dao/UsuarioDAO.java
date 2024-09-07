@@ -2,6 +2,8 @@ package dao;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 import model.Usuario;
 
 /**
@@ -21,5 +23,5 @@ public interface UsuarioDAO {
     
     void atualizar(Usuario usuario);
     
-    void deletar(Long id);
+    void deletar(UUID id);
 }
