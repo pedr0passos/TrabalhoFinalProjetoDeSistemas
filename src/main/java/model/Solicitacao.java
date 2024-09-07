@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 /**
  * @author Catterina Vittorazzi Salvador
@@ -27,6 +28,10 @@ public class Solicitacao {
 
     public String getNomeUsuario() {
         return usuario.getUserName();
+    }
+
+    public UUID getIdUsuario() {
+        return usuario.getId();
     }
 
     public LocalDate getDataSolicitacao() {

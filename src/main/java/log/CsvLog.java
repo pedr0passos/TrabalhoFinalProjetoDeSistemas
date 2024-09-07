@@ -1,50 +1,52 @@
-
 package log;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author 
  * Pedro Henrique Passos
  * Catterina Salvador
+ * João Victor Mascarenhas
  */
 
 public class CsvLog {
 
-    public void gravarLogXml(String operacao) throws FileNotFoundException {
+    private static final String FILE_PATH = "src\\main\\java\\logs\\Log.csv";
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+    public void gravarLogCsv(String operacao, String nome, String usuario) throws IOException {
         File file = createFile();
-        try {
-            BufferedWriter myWriter = new BufferedWriter(new FileWriter(file, true));
-            myWriter.write("<log>\n");
-            myWriter.write("\t<dataHora>" + LocalDateTime.now().toString() + "</dataHora>\n");
-            myWriter.write("\t<operacao>" + operacao + "</operacao>\n");
-            myWriter.write("</log>\n");
-            myWriter.close();
-            System.out.println("Arquivo escrito com Sucesso.");
-        } catch (IOException e) {
-            System.out.println("Erro.");
-            e.printStackTrace();
+        String novoLog = criarLogEntry(operacao, nome, usuario);
+
+        // Escrever o conteúdo atualizado no arquivo
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write(novoLog);
+            writer.newLine();
         }
+
+        System.out.println("Log CSV atualizado com sucesso.");
+    }
+
+    private String criarLogEntry(String operacao, String nome, String usuario) {
+        String dataHora = LocalDateTime.now().format(DATE_FORMATTER);
+        return String.format("\"%s\", \"%s\", \"%s\", \"%s\"",
+            dataHora, operacao, nome, usuario
+        );
     }
 
     public File createFile() {
         try {
-            File xml = new File("src\\main\\java\\registros","xmlLog.xml");
-            System.out.println(xml.getAbsolutePath());
-            if (xml.createNewFile()) {
-                System.out.println("Arquivo criado: " + xml.getName());
-                return xml;
+            File csvFile = new File(FILE_PATH);
+            if (csvFile.createNewFile()) {
+                System.out.println("Arquivo CSV criado: " + csvFile.getName());
             } else {
-                System.out.println("Arquivo ja existe.");
-                return xml;
+                System.out.println("Arquivo CSV já existe.");
             }
+            return csvFile;
         } catch (IOException e) {
-            System.out.println("Erro.");
+            System.out.println("Erro ao criar o arquivo CSV.");
             e.printStackTrace();
             return null;
         }
