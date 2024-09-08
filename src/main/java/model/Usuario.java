@@ -55,6 +55,10 @@ public class Usuario {
         return tipo;
     }
 
+    public Boolean getIsAutorizado() {
+        return isAutorizado;
+    }
+
     public boolean isAdministrador() {
         return administrador;
     }
@@ -89,6 +93,10 @@ public class Usuario {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public void setIsAutorizado(Boolean isAutorizado) {
+        this.isAutorizado = isAutorizado;
     }
 
     public void setAdministrador(boolean administrador) {

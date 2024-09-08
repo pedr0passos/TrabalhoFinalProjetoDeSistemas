@@ -22,5 +22,9 @@ public class Administrador extends Usuario {
         this.id = UUID.randomUUID();
         this.idUsuario = idUsuario;
     }
+
+    public UUID getId() {
+        return id;
+    }
     
 }

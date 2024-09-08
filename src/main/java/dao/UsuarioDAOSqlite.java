@@ -35,7 +35,7 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
     
     @Override
     public void inserir(Usuario usuario) {
-        String sql = "INSERT INTO usuarios (id, username, senha, dataCriacao) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO usuarios (id, username, senha,  data_criacao, is_autorizado, tipo, administrador) VALUES (?, ?, ?, ?, ?, ?, ?);";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
 
             String idStr = usuario.getId().toString();
@@ -45,6 +45,9 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
             stmt.setString(2, usuario.getUserName());
             stmt.setString(3, usuario.getSenha());
             stmt.setString(4, dataCriacaoStr); 
+            stmt.setInt(5, usuario.getIsAutorizado() ? 1 : 0 );
+            stmt.setString(6, usuario.getTipo());
+            stmt.setInt(7, usuario.isAdministrador() ? 1 : 0);
 
             stmt.executeUpdate();
 
@@ -65,7 +68,7 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
                     usuario.setId(UUID.fromString(rs.getString("id"))); 
                     usuario.setUsername(rs.getString("username"));
                     usuario.setSenha(rs.getString("senha"));
-                    usuario.setDataCriacao(LocalDate.parse(rs.getString("dataCriacao"))); 
+                    usuario.setDataCriacao(LocalDate.parse(rs.getString("data_criacao"))); 
                     return Optional.of(usuario);
                 } else {
                     return Optional.empty();
@@ -88,7 +91,7 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
                     usuario.setId(UUID.fromString(rs.getString("id")));
                     usuario.setUsername(rs.getString("username"));
                     usuario.setSenha(rs.getString("senha"));
-                    usuario.setDataCriacao(LocalDate.parse(rs.getString("dataCriacao"))); 
+                    usuario.setDataCriacao(LocalDate.parse(rs.getString("data_criacao"))); 
                     usuario.setTipo(rs.getString("tipo"));
                     usuario.setAdministrador(rs.getBoolean("administrador"));
                     return Optional.of(usuario);
@@ -113,7 +116,7 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
                     usuario.setId(UUID.fromString(rs.getString("id"))); 
                     usuario.setUsername(rs.getString("username"));
                     usuario.setSenha(rs.getString("senha"));
-                    usuario.setDataCriacao(LocalDate.parse(rs.getString("dataCriacao"))); 
+                    usuario.setDataCriacao(LocalDate.parse(rs.getString("data_criacao"))); 
                 usuarios.add(usuario);
             }
         } catch (SQLException e) {

@@ -31,7 +31,10 @@ public class UsuarioService {
     
     public void cadastrarUsuario(Usuario usuario){
         if(listarUsuarios().size() == 0){
+            usuario.setAdministrador(true);
+            usuario.setIsAutorizado(true);
             Administrador newAdmin = new Administrador(usuario.getId());
+            System.out.println(newAdmin.getId().toString());
             administradorDAO.inserir(newAdmin);
         }
         usuarioDAO.inserir(usuario);
