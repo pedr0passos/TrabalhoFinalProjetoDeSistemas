@@ -5,6 +5,7 @@ import javax.swing.*;
 import model.Usuario;
 import observer.Observer;
 import presenter.*;
+import service.LogService;
 import service.UsuarioService;
 
 /**
@@ -148,7 +149,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void NovoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NovoUsuarioActionPerformed
-        var cadastroPresenter = new CadastroPresenter(new Usuario(), this.getMainPane(), new UsuarioService());
+        var cadastroPresenter = new CadastroPresenter(new Usuario(), this.getMainPane(), new UsuarioService(), this, new LogService());
     }//GEN-LAST:event_NovoUsuarioActionPerformed
 
     private void btnNotificacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificacoesActionPerformed

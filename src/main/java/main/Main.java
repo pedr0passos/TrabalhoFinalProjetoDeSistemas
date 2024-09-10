@@ -1,5 +1,7 @@
 package main;
 
+import service.LogService;
+import view.ConfiguracaoView;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import model.*;
@@ -14,23 +16,26 @@ import view.*;
  */
 
 public class Main {
-
+    
     private static final Usuario usuario = new Usuario();
     
     public static void main(String[] args) {
         
         var usuarioService = new UsuarioService();
+        var logService = new LogService(); // Cria a instância do LogService
         var mainView = new MainView();
         var panel = mainView.getMainPane();
         
         mainView.setVisible(true);
         
         var configView = new ConfiguracaoView();
+        var configPresenter = new ConfiguracaoPresenter(usuarioService, configView, logService); // Passa o LogService para o ConfiguracaoPresenter
         initConfigView(configView, panel);
 
         mainView.addConfigurarLogActionListener(evt -> configView.setVisible(true));
         
-        var loginPresenter = new LoginPresenter(usuario, panel, usuarioService, mainView);
+        logService.configuraLog(configView.getcBoxLog().getSelectedItem().toString());
+        var loginPresenter = new LoginPresenter(usuario, panel, usuarioService, mainView, logService);
         
         loginPresenter.adicionarObserver(mainView);
     }
