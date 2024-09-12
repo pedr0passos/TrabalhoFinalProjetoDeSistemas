@@ -13,16 +13,20 @@ import log.*;
 public class LogService {
 
     private Log log;
-    public LogService(/*algo pra settar o tipo do log*/){
-        //logica de pegar o tipo do log
-    }
-    public Log configuraLog() {
-        if (true) {//ta true pq nao sei pegar a condição ainda
-            log = new CsvAdapter(new CsvLog());
-        } else if (false) {//ta false pq nao sei pegar a condição ainda
-            log = new JsonAdapter(new JsonLog());
-        }
-        return log;
+    
+    public LogService() {
+        // Construtor sem argumentos, você configura o log depois
     }
 
+    public void configuraLog(String tipoLog) {   
+        if ("CSV".equalsIgnoreCase(tipoLog)) {
+            log = new CsvAdapter(new CsvLog());
+        } else if ("Json".equalsIgnoreCase(tipoLog)) {
+            log = new JsonAdapter(new JsonLog());
+        }
+    }
+    
+    public Log getLog() {
+        return log;
+    }
 }

@@ -6,28 +6,39 @@ import java.util.*;
 import javax.swing.*;
 import model.*;
 import observer.Observer;
+import service.LogService;
 import service.UsuarioService;
 import view.CadastroView;
+import view.ConfiguracaoView;
+import view.MainView;
+import log.*;
 
 /**
  *
  * @author pedro
  */
-
 public class CadastroPresenter {
 
     private final List<Observer> observers = new ArrayList<>();
     private Usuario model;
     private CadastroView view;
     private final UsuarioService service;
+    private final JDesktopPane desktopPane;
     private final boolean possuiUsuario;
+    private final MainView mainView;
+    private final LogService logService; // Adicionando o LogService
+    private LoginPresenter loginPresenter;
 
-    public CadastroPresenter(Usuario model, JDesktopPane panel, UsuarioService service) {
+    public CadastroPresenter(Usuario model, JDesktopPane desktopPane, UsuarioService service, MainView mainView, LogService logService) {
         this.model = model;
         this.service = service;
         this.possuiUsuario = service.possuiUsuario();
+        this.desktopPane = desktopPane;
+        this.mainView = mainView;
+        this.logService = logService; // Inicializando o LogService
+
         criarView();
-        panel.add(view);
+        desktopPane.add(view);
     }
 
     public final void criarView() {
@@ -41,6 +52,8 @@ public class CadastroPresenter {
         view.getBotaoSalvarUsuario().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Log log = logService.getLog(); // Obtendo a instância de Log
+
                 try {
                     String username = view.getTxtNomeUsuario().getText();
 
@@ -53,9 +66,15 @@ public class CadastroPresenter {
 
                         if (username.isEmpty() || senha.isEmpty()) {
                             JOptionPane.showMessageDialog(view, "Nome de usuário e senha são obrigatórios.", "Erro", JOptionPane.ERROR_MESSAGE);
+                            if (log != null) {
+                                log.gravarLog("Erro: Inclusão de usuário", username, model.getTipo(), false, "Campos Invalidos"); // Registrar log
+                            }
                             return;
                         } else if (!senha.equals(confirmarSenha)) {
                             JOptionPane.showMessageDialog(view, "Senhas diferentes na confirmação.", "Erro", JOptionPane.ERROR_MESSAGE);
+                            if (log != null) {
+                                log.gravarLog("Erro: Inclusão de usuário", username, model.getTipo(), false, "Senhas diferentes"); // Registrar log
+                            }
                             return;
                         }
 
@@ -69,12 +88,23 @@ public class CadastroPresenter {
                         service.enviarSolicitacao(solicitacao);
 
                         JOptionPane.showMessageDialog(view, "Solicitação de cadastro enviada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        if (log != null) {
+                            log.gravarLog("Cadastro de usuário", username, model.getTipo(), true, null); // Registrar log
+                        }
+
+                        JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                         limparDados();
+                        view.dispose();
+                        voltarLogin(); // Redireciona para a tela de login após o cadastro
                     } else {
                         JOptionPane.showMessageDialog(view, "Já existe um usuário com esse nome.", "Erro", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (NumberFormatException exception) {
                     exception.printStackTrace();
+                        if (log != null) {
+                            log.gravarLog("Erro: Inclusão de usuário", model.getUserName(), model.getTipo(), false, "Já existe um usuário com esse nome."); // Registrar log
+                        }
+                        JOptionPane.showMessageDialog(view, "Já existe um usuário com esse nome.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -92,6 +122,10 @@ public class CadastroPresenter {
 
     public void removerObserver(Observer observer) {
         observers.remove(observer);
+    }
+
+    private void voltarLogin() {
+        loginPresenter = new LoginPresenter(model, desktopPane, service, mainView, logService); // Passando o LogService para o LoginPresenter
     }
 
     private void notificarObservadores() {

@@ -19,6 +19,7 @@ public class AlterarSenhaView extends javax.swing.JInternalFrame {
      */
     public AlterarSenhaView() {
         initComponents();
+        txtNomeUsuario.setEnabled(false);
     }
 
     /**

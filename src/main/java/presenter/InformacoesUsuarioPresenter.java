@@ -7,6 +7,7 @@ import javax.swing.JDesktopPane;
 import model.Usuario;
 import service.UsuarioService;
 import view.InformacoesUsuarioView;
+import service.LogService;
 
 public class InformacoesUsuarioPresenter {
 
@@ -14,12 +15,14 @@ public class InformacoesUsuarioPresenter {
     private InformacoesUsuarioView view;
     private final UsuarioService service;
     private final JDesktopPane panel;
+    private final LogService logService;
 
-    public InformacoesUsuarioPresenter(Usuario model, JDesktopPane panel, UsuarioService service) {
+    public InformacoesUsuarioPresenter(Usuario model, JDesktopPane panel, UsuarioService service, LogService logService) {
         this.model = model;
         this.panel = panel;
         this.service = service;
-        
+        this.logService = logService; // Inicializando o LogService
+
         configurarView();
         panel.add(view);
     }
@@ -39,7 +42,7 @@ public class InformacoesUsuarioPresenter {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new AlterarSenhaPresenter(model, panel, service);
+                    new AlterarSenhaPresenter(model, panel, service, logService);
                 } catch (Exception exception) { // Mudança de NumberFormatException para Exception
                     System.err.println("Erro ao alterar senha: " + exception.getMessage());
                     exception.printStackTrace(); // Log completo do erro para debug
