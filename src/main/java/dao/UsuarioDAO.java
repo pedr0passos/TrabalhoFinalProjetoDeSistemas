@@ -21,6 +21,8 @@ public interface UsuarioDAO {
     
     Optional<Usuario> buscarPorNome(String nome);
     
+    boolean possuiUsuario();
+    
     void atualizar(Usuario usuario);
     
     void deletar(UUID id);

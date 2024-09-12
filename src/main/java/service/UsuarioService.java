@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
-import dao.AdministradorDAO;
-import dao.AdministradorDAOSqlite;
-import dao.UsuarioDAO;
-import dao.UsuarioDAOSqlite;
-import model.Administrador;
-import model.Usuario;
+import dao.*;
+import model.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,16 +13,23 @@ import java.util.UUID;
  */
 
 public class UsuarioService {
+    
     private final UsuarioDAO usuarioDAO;
     private final AdministradorDAO administradorDAO;
-    
+    private final SolicitacaoDAO solicitacaoDAO;
+        
     public UsuarioService(){
         this.usuarioDAO = new UsuarioDAOSqlite();
         this.administradorDAO = new AdministradorDAOSqlite();
+        this.solicitacaoDAO = new SolicitacaoDAOSqlite();
+    }
+    
+    public void enviarSolicitacao(Solicitacao solicitacao) {
+        solicitacaoDAO.inserir(solicitacao);
     }
     
     public void cadastrarUsuario(Usuario usuario){
-        if(listarUsuarios().size() == 0){
+        if(listarUsuarios().isEmpty()){
             Administrador newAdmin = new Administrador(usuario.getId());
             administradorDAO.inserir(newAdmin);
         }
@@ -47,6 +46,10 @@ public class UsuarioService {
     
     public List<Usuario> listarUsuarios() {
         return usuarioDAO.listar();
+    }
+    
+    public boolean possuiUsuario() {
+        return usuarioDAO.possuiUsuario();
     }
     
     public void atualizarUsuario(Usuario usuario) {

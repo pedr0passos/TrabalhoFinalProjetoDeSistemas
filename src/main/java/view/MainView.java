@@ -5,7 +5,7 @@ import javax.swing.*;
 import model.Usuario;
 import observer.Observer;
 import presenter.*;
-import service.UsuarioService;
+import service.*;
 
 /**
  * @author 
@@ -18,8 +18,10 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
     private final JLabel lblNomeUsuarioLogado = new JLabel();   
     private final JLabel lblTipoUsuarioLogado = new JLabel();
+    private Usuario usuarioLogado;
     
-    public MainView() {
+    public MainView(Usuario usuario) {
+        usuarioLogado = usuario;
         configuraLookAndFeel();  
         initComponents();
     }
@@ -38,6 +40,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
         menuUsuarios = new javax.swing.JMenu();
         NovoUsuario = new javax.swing.JMenuItem();
         RegistrosDeUsuario = new javax.swing.JMenuItem();
+        SolicitacoesDosUsuarios = new javax.swing.JMenuItem();
         menuConfigurar = new javax.swing.JMenu();
         ConfigurarLog = new javax.swing.JMenuItem();
 
@@ -77,9 +80,8 @@ public class MainView extends javax.swing.JFrame implements Observer {
         mainPaneLayout.setVerticalGroup(
             mainPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPaneLayout.createSequentialGroup()
-                .addContainerGap(821, Short.MAX_VALUE)
-                .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addGap(0, 821, Short.MAX_VALUE)
+                .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getContentPane().add(mainPane, java.awt.BorderLayout.CENTER);
@@ -125,6 +127,14 @@ public class MainView extends javax.swing.JFrame implements Observer {
         });
         menuUsuarios.add(RegistrosDeUsuario);
 
+        SolicitacoesDosUsuarios.setText("Solicitações dos Usuários");
+        SolicitacoesDosUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SolicitacoesDosUsuariosActionPerformed(evt);
+            }
+        });
+        menuUsuarios.add(SolicitacoesDosUsuarios);
+
         menuBar.add(menuUsuarios);
 
         menuConfigurar.setText("Configurar");
@@ -148,29 +158,36 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void NovoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NovoUsuarioActionPerformed
-        var cadastroPresenter = new CadastroPresenter(new Usuario(), this.getMainPane(), new UsuarioService());
+        var cadastroPresenter = new CadastroPresenter(usuarioLogado, mainPane, new UsuarioService());
     }//GEN-LAST:event_NovoUsuarioActionPerformed
 
     private void btnNotificacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificacoesActionPerformed
-        // TODO add your handling code here:
+        var notificacoesPresenter = new NotificacoesPresenter(usuarioLogado, mainPane, new UsuarioService());
     }//GEN-LAST:event_btnNotificacoesActionPerformed
 
-    private void btnInformacoesContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesContaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnInformacoesContaActionPerformed
-
     private void RegistrosDeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrosDeUsuarioActionPerformed
-        var registrosPresenter = new RegistrosPresenter(new Usuario(), this.getMainPane(), new UsuarioService());
+        var registrosPresenter = new RegistrosPresenter(usuarioLogado, mainPane, new UsuarioService());
     }//GEN-LAST:event_RegistrosDeUsuarioActionPerformed
 
     private void ConfigurarLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigurarLogActionPerformed
-        
     }//GEN-LAST:event_ConfigurarLogActionPerformed
+
+    private void btnInformacoesContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesContaActionPerformed
+        var informacoesUsuarioPresenter = new InformacoesUsuarioPresenter(usuarioLogado, mainPane, new UsuarioService());
+    }//GEN-LAST:event_btnInformacoesContaActionPerformed
+
+    private void SolicitacoesDosUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitacoesDosUsuariosActionPerformed
+        var solicitacoesPresenter = new SolicitacoesPresenter(new SolicitacaoService(), new UsuarioService(), mainPane);
+    }//GEN-LAST:event_SolicitacoesDosUsuariosActionPerformed
+    
+    public void setUsuario (Usuario usuario) {
+        usuarioLogado = usuario;
+    }
     
     public void addConfigurarLogActionListener(ActionListener listener) {
         ConfigurarLog.addActionListener(listener);
     }
-
+    
     public JLabel getLblNomeUsuarioLogado() {
         return lblNomeUsuarioLogado;
     }
@@ -212,6 +229,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private javax.swing.JMenuItem ConfigurarLog;
     private javax.swing.JMenuItem NovoUsuario;
     private javax.swing.JMenuItem RegistrosDeUsuario;
+    private javax.swing.JMenuItem SolicitacoesDosUsuarios;
     private javax.swing.JMenuItem btnInformacoesConta;
     private javax.swing.JButton btnNotificacoes;
     private javax.swing.JMenuItem btnSair;
