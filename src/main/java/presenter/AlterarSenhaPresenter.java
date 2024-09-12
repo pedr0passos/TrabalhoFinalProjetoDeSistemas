@@ -35,10 +35,9 @@ public class AlterarSenhaPresenter {
         view.setVisible(true);
         view.toFront(); 
         
-        // Exibir o nome do usuário logado
         view.getTxtNomeUsuario().setText(model.getUserName());
         
-        view.getBtnAlterarUsuario().addActionListener(new ActionListener() {
+        view.getBtnSalvarUsuario().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Log log;

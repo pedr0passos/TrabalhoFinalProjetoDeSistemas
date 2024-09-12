@@ -2,9 +2,10 @@ package main;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
-import model.*;
+
+import model.Usuario;
 import presenter.*;
-import service.UsuarioService;
+import service.*;
 import view.*;
 
 /**
@@ -20,14 +21,14 @@ public class Main {
     public static void main(String[] args) {
         
         var usuarioService = new UsuarioService();
-        var mainView = new MainView();
+        var mainView = new MainView(usuario);
         var panel = mainView.getMainPane();
         
         mainView.setVisible(true);
         
         var configView = new ConfiguracaoView();
-        initConfigView(configView, panel);
-
+        initView(configView, panel);
+        
         mainView.addConfigurarLogActionListener(evt -> configView.setVisible(true));
         
         var loginPresenter = new LoginPresenter(usuario, panel, usuarioService, mainView);
@@ -39,8 +40,8 @@ public class Main {
         return usuario;
     }
     
-    public static void initConfigView(JInternalFrame configView, JDesktopPane desktopPane) {
-        desktopPane.add(configView);
-        configView.setVisible(false);
+    public static void initView(JInternalFrame internalFrame, JDesktopPane desktopPane) {
+        desktopPane.add(internalFrame);
+        internalFrame.setVisible(false);
     }
 }

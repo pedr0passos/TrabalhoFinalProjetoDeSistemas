@@ -10,19 +10,19 @@ import java.util.UUID;
  */
 
 public class Solicitacao {
-    private Long id;
+    private UUID id;
     private Usuario usuario;
     private LocalDate dataSolicitacao; 
     private boolean aprovada;
 
-    public Solicitacao(Long id, Usuario usuario, LocalDate dataSolicitacao, boolean aprovada) {
+    public Solicitacao(UUID id, Usuario usuario, LocalDate dataSolicitacao, boolean aprovada) {
         this.id = id;
         this.usuario = usuario;
         this.dataSolicitacao = dataSolicitacao;
         this.aprovada = aprovada;
     }
-
-    public Long getId() {
+    
+    public UUID getId() {
         return id;
     }
 

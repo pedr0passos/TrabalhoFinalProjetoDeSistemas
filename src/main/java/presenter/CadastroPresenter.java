@@ -1,17 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package presenter;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JDesktopPane;
-import javax.swing.JOptionPane;
-import log.*;
-import model.Usuario;
+import java.awt.event.*;
+import java.time.LocalDate;
+import java.util.*;
+import javax.swing.*;
+import model.*;
 import observer.Observer;
 import service.UsuarioService;
 import view.CadastroView;
@@ -24,15 +17,15 @@ import view.CadastroView;
 public class CadastroPresenter {
 
     private final List<Observer> observers = new ArrayList<>();
-
-    private final Usuario model;
+    private Usuario model;
     private CadastroView view;
     private final UsuarioService service;
+    private final boolean possuiUsuario;
 
     public CadastroPresenter(Usuario model, JDesktopPane panel, UsuarioService service) {
         this.model = model;
         this.service = service;
-
+        this.possuiUsuario = service.possuiUsuario();
         criarView();
         panel.add(view);
     }
@@ -40,18 +33,21 @@ public class CadastroPresenter {
     public final void criarView() {
         view = new CadastroView();
         view.setVisible(true);
+
+        if (possuiUsuario) {
+            view.getBotaoSalvarUsuario().setText("Enviar Solicitação");
+        }
+
         view.getBotaoSalvarUsuario().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Log log;
-//                if (true) {//ta true pq nao sei pegar a condição ainda
-                    log = new CsvAdapter(new CsvLog());
-//                } else if (false) {//ta false pq nao sei pegar a condição ainda
-//                    log = new JsonAdapter(new JsonLog());
-//                }
                 try {
                     String username = view.getTxtNomeUsuario().getText();
-                    if (service.buscarUsuarioPorNome(username).isEmpty()) {
+
+                    Optional<Usuario> usuarioExistente = service.buscarUsuarioPorNome(username);
+
+                    if (usuarioExistente.isEmpty()) {
+                        // Cadastro de um novo usuário com isAutorizado = false
                         String senha = new String(view.getTxtSenha().getPassword());
                         String confirmarSenha = new String(view.getTxtConfirmarSenha().getPassword());
 
@@ -62,19 +58,23 @@ public class CadastroPresenter {
                             JOptionPane.showMessageDialog(view, "Senhas diferentes na confirmação.", "Erro", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
-                        var usuario = new Usuario(username, senha, false);
-                        service.cadastrarUsuario(usuario);
-                        notificarObservadores();
 
-                        log.gravarLog("Cadastro de usuário", username, "admin", true, null);//trocar "admin" para usuario.getTipo quando for implementado tipo
-                        JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        Usuario novoUsuario = new Usuario(username, senha, false, false);
+                        model = novoUsuario;
+                        service.cadastrarUsuario(novoUsuario);
+
+                        UUID idSolicitacao = UUID.randomUUID();
+                        LocalDate dataSolicitacao = LocalDate.now();
+                        Solicitacao solicitacao = new Solicitacao(idSolicitacao, novoUsuario, dataSolicitacao, false);
+                        service.enviarSolicitacao(solicitacao);
+
+                        JOptionPane.showMessageDialog(view, "Solicitação de cadastro enviada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                         limparDados();
                     } else {
-                        log.gravarLog("Inclusão de usuário", username, "admin", false, "Já existe um usuário com esse nome.");//trocar "admin" para usuario.getTipo quando for implementado tipo
                         JOptionPane.showMessageDialog(view, "Já existe um usuário com esse nome.", "Erro", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (NumberFormatException exception) {
-                    exception.getStackTrace();
+                    exception.printStackTrace();
                 }
             }
         });
