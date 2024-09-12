@@ -4,12 +4,16 @@
  */
 package model;
 
+import java.util.UUID;
+
 /**
  *
  * @author pedro
  */
 public class Notificacao {
-    private Long id;
+    private UUID id;
+    private UUID id_usuario_remetente;
+    private UUID id_usuario_destinatario;
     private String titulo;
     private String conteudo;
     private boolean lida;
@@ -17,13 +21,15 @@ public class Notificacao {
     private static int notificacoesLidas;
 
     public Notificacao(Long id, String titulo, String conteudo) {
-        this.id = id;
+        this.id = UUID.randomUUID();
         this.titulo = titulo;
         this.conteudo = conteudo;
         this.lida = false;
     }
 
-    public Long getId() {
+    public Notificacao() {}
+
+    public UUID getId() {
         return id;
     }
 
@@ -47,7 +53,7 @@ public class Notificacao {
         return notificacoesLidas;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -62,6 +68,15 @@ public class Notificacao {
     public void setLida(boolean lida) {
         this.lida = lida;
     }
+
+    public UUID getId_usuario_remetente() {
+        return id_usuario_remetente;
+    }
+
+    public UUID getId_usuario_destinatario() {
+        return id_usuario_destinatario;
+    }
+    
 
     public static void setNotificacoesEnviadas(int notificacoesEnviadas) {
         Notificacao.notificacoesEnviadas = notificacoesEnviadas;

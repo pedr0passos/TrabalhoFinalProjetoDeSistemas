@@ -9,4 +9,7 @@ package service;
  * @author pedro
  */
 
-public class NotificadoraService {}
+public class NotificadoraService {
+    
+
+}

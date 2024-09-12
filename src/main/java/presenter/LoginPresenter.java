@@ -108,7 +108,7 @@ public class LoginPresenter {
     
     private void mostrarAlterarSenhaView() {
         alterarSenhaPresenter = new AlterarSenhaPresenter(model, desktopPane, service);
-    }
+     }
     
     public void adicionarObserver(Observer observer) {
         observers.add(observer);

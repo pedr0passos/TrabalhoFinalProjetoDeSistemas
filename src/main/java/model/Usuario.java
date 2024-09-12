@@ -101,9 +101,7 @@ public class Usuario {
 
     public void setAdministrador(boolean administrador) {
         this.administrador = administrador;
-    }
-    
-    
+    }    
     
     private void lerNotificacao() {
         

@@ -6,6 +6,9 @@ import model.Usuario;
 import observer.Observer;
 import presenter.*;
 import service.UsuarioService;
+import main.Main;
+import model.Notificacao;
+import service.NotificadoraService;
 
 /**
  * @author 
@@ -152,7 +155,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_NovoUsuarioActionPerformed
 
     private void btnNotificacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificacoesActionPerformed
-        // TODO add your handling code here:
+        var noticacoesPresenter = new NotificacoesPresenter(this.getMainPane(), new NotificadoraService(), this);
     }//GEN-LAST:event_btnNotificacoesActionPerformed
 
     private void btnInformacoesContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesContaActionPerformed
@@ -182,6 +185,10 @@ public class MainView extends javax.swing.JFrame implements Observer {
     public JDesktopPane getMainPane() {
         return mainPane;
     }
+
+    public JButton getBtnNotificacoes() {
+        return btnNotificacoes;
+    }
     
     public static void configuraLookAndFeel() {
         try {
@@ -198,13 +205,25 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update() {
+        Usuario usuario = Main.getUsuario();
         menuConta.setEnabled(true);
-        menuUsuarios.setEnabled(true);
-        menuConfigurar.setEnabled(true);
         btnNotificacoes.setEnabled(true);
-        toolBar.add(lblNomeUsuarioLogado);
-        toolBar.add(Box.createHorizontalStrut(15));
-        toolBar.add(lblTipoUsuarioLogado);
+        
+        if(usuario.isAdministrador()){
+            menuUsuarios.setEnabled(true);
+            menuConfigurar.setEnabled(true);
+            toolBar.add(lblNomeUsuarioLogado);
+            toolBar.add(Box.createHorizontalStrut(15));
+            toolBar.add(lblTipoUsuarioLogado);
+        }
+        else {
+            menuUsuarios.setEnabled(false);
+            menuConfigurar.setEnabled(false);
+            toolBar.add(lblNomeUsuarioLogado);
+            toolBar.add(Box.createHorizontalStrut(15));
+            toolBar.add(lblTipoUsuarioLogado);
+        }
+        
     }
    
     
