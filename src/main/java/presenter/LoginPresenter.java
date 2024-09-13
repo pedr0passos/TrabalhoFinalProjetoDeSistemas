@@ -39,7 +39,6 @@ public class LoginPresenter {
 
     public LoginPresenter(JDesktopPane panel, UsuarioService service, MainView mainView, LogService logService) {
         
-        adicionarObserver(mainView);
         this.model = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
         this.desktopPane = panel;
         this.service = service;

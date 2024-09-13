@@ -42,6 +42,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
         NovoUsuario = new javax.swing.JMenuItem();
         RegistrosDeUsuario = new javax.swing.JMenuItem();
         SolicitacoesDosUsuarios = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuConfigurar = new javax.swing.JMenu();
         ConfigurarLog = new javax.swing.JMenuItem();
 
@@ -141,6 +142,9 @@ public class MainView extends javax.swing.JFrame implements Observer {
         });
         menuUsuarios.add(SolicitacoesDosUsuarios);
 
+        jMenuItem1.setText("Enviar Notificação");
+        menuUsuarios.add(jMenuItem1);
+
         menuBar.add(menuUsuarios);
 
         menuConfigurar.setText("Configurar");
@@ -189,10 +193,6 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnSairActionPerformed
-    
-    private void mostrarTelaLogin() {
-        LoginPresenter loginPresenter = new LoginPresenter(mainPane, new UsuarioService(), this, new LogService());
-    }
     
     public void setUsuario (Usuario usuario) {
         usuarioLogado = usuario;
@@ -247,6 +247,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private javax.swing.JMenuItem btnInformacoesConta;
     private javax.swing.JButton btnNotificacoes;
     private javax.swing.JMenuItem btnSair;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JDesktopPane mainPane;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuConfigurar;
