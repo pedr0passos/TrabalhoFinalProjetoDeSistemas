@@ -20,9 +20,12 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private final JLabel lblNomeUsuarioLogado = new JLabel();   
     private final JLabel lblTipoUsuarioLogado = new JLabel();
     private Usuario usuarioLogado;
+    private LogService logService;
     
-    public MainView() {
+
+    public MainView(LogService log) {
         usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
+        logService = log;
         configuraLookAndFeel();  
         initComponents();
     }
@@ -168,7 +171,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void NovoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NovoUsuarioActionPerformed
-        var cadastroPresenter = new CadastroPresenter(usuarioLogado, mainPane, new UsuarioService(), this, new LogService());
+        var cadastroPresenter = new CadastroPresenter(usuarioLogado, mainPane, new UsuarioService(), this, logService);
     }//GEN-LAST:event_NovoUsuarioActionPerformed
 
     private void btnNotificacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificacoesActionPerformed
@@ -183,7 +186,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_ConfigurarLogActionPerformed
 
     private void btnInformacoesContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesContaActionPerformed
-        var informacoesUsuarioPresenter = new InformacoesUsuarioPresenter(usuarioLogado, mainPane, new UsuarioService(), new LogService());
+        var informacoesUsuarioPresenter = new InformacoesUsuarioPresenter(usuarioLogado, mainPane, new UsuarioService(), logService);
     }//GEN-LAST:event_btnInformacoesContaActionPerformed
 
     private void SolicitacoesDosUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitacoesDosUsuariosActionPerformed

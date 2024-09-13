@@ -22,6 +22,7 @@ public class Main {
     public static void main(String[] args) {
         
         var usuarioService = new UsuarioService();
+
         var logService = new LogService(); 
         
         var usuarioLogado = UsuarioLogadoSingleton.getInstancia();
@@ -33,7 +34,7 @@ public class Main {
             usuarioLogado.setUsuarioLogado(usuario);
         }
         
-        var mainView = new MainView();
+        var mainView = new MainView(logService);
         var panel = mainView.getMainPane();
         
         mainView.setVisible(true);

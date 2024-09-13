@@ -9,6 +9,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Solicitacao;
+import model.Usuario;
 import observer.Observer;
 import service.SolicitacaoService; 
 import service.UsuarioService;
@@ -42,21 +43,29 @@ public class SolicitacoesPresenter implements Observer {
         view.getBtnBuscar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
                 try {
-                    
-                    String nomeUsuario = view.getTxtBuscarUsuario().getText().trim();
+                    String nomeBusca = view.getTxtBuscarUsuario().getText().trim();
             
-                    if (nomeUsuario.isEmpty()) {
-                        update(); 
+                    if (nomeBusca.isEmpty()) {
+                        atualizarView(); 
                         return;
                     }
 
-                    List<Solicitacao> solicitacoes = service.listarSolicitacoes();
-                    exibirSolicitacoes(solicitacoes);
-                    
-                } catch (NumberFormatException exception) {
-                    exception.printStackTrace(); 
+                    List<Solicitacao> solicitacoesList = service.listarSolicitacoes();
+                    DefaultTableModel tableModel = (DefaultTableModel) view.getTbSolicitacoes().getModel();
+                    tableModel.setRowCount(0); 
+
+                    for (Solicitacao solicitacao : solicitacoesList) {
+                        if (solicitacao.getNomeUsuario().toLowerCase().contains(nomeBusca.toLowerCase())) {
+                            tableModel.addRow(new Object[] {
+                                false,
+                                solicitacao.getNomeUsuario(),
+                                solicitacao.getDataSolicitacao()
+                            });
+                        }
+                    }
+                } catch ( NumberFormatException exception) {
+                    exception.getStackTrace();                    
                 }
             }
         });
