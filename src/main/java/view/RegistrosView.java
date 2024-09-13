@@ -29,6 +29,7 @@ public class RegistrosView extends javax.swing.JInternalFrame {
         btnEditar = new javax.swing.JButton();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Registros de Usuários");
         setMaximumSize(new java.awt.Dimension(609, 394));
         setMinimumSize(new java.awt.Dimension(609, 394));
@@ -61,12 +62,16 @@ public class RegistrosView extends javax.swing.JInternalFrame {
         });
         scrlUsuarios.setViewportView(tbUsuarios);
 
+        lblBuscarUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblBuscarUsuario.setText("Buscar Usuário:");
 
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBuscar.setText("Buscar");
 
+        btnLimpar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnLimpar.setText("Limpar");
 
+        btnExcluir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnExcluir.setText("Excluir");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,6 +79,7 @@ public class RegistrosView extends javax.swing.JInternalFrame {
             }
         });
 
+        btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEditar.setText("Editar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -96,7 +102,7 @@ public class RegistrosView extends javax.swing.JInternalFrame {
                             .addGap(12, 12, 12)
                             .addComponent(btnLimpar))
                         .addComponent(scrlUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,7 +121,7 @@ public class RegistrosView extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExcluir)
                     .addComponent(btnEditar))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();

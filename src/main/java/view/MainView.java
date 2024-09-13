@@ -26,13 +26,19 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private final JLabel lblNomeUsuarioLogado = new JLabel();   
     private final JLabel lblTipoUsuarioLogado = new JLabel();
     private Usuario usuarioLogado;
+    private UsuarioService usuarioService;
     private LogService logService;
-    
 
-    public MainView(LogService log) {
-        logService = log;
+    private CadastroPresenter cadastroPresenter;
+    private RegistrosPresenter registrosPresenter;
+    
+    public MainView(UsuarioService usuarioService, LogService logService) {
+        this.usuarioService = usuarioService;
+        this.logService = logService;
+        
         configuraLookAndFeel();  
         initComponents();
+        initInternalFrames();
     }
 
     @SuppressWarnings("unchecked")
@@ -181,7 +187,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void NovoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NovoUsuarioActionPerformed
-        var cadastroPresenter = new CadastroPresenter(usuarioLogado, mainPane, new UsuarioService(), this, logService);
+        cadastroPresenter.setVisible();
     }//GEN-LAST:event_NovoUsuarioActionPerformed
 
     private void btnNotificacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificacoesActionPerformed
@@ -189,7 +195,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_btnNotificacoesActionPerformed
 
     private void RegistrosDeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrosDeUsuarioActionPerformed
-        var registrosPresenter = new RegistrosPresenter(usuarioLogado, mainPane, new UsuarioService());
+        registrosPresenter.setVisible();
     }//GEN-LAST:event_RegistrosDeUsuarioActionPerformed
 
     private void ConfigurarLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigurarLogActionPerformed
@@ -210,6 +216,13 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private void btnEnviarNotificacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarNotificacaoActionPerformed
         var enviarNotificacaoPresenter = new EnviarNotificacaoPresenter(mainPane, new NotificadoraService(), new UsuarioService(), this, logService);
     }//GEN-LAST:event_btnEnviarNotificacaoActionPerformed
+    
+    public void initInternalFrames() {
+        this.cadastroPresenter = new CadastroPresenter(usuarioLogado, mainPane, new UsuarioService(), this, logService, true, new AdministradorService());
+        this.registrosPresenter = new RegistrosPresenter(usuarioLogado, mainPane, new UsuarioService());
+        
+        cadastroPresenter.adicionarObserver(registrosPresenter);
+    }
     
     public void setUsuario (Usuario usuario) {
         usuarioLogado = usuario;
@@ -250,14 +263,22 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update() {
+        
         usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
         menuConta.setEnabled(true);
-        btnNotificacoes.setEnabled(true);
-        menuUsuarios.setEnabled(true);
-        menuConfigurar.setEnabled(true);
+        
+        if (usuarioLogado.isAdministrador()) {
+            menuUsuarios.setEnabled(true);
+            menuConfigurar.setEnabled(true);
+        }
+
+        if (!usuarioLogado.isAdministrador())
+            btnNotificacoes.setEnabled(true);
+        
         toolBar.add(lblNomeUsuarioLogado);
         toolBar.add(Box.createHorizontalStrut(15));
         toolBar.add(lblTipoUsuarioLogado);
+        
     }
    
     

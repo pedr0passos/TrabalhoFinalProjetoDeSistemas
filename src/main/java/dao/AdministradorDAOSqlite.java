@@ -2,7 +2,9 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import model.Administrador;
 import model.Solicitacao;
@@ -48,4 +50,24 @@ public class AdministradorDAOSqlite implements AdministradorDAO {
             throw new RuntimeException("Erro ao aprovar solicitação: " + e.getMessage());
         }
     }
+    
+    @Override
+    public boolean existeAdministrador() {
+        String sql = "SELECT COUNT(*) AS total FROM Administrador";
+
+        try (Statement stmt = conexao.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                int total = rs.getInt("total");
+                return total > 0; 
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao verificar existência de administradores: " + e.getMessage());
+        }
+        return false; 
+    }
+   
+
 }

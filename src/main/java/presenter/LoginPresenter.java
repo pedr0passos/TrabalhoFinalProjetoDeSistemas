@@ -46,6 +46,8 @@ public class LoginPresenter {
         this.logService = logService;
 
         criarView();
+        
+        adicionarObserver(mainView);
     }
 
     public final void criarView() {
@@ -83,17 +85,30 @@ public class LoginPresenter {
             }
 
             Optional<Usuario> usuarioOptional = service.buscarUsuarioPorNome(nomeDigitado);
+            
+            if (!usuarioOptional.get().getIsAutorizado()) {
+                exibirMensagemErro("Você não possui autorização!");
+                return;
+            }
+            
             if (usuarioEncontrado(usuarioOptional)) {
+                
                 Usuario usuario = usuarioOptional.get();
+                
                 if (usuario.getSenha().equals(senhaDigitada)) {
+                    
                     JOptionPane.showMessageDialog(view, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    
                     UsuarioLogadoSingleton.getInstancia().setUsuarioLogado(usuario);
                     model = usuario;
+                    
                     mainView.getLblNomeUsuarioLogado().setText(model.getUserName());
                     mainView.getLblTipoUsuarioLogado().setText(model.getTipo());
+                    
                     view.dispose();
                     logarUsuario();
                     registrarLog(log, null);
+                    
                 } else {
                     exibirMensagemErro("Senha incorreta!");
                     registrarLog(log, "Senha incorreta");
@@ -127,7 +142,7 @@ public class LoginPresenter {
     }
 
     private void mostrarCadastroView() {
-        cadastroPresenter = new CadastroPresenter(model, desktopPane, service, mainView, logService);
+        cadastroPresenter = new CadastroPresenter(model, desktopPane, service, mainView, logService, false, new AdministradorService());
     }
 
     private void exibirMensagemErro(String mensagem) {
