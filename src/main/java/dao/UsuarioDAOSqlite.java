@@ -27,17 +27,12 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
     private Connection conexao;
 
     public UsuarioDAOSqlite() {
-        String url = "jdbc:sqlite:db/database.db";
-        try {
-            conexao = DriverManager.getConnection(url);
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao conectar ao banco de dados: " + ex.getMessage());
-        }
+        this.conexao = ConexaoSingleton.getInstance().getConnection();
     }
 
     @Override
     public void inserir(Usuario usuario) {
-        String sqlUsuario = "INSERT INTO Usuario (id, user_name, senha, data_criacao, tipo, administrador, is_autorizado) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sqlUsuario = "INSERT INTO Usuario (id, username, senha, data_criacao, tipo, administrador, is_autorizado) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmtUsuario = conexao.prepareStatement(sqlUsuario)) {
             stmtUsuario.setString(1, usuario.getId().toString());
@@ -85,7 +80,7 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
 
     @Override
     public Optional<Usuario> buscarPorNome(String nome) {
-        String sql = "SELECT * FROM Usuario WHERE user_name = ?";
+        String sql = "SELECT * FROM Usuario WHERE username = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, nome);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -122,7 +117,7 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
 
     @Override
     public void atualizar(Usuario usuario) {
-        String sql = "UPDATE Usuario SET user_name = ?, senha = ?, tipo = ?, administrador = ?, is_autorizado = ? WHERE id = ?";
+        String sql = "UPDATE Usuario SET username = ?, senha = ?, tipo = ?, administrador = ?, is_autorizado = ? WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, usuario.getUserName());
             stmt.setString(2, usuario.getSenha());
@@ -179,7 +174,7 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
     private Usuario mapResultSetToUsuario(ResultSet rs) throws SQLException {
         Usuario usuario = new Usuario();
         usuario.setId(UUID.fromString(rs.getString("id")));
-        usuario.setUsername(rs.getString("user_name"));
+        usuario.setUsername(rs.getString("username"));
         usuario.setSenha(rs.getString("senha"));
         usuario.setDataCriacao(LocalDate.parse(rs.getString("data_criacao")));
         usuario.setTipo(rs.getString("tipo"));

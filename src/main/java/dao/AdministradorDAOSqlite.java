@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -12,23 +11,14 @@ public class AdministradorDAOSqlite implements AdministradorDAO {
 
     private static Connection conexao;
 
-    // Implementando Singleton para a conexão
-    private static Connection getConexao() {
-        if (conexao == null) {
-            String url = "jdbc:sqlite:db/database.db";
-            try {
-                conexao = DriverManager.getConnection(url);
-            } catch (SQLException ex) {
-                throw new RuntimeException("Erro ao conectar ao banco de dados: " + ex.getMessage());
-            }
-        }
-        return conexao;
+    public AdministradorDAOSqlite() {
+        this.conexao = ConexaoSingleton.getInstance().getConnection();
     }
 
     @Override
     public void inserir(Administrador admin) {
         String sql = "INSERT INTO Administrador (id, id_usuario) VALUES (?, ?);";
-        try (PreparedStatement stmt = getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
 
             String idUsuarioString = admin.getIdUsuario().toString();
             String idString = admin.getId().toString();
@@ -46,7 +36,7 @@ public class AdministradorDAOSqlite implements AdministradorDAO {
     @Override
     public void aprovarSolicitacao(Solicitacao solicitacao) {
         String sql = "UPDATE Usuario SET aprovado = 1 WHERE id = ?;";
-        try (PreparedStatement stmt = getConexao().prepareStatement(sql)) {
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
 
             String idStr = solicitacao.getIdUsuario().toString();
 

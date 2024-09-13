@@ -3,6 +3,7 @@ package view;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import model.Usuario;
+import singleton.UsuarioLogadoSingleton;
 import observer.Observer;
 import presenter.*;
 import service.*;
@@ -24,8 +25,9 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private Usuario usuarioLogado;
     private LogService logService;
     
-    public MainView(Usuario usuario, LogService log) {
-        usuarioLogado = usuario;
+
+    public MainView(LogService log) {
+        usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
         logService = log;
         configuraLookAndFeel();  
         initComponents();

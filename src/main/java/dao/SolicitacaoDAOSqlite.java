@@ -3,7 +3,6 @@ package dao;
 import model.Solicitacao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,12 +17,7 @@ public class SolicitacaoDAOSqlite implements SolicitacaoDAO {
     private final Connection conexao;
     
     public SolicitacaoDAOSqlite() {
-        String url = "jdbc:sqlite:db/database.db";
-        try {
-            conexao = DriverManager.getConnection(url);
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao conectar ao banco de dados: " + ex.getMessage());
-        }
+        this.conexao = ConexaoSingleton.getInstance().getConnection();
     }
 
     @Override
