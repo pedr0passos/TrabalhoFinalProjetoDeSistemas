@@ -7,10 +7,12 @@ package presenter;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Usuario;
 import observer.Observer;
 import service.UsuarioService;
+import singleton.UsuarioLogadoSingleton;
 import view.RegistrosView;
 
 /**
@@ -77,6 +79,25 @@ public class RegistrosPresenter implements Observer {
                     atualizarView();
                 } catch ( NumberFormatException exception) {
                     exception.getStackTrace();                    
+                }
+            }
+        });
+        view.getBtnExcluir().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                
+                var tabela = view.getTbUsuarios();
+                if(tabela.getSelectedRow() != -1){
+                    DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+                    UUID idUsuario = (UUID) model.getValueAt(tabela.getSelectedRow(), 0);
+
+                    if(idUsuario.equals(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId())){
+                        JOptionPane.showMessageDialog(view, "Não é possível excluir a si mesmo", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else{
+                        service.deletarUsuario(idUsuario);
+                        atualizarView();
+                    }
                 }
             }
         });
