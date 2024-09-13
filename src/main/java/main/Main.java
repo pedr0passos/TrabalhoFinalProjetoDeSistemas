@@ -1,10 +1,13 @@
 package main;
 
+import service.LogService;
+import view.ConfiguracaoView;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
-import model.*;
+
+import model.Usuario;
 import presenter.*;
-import service.UsuarioService;
+import service.*;
 import view.*;
 
 /**
@@ -14,23 +17,27 @@ import view.*;
  */
 
 public class Main {
-
+    
     private static final Usuario usuario = new Usuario();
     
     public static void main(String[] args) {
         
         var usuarioService = new UsuarioService();
-        var mainView = new MainView();
+        var logService = new LogService(); // Cria a instância do LogService
+        var mainView = new MainView(usuario);
         var panel = mainView.getMainPane();
         
         mainView.setVisible(true);
         
         var configView = new ConfiguracaoView();
-        initConfigView(configView, panel);
+        initView(configView, panel);
+        
+        var configPresenter = new ConfiguracaoPresenter(usuarioService, configView, logService); // Passa o LogService para o ConfiguracaoPresenter
 
         mainView.addConfigurarLogActionListener(evt -> configView.setVisible(true));
         
-        var loginPresenter = new LoginPresenter(usuario, panel, usuarioService, mainView);
+        logService.configuraLog(configView.getcBoxLog().getSelectedItem().toString());
+        var loginPresenter = new LoginPresenter(usuario, panel, usuarioService, mainView, logService);
         
         loginPresenter.adicionarObserver(mainView);
     }
@@ -39,8 +46,8 @@ public class Main {
         return usuario;
     }
     
-    public static void initConfigView(JInternalFrame configView, JDesktopPane desktopPane) {
-        desktopPane.add(configView);
-        configView.setVisible(false);
+    public static void initView(JInternalFrame internalFrame, JDesktopPane desktopPane) {
+        desktopPane.add(internalFrame);
+        internalFrame.setVisible(false);
     }
 }

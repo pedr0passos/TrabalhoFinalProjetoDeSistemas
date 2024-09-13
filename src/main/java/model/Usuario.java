@@ -24,18 +24,25 @@ public class Usuario {
     private LocalDate dataCriacao;
     private ArrayList<Notificacao> notificacoes;
     
+    private int numeroNotificacoesLidas;
+    private int numeroNotificacoesTotal;
+    
     public Usuario() {}
     
-    public Usuario(String userName, String senha, boolean administrador) {
+    public Usuario(String userName, String senha, boolean administrador, Boolean isAutorizado) {
         this.id = UUID.randomUUID();
         this.userName = userName;
         this.senha = senha;
         this.isAutorizado = false;
         this.dataCriacao = LocalDate.now();
+        this.isAutorizado = isAutorizado;
         this.administrador = administrador;
-        if (administrador)
+        this.numeroNotificacoesLidas = 0;
+        this.numeroNotificacoesTotal = 0;
+        if (administrador) {
             this.tipo = "Administrador";
-        else 
+            this.isAutorizado = true;
+        } else 
             this.tipo = "Usuário";
     }
 

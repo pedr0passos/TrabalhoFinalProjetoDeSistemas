@@ -23,8 +23,12 @@ public class Administrador extends Usuario {
         this.idUsuario = idUsuario;
     }
 
+    @Override
     public UUID getId() {
         return id;
     }
-    
+
+    public UUID getIdUsuario() {
+        return idUsuario;
+    }
 }

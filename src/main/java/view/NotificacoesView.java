@@ -32,6 +32,7 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
         btnBuscar = new javax.swing.JButton();
         lblBuscar = new javax.swing.JLabel();
 
+        setClosable(true);
         setTitle("Notificações");
 
         tbNotificacoes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -86,7 +87,7 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
                             .addGap(18, 18, 18)
                             .addComponent(btnBuscar))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,7 +100,7 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
                     .addComponent(btnBuscar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();

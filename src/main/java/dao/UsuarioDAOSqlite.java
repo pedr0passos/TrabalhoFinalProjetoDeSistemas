@@ -13,17 +13,19 @@ import java.util.Optional;
 import java.util.UUID;
 
 import model.Usuario;
+import model.Administrador;
 
 /**
- * @author Catterina Vittorazzi Salvador
- * @author Pedro Henrique Passos Rocha
- * @author João Victor Mascarenhas 
+ * @author 
+ * Catterina Vittorazzi Salvador
+ * Pedro Henrique Passos Rocha
+ * João Victor Mascarenhas 
  */
 
 public class UsuarioDAOSqlite implements UsuarioDAO {
-    
+
     private Connection conexao;
-    
+
     public UsuarioDAOSqlite() {
         String url = "jdbc:sqlite:db/database.db";
         try {
@@ -32,43 +34,45 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
             throw new RuntimeException("Erro ao conectar ao banco de dados: " + ex.getMessage());
         }
     }
-    
+
     @Override
     public void inserir(Usuario usuario) {
-        String sql = "INSERT INTO usuarios (id, username, senha,  data_criacao, is_autorizado, tipo, administrador) VALUES (?, ?, ?, ?, ?, ?, ?);";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        String sqlUsuario = "INSERT INTO Usuario (id, user_name, senha, data_criacao, tipo, administrador, is_autorizado) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-            String idStr = usuario.getId().toString();
-            String dataCriacaoStr = usuario.getDataCriacao().toString();
+        try (PreparedStatement stmtUsuario = conexao.prepareStatement(sqlUsuario)) {
+            stmtUsuario.setString(1, usuario.getId().toString());
+            stmtUsuario.setString(2, usuario.getUserName());
+            stmtUsuario.setString(3, usuario.getSenha());
+            stmtUsuario.setString(4, usuario.getDataCriacao().toString()); // Alterado de setBoolean para setString
+            stmtUsuario.setString(5, usuario.getTipo());
+            stmtUsuario.setBoolean(6, usuario.isAdministrador());
+            stmtUsuario.setBoolean(7, usuario.getIsAutorizado()); // Incluindo o campo is_autorizado
 
-            stmt.setString(1, idStr); 
-            stmt.setString(2, usuario.getUserName());
-            stmt.setString(3, usuario.getSenha());
-            stmt.setString(4, dataCriacaoStr); 
-            stmt.setInt(5, usuario.getIsAutorizado() ? 1 : 0 );
-            stmt.setString(6, usuario.getTipo());
-            stmt.setInt(7, usuario.isAdministrador() ? 1 : 0);
+            stmtUsuario.executeUpdate();
 
-            stmt.executeUpdate();
+            if (usuario instanceof Administrador) {
+                String sqlAdmin = "INSERT INTO Administrador (id, id_usuario) VALUES (?, ?)";
+                try (PreparedStatement stmtAdmin = conexao.prepareStatement(sqlAdmin)) {
+                    stmtAdmin.setString(1, ((Administrador) usuario).getId().toString());
+                    stmtAdmin.setString(2, usuario.getId().toString());
+                    stmtAdmin.executeUpdate();
+                }
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao inserir usuário: " + e.getMessage());
         }
     }
 
-    
+
     @Override
     public Optional<Usuario> buscarPorId(String id) {
-        String sql = "SELECT * FROM usuarios WHERE id = ?";
+        String sql = "SELECT * FROM Usuario WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    Usuario usuario = new Usuario();
-                    usuario.setId(UUID.fromString(rs.getString("id"))); 
-                    usuario.setUsername(rs.getString("username"));
-                    usuario.setSenha(rs.getString("senha"));
-                    usuario.setDataCriacao(LocalDate.parse(rs.getString("data_criacao"))); 
+                    Usuario usuario = mapResultSetToUsuario(rs);
                     return Optional.of(usuario);
                 } else {
                     return Optional.empty();
@@ -79,21 +83,14 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
         }
     }
 
-    
     @Override
     public Optional<Usuario> buscarPorNome(String nome) {
-        String sql = "SELECT * FROM usuarios WHERE username = ?";
+        String sql = "SELECT * FROM Usuario WHERE user_name = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, nome);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    Usuario usuario = new Usuario();
-                    usuario.setId(UUID.fromString(rs.getString("id")));
-                    usuario.setUsername(rs.getString("username"));
-                    usuario.setSenha(rs.getString("senha"));
-                    usuario.setDataCriacao(LocalDate.parse(rs.getString("data_criacao"))); 
-                    usuario.setTipo(rs.getString("tipo"));
-                    usuario.setAdministrador(rs.getBoolean("administrador"));
+                    Usuario usuario = mapResultSetToUsuario(rs);
                     return Optional.of(usuario);
                 } else {
                     return Optional.empty();
@@ -103,20 +100,17 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
             throw new RuntimeException("Erro ao buscar usuário pelo nome: " + e.getMessage());
         }
     }
-    
+
+
     @Override
     public List<Usuario> listar() {
-        String sql = "SELECT * FROM usuarios";
+        String sql = "SELECT * FROM Usuario";
         List<Usuario> usuarios = new ArrayList<>();
         try (Statement stmt = conexao.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-            
+
             while (rs.next()) {
-                Usuario usuario = new Usuario();
-                    usuario.setId(UUID.fromString(rs.getString("id"))); 
-                    usuario.setUsername(rs.getString("username"));
-                    usuario.setSenha(rs.getString("senha"));
-                    usuario.setDataCriacao(LocalDate.parse(rs.getString("data_criacao"))); 
+                Usuario usuario = mapResultSetToUsuario(rs);
                 usuarios.add(usuario);
             }
         } catch (SQLException e) {
@@ -124,30 +118,75 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
         }
         return usuarios;
     }
-    
+
+
     @Override
     public void atualizar(Usuario usuario) {
-        String sql = "UPDATE usuarios SET username = ?, senha = ? WHERE id = ?";
+        String sql = "UPDATE Usuario SET user_name = ?, senha = ?, tipo = ?, administrador = ?, is_autorizado = ? WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, usuario.getUserName());
             stmt.setString(2, usuario.getSenha());
-            stmt.setString(3, usuario.getId().toString());
+            stmt.setString(3, usuario.getTipo());
+            stmt.setBoolean(4, usuario.isAdministrador());
+            stmt.setBoolean(5, usuario.getIsAutorizado()); // Incluindo o campo is_autorizado
+            stmt.setString(6, usuario.getId().toString());
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao atualizar usuário: " + e.getMessage());
         }
     }
-    
+
+
     @Override
     public void deletar(UUID id) {
-        String sql = "DELETE FROM usuarios WHERE id = ?";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            String idStr = id.toString();
-            stmt.setString(1, idStr);
-            stmt.executeUpdate();
+        String sqlUsuario = "DELETE FROM Usuario WHERE id = ?";
+        String sqlAdmin = "DELETE FROM Administrador WHERE id_usuario = ?";
+
+        try (PreparedStatement stmtAdmin = conexao.prepareStatement(sqlAdmin);
+             PreparedStatement stmtUsuario = conexao.prepareStatement(sqlUsuario)) {
+
+            stmtAdmin.setString(1, id.toString());
+            stmtAdmin.executeUpdate();
+
+            stmtUsuario.setString(1, id.toString());
+            stmtUsuario.executeUpdate();
+
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao deletar usuário: " + e.getMessage());
         }
+    }
+
+    @Override
+    public boolean possuiUsuario() {
+        String sql = "SELECT COUNT(*) AS total FROM Usuario";
+
+        try (Statement stmt = conexao.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                int total = rs.getInt("total");
+                return total > 0; // Retorna true se houver pelo menos um usuário
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao verificar existência de usuários: " + e.getMessage());
+        }
+
+        return false; // Retorna false se não houver nenhum usuário
+    }
+
+    
+    private Usuario mapResultSetToUsuario(ResultSet rs) throws SQLException {
+        Usuario usuario = new Usuario();
+        usuario.setId(UUID.fromString(rs.getString("id")));
+        usuario.setUsername(rs.getString("user_name"));
+        usuario.setSenha(rs.getString("senha"));
+        usuario.setDataCriacao(LocalDate.parse(rs.getString("data_criacao")));
+        usuario.setTipo(rs.getString("tipo"));
+        usuario.setAdministrador(rs.getBoolean("administrador"));
+        usuario.setIsAutorizado(rs.getBoolean("is_autorizado")); // Incluindo o campo is_autorizado
+
+        return usuario;
     }
 
 }
