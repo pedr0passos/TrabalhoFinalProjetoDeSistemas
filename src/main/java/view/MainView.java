@@ -24,7 +24,6 @@ public class MainView extends javax.swing.JFrame implements Observer {
     
 
     public MainView(LogService log) {
-        usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
         logService = log;
         configuraLookAndFeel();  
         initComponents();
@@ -232,6 +231,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update() {
+        usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
         menuConta.setEnabled(true);
         menuUsuarios.setEnabled(true);
         menuConfigurar.setEnabled(true);

@@ -87,6 +87,7 @@ public class LoginPresenter {
                 Usuario usuario = usuarioOptional.get();
                 if (usuario.getSenha().equals(senhaDigitada)) {
                     JOptionPane.showMessageDialog(view, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    UsuarioLogadoSingleton.getInstancia().setUsuarioLogado(usuario);
                     model = usuario;
                     mainView.getLblNomeUsuarioLogado().setText(model.getUserName());
                     mainView.getLblTipoUsuarioLogado().setText(model.getTipo());
