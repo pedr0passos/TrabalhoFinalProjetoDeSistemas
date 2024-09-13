@@ -6,6 +6,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 
 import model.Usuario;
+import singleton.UsuarioLogadoSingleton;
 import presenter.*;
 import service.*;
 import view.*;
@@ -18,13 +19,21 @@ import view.*;
 
 public class Main {
     
-    private static final Usuario usuario = new Usuario();
-    
     public static void main(String[] args) {
         
         var usuarioService = new UsuarioService();
-        var logService = new LogService(); // Cria a instância do LogService
-        var mainView = new MainView(usuario);
+        var logService = new LogService(); 
+        
+        var usuarioLogado = UsuarioLogadoSingleton.getInstancia();
+        
+        var usuario = usuarioLogado.getUsuarioLogado();
+        
+        if (usuario == null) {
+            usuario = new Usuario();
+            usuarioLogado.setUsuarioLogado(usuario);
+        }
+        
+        var mainView = new MainView();
         var panel = mainView.getMainPane();
         
         mainView.setVisible(true);
@@ -32,18 +41,14 @@ public class Main {
         var configView = new ConfiguracaoView();
         initView(configView, panel);
         
-        var configPresenter = new ConfiguracaoPresenter(usuarioService, configView, logService); // Passa o LogService para o ConfiguracaoPresenter
+        var configPresenter = new ConfiguracaoPresenter(usuarioService, configView, logService);
 
         mainView.addConfigurarLogActionListener(evt -> configView.setVisible(true));
         
         logService.configuraLog(configView.getcBoxLog().getSelectedItem().toString());
-        var loginPresenter = new LoginPresenter(usuario, panel, usuarioService, mainView, logService);
+        var loginPresenter = new LoginPresenter(panel, usuarioService, mainView, logService);
         
         loginPresenter.adicionarObserver(mainView);
-    }
-    
-    public static Usuario getUsuario() {
-        return usuario;
     }
     
     public static void initView(JInternalFrame internalFrame, JDesktopPane desktopPane) {

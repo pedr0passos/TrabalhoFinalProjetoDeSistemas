@@ -1,0 +1,10 @@
+{"logs": [
+{ "dataHora": "12/09/2024 20:18:39", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
+{ "dataHora": "12/09/2024 20:20:37", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
+{ "dataHora": "12/09/2024 20:54:45", "operacao": "Cadastro de usuário", "nome": "admin", "usuario": "Usuário" },
+{ "dataHora": "12/09/2024 22:06:45", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
+{ "dataHora": "12/09/2024 22:07:17", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
+{ "dataHora": "12/09/2024 22:29:03", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
+{ "dataHora": "12/09/2024 22:32:49", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
+{ "dataHora": "12/09/2024 22:42:35", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" }
+]}

@@ -6,17 +6,15 @@ import java.util.*;
 import javax.swing.*;
 import model.*;
 import observer.Observer;
-import service.LogService;
-import service.UsuarioService;
-import view.CadastroView;
-import view.ConfiguracaoView;
-import view.MainView;
+import service.*;
+import view.*;
 import log.*;
 
 /**
  *
  * @author pedro
  */
+
 public class CadastroPresenter {
 
     private final List<Observer> observers = new ArrayList<>();
@@ -125,7 +123,7 @@ public class CadastroPresenter {
     }
 
     private void voltarLogin() {
-        loginPresenter = new LoginPresenter(model, desktopPane, service, mainView, logService); // Passando o LogService para o LoginPresenter
+        loginPresenter = new LoginPresenter(desktopPane, service, mainView, logService); 
     }
 
     private void notificarObservadores() {
