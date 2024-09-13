@@ -22,30 +22,44 @@ public class CadastroPresenter {
     private CadastroView view;
     private final UsuarioService service;
     private final JDesktopPane desktopPane;
-    private final boolean possuiUsuario;
+    private final boolean possuiAdministrador;
     private final MainView mainView;
-    private final LogService logService; // Adicionando o LogService
+    private final LogService logService; 
     private LoginPresenter loginPresenter;
-
-    public CadastroPresenter(Usuario model, JDesktopPane desktopPane, UsuarioService service, MainView mainView, LogService logService) {
+    private AdministradorService adminService;
+    
+    public CadastroPresenter( 
+            Usuario model, 
+            JDesktopPane desktopPane, 
+            UsuarioService service, 
+            MainView mainView, 
+            LogService logService, 
+            boolean criadoPelaMainView,
+            AdministradorService adminService) {
+        
         this.model = model;
         this.service = service;
-        this.possuiUsuario = service.possuiUsuario();
+        this.possuiAdministrador = adminService.existeAdministrador();
         this.desktopPane = desktopPane;
         this.mainView = mainView;
-        this.logService = logService; // Inicializando o LogService
-
-        criarView();
+        this.logService = logService; 
+        this.adminService = adminService;
+        criarView(criadoPelaMainView);
         desktopPane.add(view);
     }
 
-    public final void criarView() {
+    public final void criarView(boolean criadoPelaMainView) {
         view = new CadastroView();
-        view.setVisible(true);
+        view.setVisible(false);
 
-        if (possuiUsuario) {
-            view.getBotaoSalvarUsuario().setText("Enviar Solicitação");
-        }
+        if (criadoPelaMainView) {
+            view.getBotaoSalvarUsuario().setText("Salvar");
+        } else {
+            if (possuiAdministrador) {
+                view.getBotaoSalvarUsuario().setText("Enviar Solicitação");
+            }
+        } 
+        
 
         view.getBotaoSalvarUsuario().addActionListener(new ActionListener() {
             @Override
@@ -53,12 +67,12 @@ public class CadastroPresenter {
                 Log log = logService.getLog(); // Obtendo a instância de Log
 
                 try {
+                    
                     String username = view.getTxtNomeUsuario().getText();
-
                     Optional<Usuario> usuarioExistente = service.buscarUsuarioPorNome(username);
 
                     if (usuarioExistente.isEmpty()) {
-                        // Cadastro de um novo usuário com isAutorizado = false
+
                         String senha = new String(view.getTxtSenha().getPassword());
                         String confirmarSenha = new String(view.getTxtConfirmarSenha().getPassword());
 
@@ -76,24 +90,41 @@ public class CadastroPresenter {
                             return;
                         }
 
-                        Usuario novoUsuario = new Usuario(username, senha, false, false);
+                        boolean administrador = true;
+                        if (adminService.existeAdministrador())
+                            administrador = false;
+                        
+                        Usuario novoUsuario = new Usuario(username, senha, administrador, administrador);
+                        
                         model = novoUsuario;
                         service.cadastrarUsuario(novoUsuario);
 
-                        UUID idSolicitacao = UUID.randomUUID();
-                        LocalDate dataSolicitacao = LocalDate.now();
-                        Solicitacao solicitacao = new Solicitacao(idSolicitacao, novoUsuario, dataSolicitacao, false);
-                        service.enviarSolicitacao(solicitacao);
+                        boolean enviouNotificacao = false;
+                        
+                        if (!criadoPelaMainView) {
+                            UUID idSolicitacao = UUID.randomUUID();
+                            LocalDate dataSolicitacao = LocalDate.now();
+                            Solicitacao solicitacao = new Solicitacao(idSolicitacao, novoUsuario, dataSolicitacao, false);
+                            service.enviarSolicitacao(solicitacao);
+                            JOptionPane.showMessageDialog(view, "Solicitação de cadastro enviada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                            enviouNotificacao = true;
+                        }
 
-                        JOptionPane.showMessageDialog(view, "Solicitação de cadastro enviada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                         if (log != null) {
                             log.gravarLog("Cadastro de usuário", username, model.getTipo(), true, null); // Registrar log
                         }
-
-                        JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        
+                        if (!enviouNotificacao)
+                            JOptionPane.showMessageDialog(view, "Usuário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        
+                        notificarObservadores();
                         limparDados();
-                        view.dispose();
-                        voltarLogin(); // Redireciona para a tela de login após o cadastro
+                        
+                        if (!criadoPelaMainView) {
+                            view.setVisible(false);
+                            voltarLogin(); 
+                        }
+                        
                     } else {
                         JOptionPane.showMessageDialog(view, "Já existe um usuário com esse nome.", "Erro", JOptionPane.ERROR_MESSAGE);
                     }
@@ -126,6 +157,10 @@ public class CadastroPresenter {
         loginPresenter = new LoginPresenter(desktopPane, service, mainView, logService); 
     }
 
+    public void setVisible() {
+        this.view.setVisible(true);
+    }
+    
     private void notificarObservadores() {
         for (Observer observer : observers) {
             observer.update();

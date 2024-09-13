@@ -24,16 +24,20 @@ public class AdministradorService {
         //insere uma notificação no banco de dados
     }
     
-    public void CriarUsuario(Usuario usuario) {
+    public void criarUsuario(Usuario usuario) {
         usuarioDAO.inserir(usuario);
     }
     
-    public void EditarUsuario(Usuario usuario) {
+    public void editarUsuario(Usuario usuario) {
         usuarioDAO.atualizar(usuario);
     }
 
-    public void ExcluirUsuario(Usuario usuario) {
+    public void excluirUsuario(Usuario usuario) {
         usuarioDAO.deletar(usuario.getId());
+    }
+    
+    public boolean existeAdministrador() {
+        return administradorDAO.existeAdministrador();
     }
 }
  

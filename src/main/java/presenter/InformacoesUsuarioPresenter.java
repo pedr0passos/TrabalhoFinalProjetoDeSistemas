@@ -18,10 +18,11 @@ public class InformacoesUsuarioPresenter {
     private final LogService logService;
 
     public InformacoesUsuarioPresenter(Usuario model, JDesktopPane panel, UsuarioService service, LogService logService) {
+        
         this.model = model;
         this.panel = panel;
         this.service = service;
-        this.logService = logService; // Inicializando o LogService
+        this.logService = logService;
 
         configurarView();
         panel.add(view);

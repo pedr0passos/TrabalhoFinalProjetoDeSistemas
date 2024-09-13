@@ -35,7 +35,7 @@ public class RegistrosPresenter implements Observer {
     
     public void criarView() {
         view = new RegistrosView(); 
-        view.setVisible(true);
+        view.setVisible(false);
         atualizarView();
         view.getBtnBuscar().addActionListener(new ActionListener() {
             @Override
@@ -57,7 +57,9 @@ public class RegistrosPresenter implements Observer {
                             tableModel.addRow(new Object[] {
                                 usuario.getId(),
                                 usuario.getUserName(),
-                                usuario.getDataCriacao()
+                                usuario.getDataCriacao(),
+                                usuario.getNumeroNotificacoesLidas(),
+                                usuario.getNumeroNotificacoesLidas()
                             });
                         }
                     }
@@ -89,11 +91,17 @@ public class RegistrosPresenter implements Observer {
             tableModel.addRow(new Object[] {
                 usuario.getId(),
                 usuario.getUserName(),
-                usuario.getDataCriacao()
+                usuario.getDataCriacao(),
+                usuario.getNumeroNotificacoesLidas(),
+                usuario.getNumeroNotificacoesLidas()
             });
         }
     }
 
+    public void setVisible() {
+        this.view.setVisible(true);
+    }
+    
     @Override
     public void update() {
         atualizarView();

@@ -11,8 +11,9 @@ import model.Solicitacao;
  *
  * @author Catterina Salvador
  */
+
 public interface AdministradorDAO {
     public void inserir(Administrador admin);
-
+    public boolean existeAdministrador();
     public void aprovarSolicitacao(Solicitacao solicitacao);
 }

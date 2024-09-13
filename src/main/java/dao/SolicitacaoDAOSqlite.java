@@ -55,7 +55,7 @@ public class SolicitacaoDAOSqlite implements SolicitacaoDAO {
     @Override
     public List<Solicitacao> listarTodas() {
         String sql = "SELECT Solicitacao.id AS solicitacao_id, Solicitacao.id_usuario, Solicitacao.data_solicitacao, Solicitacao.aprovada, " +
-                     "Usuario.user_name, Usuario.senha, Usuario.administrador, Usuario.is_autorizado " +
+                     "Usuario.username, Usuario.senha, Usuario.administrador, Usuario.is_autorizado " +
                      "FROM Solicitacao " +
                      "INNER JOIN Usuario ON Solicitacao.id_usuario = Usuario.id";
 
@@ -71,7 +71,7 @@ public class SolicitacaoDAOSqlite implements SolicitacaoDAO {
                 boolean aprovada = rs.getBoolean("aprovada");
 
                 // Cria um objeto Usuario usando os dados retornados do JOIN
-                String userName = rs.getString("user_name");
+                String userName = rs.getString("username");
                 String senha = rs.getString("senha");
                 boolean administrador = rs.getBoolean("administrador");
                 boolean isAutorizado = rs.getBoolean("is_autorizado");
@@ -91,10 +91,10 @@ public class SolicitacaoDAOSqlite implements SolicitacaoDAO {
     @Override
     public Solicitacao buscarPorNomeUsuario(String nomeUsuario) {
         String sql = "SELECT Solicitacao.id, Solicitacao.id_usuario, Solicitacao.data_solicitacao, Solicitacao.aprovada, " +
-                     "Usuario.user_name, Usuario.senha, Usuario.administrador, Usuario.is_autorizado, Usuario.data_criacao " +
+                     "Usuario.username, Usuario.senha, Usuario.administrador, Usuario.is_autorizado, Usuario.data_criacao " +
                      "FROM Solicitacao " +
                      "INNER JOIN Usuario ON Solicitacao.id_usuario = Usuario.id " +
-                     "WHERE Usuario.user_name = ?";
+                     "WHERE Usuario.username = ?";
 
         Solicitacao solicitacao = null; // Inicializa como null
 
@@ -110,7 +110,7 @@ public class SolicitacaoDAOSqlite implements SolicitacaoDAO {
                 boolean aprovada = rs.getBoolean("aprovada"); // Ajustado para usar alias 'S'
 
                 // Cria o objeto Usuario usando as informações retornadas
-                String userName = rs.getString("user_name"); // Ajustado para usar alias 'U'
+                String userName = rs.getString("username"); // Ajustado para usar alias 'U'
                 String senha = rs.getString("senha"); // Ajustado para usar alias 'U'
                 boolean administrador = rs.getBoolean("administrador"); // Ajustado para usar alias 'U'
                 Boolean isAutorizado = rs.getBoolean("is_autorizado"); // Ajustado para usar alias 'U'

@@ -22,7 +22,6 @@ public class Main {
     public static void main(String[] args) {
         
         var usuarioService = new UsuarioService();
-
         var logService = new LogService(); 
         
         var usuarioLogado = UsuarioLogadoSingleton.getInstancia();
@@ -34,7 +33,7 @@ public class Main {
             usuarioLogado.setUsuarioLogado(usuario);
         }
         
-        var mainView = new MainView(logService);
+        var mainView = new MainView(usuarioService, logService);
         var panel = mainView.getMainPane();
         
         mainView.setVisible(true);
@@ -48,8 +47,6 @@ public class Main {
         
         logService.configuraLog(configView.getcBoxLog().getSelectedItem().toString());
         var loginPresenter = new LoginPresenter(panel, usuarioService, mainView, logService);
-        
-        loginPresenter.adicionarObserver(mainView);
     }
     
     public static void initView(JInternalFrame internalFrame, JDesktopPane desktopPane) {
