@@ -7,9 +7,6 @@ import singleton.UsuarioLogadoSingleton;
 import observer.Observer;
 import presenter.*;
 import service.*;
-import service.LogService;
-import service.UsuarioService;
-
 
 /**
  * @author 
@@ -106,6 +103,11 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/sair.png"))); // NOI18N
         btnSair.setText("Sair");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
         menuConta.add(btnSair);
 
         menuBar.add(menuConta);
@@ -183,6 +185,14 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private void SolicitacoesDosUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitacoesDosUsuariosActionPerformed
         var solicitacoesPresenter = new SolicitacoesPresenter(new SolicitacaoService(), new UsuarioService(), mainPane);
     }//GEN-LAST:event_SolicitacoesDosUsuariosActionPerformed
+
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnSairActionPerformed
+    
+    private void mostrarTelaLogin() {
+        LoginPresenter loginPresenter = new LoginPresenter(mainPane, new UsuarioService(), this, new LogService());
+    }
     
     public void setUsuario (Usuario usuario) {
         usuarioLogado = usuario;

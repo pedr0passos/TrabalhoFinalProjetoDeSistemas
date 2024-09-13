@@ -15,7 +15,6 @@ import observer.Observer;
 import service.*;
 import view.*;
 
-
 /**
  * @author Catterina Vittorazzi Salvador
  * @author Pedro Henrique Passos Rocha
@@ -39,6 +38,8 @@ public class LoginPresenter {
     private final JDesktopPane desktopPane;
 
     public LoginPresenter(JDesktopPane panel, UsuarioService service, MainView mainView, LogService logService) {
+        
+        adicionarObserver(mainView);
         this.model = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
         this.desktopPane = panel;
         this.service = service;
@@ -49,6 +50,7 @@ public class LoginPresenter {
     }
 
     public final void criarView() {
+        
         mostrarView();
         
         view.getBotaoLogin().addActionListener(new ActionListener() {
@@ -155,7 +157,6 @@ public class LoginPresenter {
     public void logarUsuario() {
         mainView.getLblNomeUsuarioLogado().setText(model.getUserName());
         mainView.getLblTipoUsuarioLogado().setText(model.getTipo());
-        mainView.setUsuario(model);
         notificarObservadores();
     }
 
