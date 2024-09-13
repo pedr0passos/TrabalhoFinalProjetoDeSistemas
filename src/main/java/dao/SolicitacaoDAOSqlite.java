@@ -23,7 +23,7 @@ public class SolicitacaoDAOSqlite implements SolicitacaoDAO {
 
     @Override
     public void inserir(Solicitacao solicitacao) {
-        String sql = "INSERT INTO Solicitacao (id, idusuario, data_solicitacao, aprovada) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Solicitacao (id, id_usuario, data_solicitacao, aprovada) VALUES (?, ?, ?, ?)";
         
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, solicitacao.getId().toString());
