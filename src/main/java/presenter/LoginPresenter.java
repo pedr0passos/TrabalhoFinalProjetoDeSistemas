@@ -76,8 +76,6 @@ public class LoginPresenter {
                                 if (log != null) {
                                     log.gravarLog("Login de usuário", username, model.getTipo(), true, null); // Registrar log
                                 }
-
-                                mostrarAlterarSenhaView();
                             } else {
                                 JOptionPane.showMessageDialog(view, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
                                 if (log != null) {
@@ -155,10 +153,6 @@ public class LoginPresenter {
 
     private void mostrarCadastroView() {
         cadastroPresenter = new CadastroPresenter(model, desktopPane, service, mainView, logService); // Passando o LogService
-    }
-
-    private void mostrarAlterarSenhaView() {
-        alterarSenhaPresenter = new AlterarSenhaPresenter(model, desktopPane, service, logService);
     }
 
     public void adicionarObserver(Observer observer) {

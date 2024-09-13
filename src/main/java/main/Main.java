@@ -24,7 +24,7 @@ public class Main {
         
         var usuarioService = new UsuarioService();
         var logService = new LogService(); // Cria a instância do LogService
-        var mainView = new MainView(usuario);
+        var mainView = new MainView(usuario, logService);
         var panel = mainView.getMainPane();
         
         mainView.setVisible(true);
