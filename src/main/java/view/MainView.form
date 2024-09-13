@@ -73,10 +73,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SolicitacoesDosUsuariosActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="btnEnviarNotificacao">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Enviar Notifica&#xe7;&#xe3;o"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnviarNotificacaoActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

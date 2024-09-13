@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,9 +44,11 @@ public class NotificacaoDAOSqlite implements NotificacaoDAO{
                 while (rs.next()) {
                     Notificacao notificacao = new Notificacao();
                     notificacao.setId(UUID.fromString(rs.getString("id")));
+                    notificacao.setIdUsuarioDestinatario(UUID.fromString(rs.getString("id_usuario_destinatario")));
                     notificacao.setTitulo(rs.getString("titulo"));
-                    notificacao.setConteudo(rs.getString("conteudo"));
+                    notificacao.setConteudo(rs.getString("mensagem"));
                     notificacao.setLida(rs.getBoolean("lida"));
+                    notificacao.setDataCriacao(LocalDate.parse(rs.getString("data_criacao")));
                     notificacoes.add(notificacao);
                 }
                 return notificacoes;

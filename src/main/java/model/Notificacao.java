@@ -21,11 +21,13 @@ public class Notificacao {
     private static int notificacoesEnviadas;
     private static int notificacoesLidas;
 
-    public Notificacao(Long id, String titulo, String conteudo) {
+    public Notificacao(UUID idUsuarioDestinatario, String titulo, String conteudo) {
         this.id = UUID.randomUUID();
+        this.idUsuarioDestinatario = idUsuarioDestinatario;
         this.titulo = titulo;
         this.conteudo = conteudo;
         this.lida = false;
+        this.dataCriacao = LocalDate.now();
     }
 
     public Notificacao() {}
@@ -76,6 +78,14 @@ public class Notificacao {
 
     public LocalDate getDataCriacao() {
         return dataCriacao;
+    }
+
+    public void setIdUsuarioDestinatario(UUID idUsuarioDestinatario) {
+        this.idUsuarioDestinatario = idUsuarioDestinatario;
+    }
+
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
     
     public static void setNotificacoesEnviadas(int notificacoesEnviadas) {

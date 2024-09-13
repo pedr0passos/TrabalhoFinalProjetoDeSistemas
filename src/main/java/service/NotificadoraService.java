@@ -34,5 +34,9 @@ public class NotificadoraService {
         return notificacaoDAO.countNotificacoesLidasPorDestinatario(idUsuarioDestinatario);
     }
     
+    public void enviarNotificacao(Notificacao notificacao){
+        notificacaoDAO.enviarNotificacao(notificacao);
+    }
+    
 
 }

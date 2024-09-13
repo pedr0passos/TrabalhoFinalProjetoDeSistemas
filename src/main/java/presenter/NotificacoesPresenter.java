@@ -36,6 +36,7 @@ public class NotificacoesPresenter {
         this.service = service;
         
         gerarView();
+        atualizarView();
         view.getBtnBuscar().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
@@ -54,7 +55,7 @@ public class NotificacoesPresenter {
                     for (Notificacao notificacao : notificacoes) {
                         if (notificacao.getTitulo().toLowerCase().contains(nomeBusca.toLowerCase())) {
                             tableModel.addRow(new Object[] {
-                                notificacao.getDataCriacao(),
+                                notificacao.getDataCriacao().toString(),
                                 notificacao.getTitulo(),
                                 notificacao.getConteudo()
                             });
@@ -75,11 +76,12 @@ public class NotificacoesPresenter {
     
     public void atualizarView(){
         List<Notificacao> notificacoes = service.buscarPorIdDestinatario(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId());
+        
         DefaultTableModel tableModel = (DefaultTableModel) view.getTbNotificacoes().getModel();
         
         for (Notificacao notificacao : notificacoes){
             tableModel.addRow(new Object[] {
-                notificacao.getDataCriacao(),
+                notificacao.getDataCriacao().toString(),
                 notificacao.getTitulo(),
                 notificacao.getConteudo()
             });
