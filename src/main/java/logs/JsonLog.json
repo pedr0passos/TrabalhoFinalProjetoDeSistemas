@@ -1,0 +1,6 @@
+{"logs": [
+{ "dataHora": "12/09/2024 22:08:02", "operacao": "Cadastro de usuário", "nome": "admin", "usuario": "Usuário" },
+{ "dataHora": "12/09/2024 22:08:11", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
+{ "dataHora": "12/09/2024 22:12:49", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
+{ "dataHora": "12/09/2024 22:49:26", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" }
+]}

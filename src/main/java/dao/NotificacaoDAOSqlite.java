@@ -56,29 +56,6 @@ public class NotificacaoDAOSqlite implements NotificacaoDAO{
     }
 
     @Override
-    public List<Notificacao> buscarPorIdDestinatarioETitulo(UUID idUsuarioDestinatario, String titulo) {
-        String sql = "SELECT * FROM notificacao WHERE id_usuario_destinatario = ? AND titulo = ?";
-        List<Notificacao> notificacoes = new ArrayList<>();
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setString(1, idUsuarioDestinatario.toString());
-            stmt.setString(2, titulo);
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    Notificacao notificacao = new Notificacao();
-                    notificacao.setId(UUID.fromString(rs.getString("id")));
-                    notificacao.setTitulo(rs.getString("titulo"));
-                    notificacao.setConteudo(rs.getString("conteudo"));
-                    notificacao.setLida(rs.getBoolean("lida"));
-                    notificacoes.add(notificacao);
-                }
-                return notificacoes;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar notificações: " + e.getMessage());
-        }
-    }
-
-    @Override
     public void lerNotificacao(UUID idNotificacao) {
         String sql = "UPDATE usuarios SET lida = 1 WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
@@ -90,8 +67,8 @@ public class NotificacaoDAOSqlite implements NotificacaoDAO{
     }
 
     @Override
-    public Integer countNotificacoesNaoLidasPorDestinatario(UUID idUsuarioDestinatario) {
-        String sql = "SELECT COUNT(*) as contador FROM notificacao WHERE id_usuario_destinatario = ?";
+    public Integer countNotificacoesLidasPorDestinatario(UUID idUsuarioDestinatario) {
+        String sql = "SELECT COUNT(*) as contador FROM notificacao WHERE id_usuario_destinatario = ? AND lida = 1";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)){
             stmt.setString(1, idUsuarioDestinatario.toString());
             try(ResultSet rs = stmt.executeQuery()){
@@ -100,5 +77,26 @@ public class NotificacaoDAOSqlite implements NotificacaoDAO{
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao buscar notificações: " + e.getMessage());
         }
+    }
+
+    @Override
+    public void enviarNotificacao(Notificacao notificacao) {
+        String sql = "INSERT INTO Notificacao (id, id_usuario_destinatario, lida, titulo, mensagem, data_criacao) "
+                    + "VALUES (?, ?, ?, ?, ?, ?);";
+        
+        try(PreparedStatement stmt = conexao.prepareStatement(sql)){
+            stmt.setString(1, notificacao.getId().toString());
+            stmt.setString(2, notificacao.getIdUsuarioDestinatario().toString());
+            stmt.setInt(3, notificacao.isLida() ? 1 : 0);
+            stmt.setString(4, notificacao.getTitulo());
+            stmt.setString(5, notificacao.getConteudo());
+            stmt.setString(6, notificacao.getDataCriacao().toString());
+            
+            stmt.executeUpdate();
+            
+        } catch (SQLException e){
+            throw new RuntimeException("Erro ao enviar notificação: " + e.getMessage());
+        }
+        
     }
 }

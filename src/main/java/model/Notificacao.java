@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 /**
@@ -12,11 +13,11 @@ import java.util.UUID;
  */
 public class Notificacao {
     private UUID id;
-    private UUID id_usuario_remetente;
-    private UUID id_usuario_destinatario;
+    private UUID idUsuarioDestinatario;
     private String titulo;
     private String conteudo;
     private boolean lida;
+    private LocalDate dataCriacao;
     private static int notificacoesEnviadas;
     private static int notificacoesLidas;
 
@@ -69,15 +70,14 @@ public class Notificacao {
         this.lida = lida;
     }
 
-    public UUID getId_usuario_remetente() {
-        return id_usuario_remetente;
+    public UUID getIdUsuarioDestinatario() {
+        return idUsuarioDestinatario;
     }
 
-    public UUID getId_usuario_destinatario() {
-        return id_usuario_destinatario;
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
     }
     
-
     public static void setNotificacoesEnviadas(int notificacoesEnviadas) {
         Notificacao.notificacoesEnviadas = notificacoesEnviadas;
     }

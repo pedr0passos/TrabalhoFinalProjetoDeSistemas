@@ -19,10 +19,10 @@ public interface NotificacaoDAO {
     
     List<Notificacao> buscarPorIdDestinatario(UUID idUsuarioDestinatario);
     
-    List<Notificacao> buscarPorIdDestinatarioETitulo(UUID idUsuarioDestinatario, String titulo);
-    
     void lerNotificacao(UUID idNotificacao);
     
-    Integer countNotificacoesNaoLidasPorDestinatario(UUID idUsuarioDestinatario);
+    Integer countNotificacoesLidasPorDestinatario(UUID idUsuarioDestinatario);
+    
+    void enviarNotificacao(Notificacao notificacao);
     
 }

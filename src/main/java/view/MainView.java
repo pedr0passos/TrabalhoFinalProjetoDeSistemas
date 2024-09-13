@@ -168,7 +168,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_NovoUsuarioActionPerformed
 
     private void btnNotificacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificacoesActionPerformed
-        var notificacoesPresenter = new NotificacoesPresenter(usuarioLogado, mainPane, new UsuarioService());
+        var notificacoesPresenter = new NotificacoesPresenter(usuarioLogado, mainPane, new NotificadoraService());
     }//GEN-LAST:event_btnNotificacoesActionPerformed
 
     private void RegistrosDeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrosDeUsuarioActionPerformed
@@ -228,22 +228,11 @@ public class MainView extends javax.swing.JFrame implements Observer {
         Usuario usuario = Main.getUsuario();
         menuConta.setEnabled(true);
         btnNotificacoes.setEnabled(true);
-        
-        if(usuario.isAdministrador()){
-            menuUsuarios.setEnabled(true);
-            menuConfigurar.setEnabled(true);
-            toolBar.add(lblNomeUsuarioLogado);
-            toolBar.add(Box.createHorizontalStrut(15));
-            toolBar.add(lblTipoUsuarioLogado);
-        }
-        else {
-            menuUsuarios.setEnabled(false);
-            menuConfigurar.setEnabled(false);
-            toolBar.add(lblNomeUsuarioLogado);
-            toolBar.add(Box.createHorizontalStrut(15));
-            toolBar.add(lblTipoUsuarioLogado);
-        }
-        
+        menuUsuarios.setEnabled(true);
+        menuConfigurar.setEnabled(true);
+        toolBar.add(lblNomeUsuarioLogado);
+        toolBar.add(Box.createHorizontalStrut(15));
+        toolBar.add(lblTipoUsuarioLogado);
     }
    
     
