@@ -46,8 +46,10 @@ public class AlterarSenhaPresenter {
                 Log log = logService.getLog(); // Obtendo a instância de Log
 
                 try {
+                    String senhaAtual = new String(view.getTxtSenhaAtual().getPassword());
                     String senha = new String(view.getTxtSenha().getPassword());
                     String confirmarSenha = new String(view.getTxtConfirmarSenha().getPassword());
+                    var usuarioSalvo = service.buscarUsuarioPorNome(view.getTxtNomeUsuario().getText());
 
                     if (senha.isEmpty()) {
                         JOptionPane.showMessageDialog(view, "Senha é obrigatória.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -55,7 +57,7 @@ public class AlterarSenhaPresenter {
                             log.gravarLog("Erro: Alteração de senha", model.getUserName(), model.getTipo(), false, "Senha vazia"); // Registrar log
                         }
                         return;
-                    } else if (!senha.equals(confirmarSenha)) {
+                    } else if (!senha.equals(confirmarSenha) || !senhaAtual.equals(usuarioSalvo.get().getSenha())) {
                         JOptionPane.showMessageDialog(view, "Senhas diferentes na confirmação.", "Erro", JOptionPane.ERROR_MESSAGE);
                         if (log != null) {
                             log.gravarLog("Erro: Alteração de senha", model.getUserName(), model.getTipo(), false, "Senha de confirmação vazia"); // Registrar log

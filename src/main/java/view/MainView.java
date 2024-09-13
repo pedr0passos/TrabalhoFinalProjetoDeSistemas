@@ -3,6 +3,7 @@ package view;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import model.Usuario;
+import singleton.UsuarioLogadoSingleton;
 import observer.Observer;
 import presenter.*;
 import service.*;
@@ -25,9 +26,12 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private final JLabel lblNomeUsuarioLogado = new JLabel();   
     private final JLabel lblTipoUsuarioLogado = new JLabel();
     private Usuario usuarioLogado;
+    private LogService logService;
     
-    public MainView(Usuario usuario) {
-        usuarioLogado = usuario;
+
+    public MainView(LogService log) {
+        usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
+        logService = log;
         configuraLookAndFeel();  
         initComponents();
     }
@@ -47,6 +51,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
         NovoUsuario = new javax.swing.JMenuItem();
         RegistrosDeUsuario = new javax.swing.JMenuItem();
         SolicitacoesDosUsuarios = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuConfigurar = new javax.swing.JMenu();
         ConfigurarLog = new javax.swing.JMenuItem();
 
@@ -108,6 +113,11 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/sair.png"))); // NOI18N
         btnSair.setText("Sair");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
         menuConta.add(btnSair);
 
         menuBar.add(menuConta);
@@ -141,6 +151,9 @@ public class MainView extends javax.swing.JFrame implements Observer {
         });
         menuUsuarios.add(SolicitacoesDosUsuarios);
 
+        jMenuItem1.setText("Enviar Notificação");
+        menuUsuarios.add(jMenuItem1);
+
         menuBar.add(menuUsuarios);
 
         menuConfigurar.setText("Configurar");
@@ -164,7 +177,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void NovoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NovoUsuarioActionPerformed
-        var cadastroPresenter = new CadastroPresenter(usuarioLogado, mainPane, new UsuarioService(), this, new LogService());
+        var cadastroPresenter = new CadastroPresenter(usuarioLogado, mainPane, new UsuarioService(), this, logService);
     }//GEN-LAST:event_NovoUsuarioActionPerformed
 
     private void btnNotificacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificacoesActionPerformed
@@ -179,12 +192,16 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_ConfigurarLogActionPerformed
 
     private void btnInformacoesContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesContaActionPerformed
-        var informacoesUsuarioPresenter = new InformacoesUsuarioPresenter(usuarioLogado, mainPane, new UsuarioService(), new LogService());
+        var informacoesUsuarioPresenter = new InformacoesUsuarioPresenter(usuarioLogado, mainPane, new UsuarioService(), logService);
     }//GEN-LAST:event_btnInformacoesContaActionPerformed
 
     private void SolicitacoesDosUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitacoesDosUsuariosActionPerformed
         var solicitacoesPresenter = new SolicitacoesPresenter(new SolicitacaoService(), new UsuarioService(), mainPane);
     }//GEN-LAST:event_SolicitacoesDosUsuariosActionPerformed
+
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnSairActionPerformed
     
     public void setUsuario (Usuario usuario) {
         usuarioLogado = usuario;
@@ -225,7 +242,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update() {
-        Usuario usuario = Main.getUsuario();
+        Usuario usuario = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
         menuConta.setEnabled(true);
         btnNotificacoes.setEnabled(true);
         menuUsuarios.setEnabled(true);
@@ -244,6 +261,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private javax.swing.JMenuItem btnInformacoesConta;
     private javax.swing.JButton btnNotificacoes;
     private javax.swing.JMenuItem btnSair;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JDesktopPane mainPane;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuConfigurar;

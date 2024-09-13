@@ -27,12 +27,7 @@ public class UsuarioDAOSqlite implements UsuarioDAO {
     private Connection conexao;
 
     public UsuarioDAOSqlite() {
-        String url = "jdbc:sqlite:db/database.db";
-        try {
-            conexao = DriverManager.getConnection(url);
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao conectar ao banco de dados: " + ex.getMessage());
-        }
+        this.conexao = ConexaoSingleton.getInstance().getConnection();
     }
 
     @Override
