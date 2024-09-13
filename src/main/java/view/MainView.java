@@ -28,7 +28,6 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private Usuario usuarioLogado;
     private UsuarioService usuarioService;
     private LogService logService;
-
     private CadastroPresenter cadastroPresenter;
     private RegistrosPresenter registrosPresenter;
     
@@ -263,7 +262,6 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update() {
-        
         usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
         menuConta.setEnabled(true);
         
