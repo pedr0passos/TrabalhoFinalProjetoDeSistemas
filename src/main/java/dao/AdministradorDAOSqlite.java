@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import model.Administrador;
 import model.Solicitacao;
+import singleton.ConexaoSingleton;
 
 public class AdministradorDAOSqlite implements AdministradorDAO {
 

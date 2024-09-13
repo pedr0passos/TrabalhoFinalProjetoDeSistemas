@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import model.Notificacao;
 import service.NotificadoraService;
+import singleton.UsuarioLogadoSingleton;
+
 import javax.swing.JDesktopPane;
 import javax.swing.table.DefaultTableModel;
 import main.Main;
@@ -45,7 +47,7 @@ public class NotificacoesPresenter {
                         return;
                     }
 
-                    List<Notificacao> notificacoes = service.buscarPorIdDestinatario(Main.getUsuario().getId());
+                    List<Notificacao> notificacoes = service.buscarPorIdDestinatario(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId());
                     DefaultTableModel tableModel = (DefaultTableModel) view.getTbNotificacoes().getModel();
                     tableModel.setRowCount(0); 
 
@@ -72,7 +74,7 @@ public class NotificacoesPresenter {
     }
     
     public void atualizarView(){
-        List<Notificacao> notificacoes = service.buscarPorIdDestinatario(Main.getUsuario().getId());
+        List<Notificacao> notificacoes = service.buscarPorIdDestinatario(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId());
         DefaultTableModel tableModel = (DefaultTableModel) view.getTbNotificacoes().getModel();
         
         for (Notificacao notificacao : notificacoes){
