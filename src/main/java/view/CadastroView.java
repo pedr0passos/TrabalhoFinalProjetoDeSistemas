@@ -39,6 +39,7 @@ public class CadastroView extends javax.swing.JInternalFrame {
         txtSenha = new javax.swing.JPasswordField();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Cadastrar Usuario");
         setMaximumSize(new java.awt.Dimension(518, 260));
         setMinimumSize(new java.awt.Dimension(518, 260));

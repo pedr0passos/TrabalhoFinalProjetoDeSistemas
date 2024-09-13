@@ -4,26 +4,35 @@
  */
 package model;
 
+import java.time.LocalDate;
+import java.util.UUID;
+
 /**
  *
  * @author pedro
  */
 public class Notificacao {
-    private Long id;
+    private UUID id;
+    private UUID idUsuarioDestinatario;
     private String titulo;
     private String conteudo;
     private boolean lida;
+    private LocalDate dataCriacao;
     private static int notificacoesEnviadas;
     private static int notificacoesLidas;
 
-    public Notificacao(Long id, String titulo, String conteudo) {
-        this.id = id;
+    public Notificacao(UUID idUsuarioDestinatario, String titulo, String conteudo) {
+        this.id = UUID.randomUUID();
+        this.idUsuarioDestinatario = idUsuarioDestinatario;
         this.titulo = titulo;
         this.conteudo = conteudo;
         this.lida = false;
+        this.dataCriacao = LocalDate.now();
     }
 
-    public Long getId() {
+    public Notificacao() {}
+
+    public UUID getId() {
         return id;
     }
 
@@ -47,7 +56,7 @@ public class Notificacao {
         return notificacoesLidas;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -63,6 +72,22 @@ public class Notificacao {
         this.lida = lida;
     }
 
+    public UUID getIdUsuarioDestinatario() {
+        return idUsuarioDestinatario;
+    }
+
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setIdUsuarioDestinatario(UUID idUsuarioDestinatario) {
+        this.idUsuarioDestinatario = idUsuarioDestinatario;
+    }
+
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+    
     public static void setNotificacoesEnviadas(int notificacoesEnviadas) {
         Notificacao.notificacoesEnviadas = notificacoesEnviadas;
     }

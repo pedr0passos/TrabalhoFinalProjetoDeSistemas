@@ -7,10 +7,12 @@ package presenter;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Usuario;
 import observer.Observer;
 import service.UsuarioService;
+import singleton.UsuarioLogadoSingleton;
 import view.RegistrosView;
 
 /**
@@ -33,8 +35,8 @@ public class RegistrosPresenter implements Observer {
     }
 
     public void criarView() {
-        view = new RegistrosView();
-        view.setVisible(true);
+        view = new RegistrosView(); 
+        view.setVisible(false);
         atualizarView();
         view.getBtnBuscar().addActionListener(new ActionListener() {
             @Override
@@ -56,7 +58,9 @@ public class RegistrosPresenter implements Observer {
                             tableModel.addRow(new Object[]{
                                 usuario.getId(),
                                 usuario.getUserName(),
-                                usuario.getDataCriacao()
+                                usuario.getDataCriacao(),
+                                usuario.getNumeroNotificacoesLidas(),
+                                usuario.getNumeroNotificacoesLidas()
                             });
                         }
                     }
@@ -78,6 +82,25 @@ public class RegistrosPresenter implements Observer {
                 }
             }
         });
+        view.getBtnExcluir().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                
+                var tabela = view.getTbUsuarios();
+                if(tabela.getSelectedRow() != -1){
+                    DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+                    UUID idUsuario = (UUID) model.getValueAt(tabela.getSelectedRow(), 0);
+
+                    if(idUsuario.equals(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId())){
+                        JOptionPane.showMessageDialog(view, "Não é possível excluir a si mesmo", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else{
+                        service.deletarUsuario(idUsuario);
+                        atualizarView();
+                    }
+                }
+            }
+        });
     }
 
     public void atualizarView() {
@@ -86,16 +109,24 @@ public class RegistrosPresenter implements Observer {
         tableModel.setRowCount(0);
 
         for (Usuario usuario : usuarioList) {
+
             if (!usuario.isAdministrador() && usuario.getIsAutorizado()) {
-                tableModel.addRow(new Object[]{
-                    usuario.getId(),
-                    usuario.getUserName(),
-                    usuario.getDataCriacao()
-                });
+                tableModel.addRow(new Object[] {
+                usuario.getId(),
+                usuario.getUserName(),
+                usuario.getDataCriacao(),
+                usuario.getNumeroNotificacoesLidas(),
+                usuario.getNumeroNotificacoesLidas()
+            });
             }
+
         }
     }
 
+    public void setVisible() {
+        this.view.setVisible(true);
+    }
+    
     @Override
     public void update() {
         atualizarView();

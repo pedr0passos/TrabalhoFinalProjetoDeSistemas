@@ -42,8 +42,9 @@ public class Usuario {
         if (administrador) {
             this.tipo = "Administrador";
             this.isAutorizado = true;
-        } else 
+        } else {
             this.tipo = "Usuário";
+        }
     }
 
     public UUID getId() {
@@ -78,6 +79,16 @@ public class Usuario {
         return notificacoes;
     }
 
+    public int getNumeroNotificacoesLidas() {
+        return numeroNotificacoesLidas;
+    }
+
+    public int getNumeroNotificacoesTotal() {
+        return numeroNotificacoesTotal;
+    }
+
+    
+    
     public void setId(UUID id) {
         this.id = id;
     }
@@ -108,7 +119,7 @@ public class Usuario {
 
     public void setAdministrador(boolean administrador) {
         this.administrador = administrador;
-    }
+    }    
     
     private void lerNotificacao() {
         

@@ -4,9 +4,14 @@
  */
 package view;
 
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
 /**
  *
  * @author pedro
+ * @author CAtterina Vittorazzi Salvador
  */
 public class NotificacoesView extends javax.swing.JInternalFrame {
 
@@ -106,6 +111,18 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public JTable getTbNotificacoes() {
+        return tbNotificacoes;
+    }
+
+    public JButton getBtnBuscar() {
+        return btnBuscar;
+    }
+
+    public JTextField getTxtBuscarNotificacoes() {
+        return txtBuscarNotificacoes;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
