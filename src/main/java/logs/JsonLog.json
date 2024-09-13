@@ -1,15 +1,1 @@
-{"logs": [
-{ "dataHora": "13/09/2024 00:08:35", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
-{ "dataHora": "13/09/2024 00:19:35", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
-{ "dataHora": "13/09/2024 00:22:35", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
-{ "dataHora": "13/09/2024 00:23:33", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
-{ "dataHora": "13/09/2024 01:18:48", "operacao": "Cadastro de usuário", "nome": "qwert", "usuario": "Usuário" },
-{ "dataHora": "13/09/2024 01:19:05", "operacao": "Login de usuário", "nome": "qwert", "usuario": "Usuário" },
-{ "dataHora": "13/09/2024 01:19:36", "operacao": "Login de usuário", "nome": "qwert", "usuario": "Usuário" },
-{ "dataHora": "13/09/2024 01:20:06", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
-{ "dataHora": "13/09/2024 01:26:10", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
-{ "dataHora": "13/09/2024 01:27:39", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
-{ "dataHora": "13/09/2024 01:32:01", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
-{ "dataHora": "13/09/2024 01:34:03", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" },
-{ "dataHora": "13/09/2024 01:35:08", "operacao": "Login de usuário", "nome": "admin", "usuario": "Usuário" }
-]}
+
