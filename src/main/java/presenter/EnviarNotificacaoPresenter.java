@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import log.Log;
 import model.Notificacao;
@@ -63,6 +64,9 @@ public class EnviarNotificacaoPresenter {
                 Notificacao novaNotificacao = new Notificacao(usuario.getId(), titulo, mensagem);
                 service.enviarNotificacao(novaNotificacao);
                 
+                view.getTxtTitulo().setText("");
+                view.getTxtMensagemNotificacao().setText("");
+                JOptionPane.showMessageDialog(view, "Notificação Enviada com Sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }

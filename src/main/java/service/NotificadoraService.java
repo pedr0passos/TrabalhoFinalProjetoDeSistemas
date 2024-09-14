@@ -31,7 +31,19 @@ public class NotificadoraService {
     }
     
     public Integer countNotificacoesLidasPorDestinatario(UUID idUsuarioDestinatario){
-        return notificacaoDAO.countNotificacoesLidasPorDestinatario(idUsuarioDestinatario);
+        List<Notificacao> notificacoes = buscarPorIdDestinatario(idUsuarioDestinatario);
+        var count = 0;
+        for (Notificacao notificacao : notificacoes){
+            if(notificacao.isLida()){
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    public Integer countNotificacoesPorDestinatario(UUID idUsuarioDestinatario){
+        List<Notificacao> notificacoes = buscarPorIdDestinatario(idUsuarioDestinatario);
+        return notificacoes.size();
     }
     
     public void enviarNotificacao(Notificacao notificacao){

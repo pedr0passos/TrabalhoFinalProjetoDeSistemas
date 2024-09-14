@@ -70,19 +70,6 @@ public class NotificacaoDAOSqlite implements NotificacaoDAO{
     }
 
     @Override
-    public Integer countNotificacoesLidasPorDestinatario(UUID idUsuarioDestinatario) {
-        String sql = "SELECT COUNT(*) as contador FROM notificacao WHERE id_usuario_destinatario = ? AND lida = 1";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)){
-            stmt.setString(1, idUsuarioDestinatario.toString());
-            try(ResultSet rs = stmt.executeQuery()){
-                return rs.getInt("contador");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar notificações: " + e.getMessage());
-        }
-    }
-
-    @Override
     public void enviarNotificacao(Notificacao notificacao) {
         String sql = "INSERT INTO Notificacao (id, id_usuario_destinatario, lida, titulo, mensagem, data_criacao) "
                     + "VALUES (?, ?, ?, ?, ?, ?);";

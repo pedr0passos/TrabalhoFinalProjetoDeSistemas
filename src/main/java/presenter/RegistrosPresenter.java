@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Usuario;
 import observer.Observer;
+import service.NotificadoraService;
 import service.UsuarioService;
 import singleton.UsuarioLogadoSingleton;
 import view.RegistrosView;
@@ -26,10 +27,12 @@ public class RegistrosPresenter implements Observer {
     private final Usuario model;
     private RegistrosView view;
     private UsuarioService service;
+    private NotificadoraService notificadoraService;
 
     public RegistrosPresenter(Usuario model, JDesktopPane pane, UsuarioService service) {
         this.model = model;
         this.service = service;
+        this.notificadoraService = new NotificadoraService();
         
         criarView();
         pane.add(view);
@@ -55,6 +58,8 @@ public class RegistrosPresenter implements Observer {
                     tableModel.setRowCount(0); 
 
                     for (Usuario usuario : usuarioList) {
+                        usuario.setNumeroNotificacoesTotal(notificadoraService.countNotificacoesPorDestinatario(usuario.getId()));
+                        usuario.setNumeroNotificacoesLidas(notificadoraService.countNotificacoesLidasPorDestinatario(usuario.getId()));
                         if (usuario.getUserName().toLowerCase().contains(nomeBusca.toLowerCase())) {
                             tableModel.addRow(new Object[] {
                                 usuario.getId(),
@@ -109,12 +114,14 @@ public class RegistrosPresenter implements Observer {
         tableModel.setRowCount(0);
 
         for (Usuario usuario : usuarioList) {
+            usuario.setNumeroNotificacoesTotal(notificadoraService.countNotificacoesPorDestinatario(usuario.getId()));
+            usuario.setNumeroNotificacoesLidas(notificadoraService.countNotificacoesLidasPorDestinatario(usuario.getId()));
             tableModel.addRow(new Object[] {
                 usuario.getId(),
                 usuario.getUserName(),
                 usuario.getDataCriacao(),
                 usuario.getNumeroNotificacoesLidas(),
-                usuario.getNumeroNotificacoesLidas()
+                usuario.getNumeroNotificacoesTotal()
             });
         }
     }

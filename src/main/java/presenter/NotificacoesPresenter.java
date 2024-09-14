@@ -47,11 +47,10 @@ public class NotificacoesPresenter {
                         atualizarView(); 
                         return;
                     }
-
                     List<Notificacao> notificacoes = service.buscarPorIdDestinatario(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId());
                     DefaultTableModel tableModel = (DefaultTableModel) view.getTbNotificacoes().getModel();
                     tableModel.setRowCount(0); 
-
+                   
                     for (Notificacao notificacao : notificacoes) {
                         if (notificacao.getTitulo().toLowerCase().contains(nomeBusca.toLowerCase())) {
                             tableModel.addRow(new Object[] {
@@ -78,6 +77,7 @@ public class NotificacoesPresenter {
         List<Notificacao> notificacoes = service.buscarPorIdDestinatario(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId());
         
         DefaultTableModel tableModel = (DefaultTableModel) view.getTbNotificacoes().getModel();
+        tableModel.setRowCount(0);
         
         for (Notificacao notificacao : notificacoes){
             tableModel.addRow(new Object[] {
