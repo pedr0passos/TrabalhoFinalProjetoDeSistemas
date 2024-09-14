@@ -52,8 +52,6 @@ public class CadastroPresenter {
         this.adminService = adminService;
         this.validadorService = new ValidadorSenhaService();
         
-        logService.configuraLog();
-        
         criarView(criadoPelaMainView);
         desktopPane.add(view);
     }
@@ -74,7 +72,7 @@ public class CadastroPresenter {
         view.getBotaoSalvarUsuario().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                logService.configuraLog();
                 Log log = logService.getLog();
 
                 try {
@@ -187,9 +185,9 @@ public class CadastroPresenter {
     private void registrarLog(Log log, String mensagemErro) {
         if (log != null) {
             log.gravarLog(
-                    mensagemErro == null ? "Cadastro de usuário" : "Erro: Inclusão de usuário",
+                    mensagemErro == null ? "Cadastro de usuário" : "Inclusão de usuário",
                     view.getTxtNomeUsuario().getText(),
-                    model.getTipo(),
+                    model.getUserName(),
                     mensagemErro == null,
                     mensagemErro
             );
