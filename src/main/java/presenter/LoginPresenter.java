@@ -26,6 +26,7 @@ public class LoginPresenter {
     private final List<Observer> observers = new ArrayList<>();
     
     private final UsuarioService service;
+    private final NotificadoraService notificadoraService = new NotificadoraService();
     private final LogService logService = new LogService();
     
     private final MainView mainView;
@@ -108,6 +109,7 @@ public class LoginPresenter {
                     
                     mainView.getLblNomeUsuarioLogado().setText(model.getUserName());
                     mainView.getLblTipoUsuarioLogado().setText(model.getTipo());
+                    mainView.getBtnNotificacoes().setText(notificadoraService.countNotificacoesPorDestinatario(model.getId()).toString() + "  Notificações");
                     
                     view.dispose();
                     logarUsuario();
