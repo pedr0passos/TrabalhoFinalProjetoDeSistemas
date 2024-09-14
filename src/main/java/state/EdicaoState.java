@@ -17,8 +17,12 @@ public class EdicaoState extends UsuarioState {
     
     private Command editarCommand;
     
-    public EdicaoState(VisualizarUsuarioPresenter visualizarUsuarioPresenter, EditarPresenter editarPresenter) {
-        super(visualizarUsuarioPresenter, editarPresenter);
+    public EdicaoState(
+            VisualizarUsuarioPresenter visualizarUsuarioPresenter, 
+            EditarPresenter editarPresenter, 
+            ConfirmarExclusaoPresenter confirmarExclusaoPresenter) 
+    {
+        super(visualizarUsuarioPresenter, editarPresenter, confirmarExclusaoPresenter);
         inicializaCommand();
     }
     

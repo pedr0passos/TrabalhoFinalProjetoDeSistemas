@@ -112,12 +112,14 @@ public class RegistrosPresenter implements Observer {
         if (tabela.getSelectedRow() != -1) {
             var tableModel = (DefaultTableModel) tabela.getModel();
             UUID idUsuario = (UUID) tableModel.getValueAt(tabela.getSelectedRow(), 0);
+            var usuario = service.buscarUsuarioPorId(idUsuario.toString());
 
-            if (idUsuario.equals(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId())) {
-                JOptionPane.showMessageDialog(view, "Não é possível excluir a si mesmo", "Erro", JOptionPane.ERROR_MESSAGE);
-            } else {
-                mostraConfirmarExclusao(idUsuario);
-                atualizarView();
+            if (usuario.isPresent()) {
+                try {
+                    trocarParaEstadoExclusao(usuario.get());
+                } catch (Exception ex) {
+                    Logger.getLogger(RegistrosPresenter.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
@@ -164,15 +166,25 @@ public class RegistrosPresenter implements Observer {
     
     private void trocarParaEstadoEdicao(Usuario usuario) throws Exception {
         this.editarPresenter = new EditarPresenter(pane, usuario, service);
-        this.estadoAtual = new EdicaoState(visualizarUsuarioPresenter, editarPresenter); 
+        this.editarPresenter.adicionarObserver(this);
+        this.estadoAtual = new EdicaoState(visualizarUsuarioPresenter, editarPresenter, confirmarExclusaoPresenter); 
         
         var editarCommand = new EditarCommand((EdicaoState) estadoAtual);
         editarCommand.executar();
     }
     
+    private void trocarParaEstadoExclusao(Usuario usuario) throws Exception{
+        this.confirmarExclusaoPresenter = new ConfirmarExclusaoPresenter(pane, service, usuario.getId());
+        this.confirmarExclusaoPresenter.adicionarObserver(this);
+        this.estadoAtual = new ExcluirState(visualizarUsuarioPresenter, editarPresenter, confirmarExclusaoPresenter);
+        
+        var excluirCommand = new ExcluirCommand((ExcluirState) estadoAtual);
+        excluirCommand.executar();
+    }
+    
     private void trocarParaEstadoVisualizacao(Usuario usuario) throws Exception {
         this.visualizarUsuarioPresenter = new VisualizarUsuarioPresenter(pane, usuario, new NotificadoraService());
-        this.estadoAtual = new VisualizacaoState(visualizarUsuarioPresenter, editarPresenter); 
+        this.estadoAtual = new VisualizacaoState(visualizarUsuarioPresenter, editarPresenter, confirmarExclusaoPresenter); 
 
         var visualizarCommand = new VisualizarCommand((VisualizacaoState) estadoAtual);
         visualizarCommand.executar();
@@ -199,11 +211,6 @@ public class RegistrosPresenter implements Observer {
             }
 
         }
-    }
-    
-    private void mostraConfirmarExclusao(UUID idUsuario){
-        confirmarExclusaoPresenter =  new ConfirmarExclusaoPresenter(pane ,service, idUsuario);
-        confirmarExclusaoPresenter.adicionarObserver(this);
     }
 
     public void setVisible() {

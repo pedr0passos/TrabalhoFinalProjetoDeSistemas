@@ -36,11 +36,9 @@ public class ConfirmarExclusaoPresenter {
         this.view = new ConfirmarExclusaoView();
         desktopPane.add(view);
         view.setVisible(true);
-
-        configurarView();
     }
 
-    private void configurarView() {
+    public void criarView() {
         view.getBtnSim().addActionListener(new ActionListener() { // Botão "Sim"
             @Override
             public void actionPerformed(ActionEvent e) {

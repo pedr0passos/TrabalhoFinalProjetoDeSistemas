@@ -1,8 +1,0 @@
-{"logs": [
-{ "dataHora": "Erro: Erro: Login de usuário", "operacao": "admin", "nome": "14/09/2024 16:15:03", "usuario": "null" },
-{ "dataHora": "Login de usuário", "operacao": "admin", "nome": "14/09/2024 16:15:06", "usuario": "admin" },
-{ "dataHora": "Envio de notificacao", "operacao": "cat", "nome": "14/09/2024 16:15:28", "usuario": "admin" },
-{ "dataHora": "Envio de notificacao", "operacao": "cat", "nome": "14/09/2024 16:17:43", "usuario": "admin" },
-{ "dataHora": "Envio de notificacao", "operacao": "cat", "nome": "14/09/2024 16:20:58", "usuario": "admin" },
-{ "dataHora": "Envio de notificacao", "operacao": "cat", "nome": "14/09/2024 16:28:11", "usuario": "admin" }
-]}
