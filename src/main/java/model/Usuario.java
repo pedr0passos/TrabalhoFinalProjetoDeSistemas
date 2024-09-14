@@ -127,7 +127,4 @@ public class Usuario {
         this.numeroNotificacoesTotal = numeroNotificacoesTotal;
     }
 
-  private void lerNotificacao() {
-        
-    }
 }
