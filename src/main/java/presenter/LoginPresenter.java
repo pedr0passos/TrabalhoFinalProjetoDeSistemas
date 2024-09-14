@@ -26,6 +26,7 @@ public class LoginPresenter {
     private final List<Observer> observers = new ArrayList<>();
     
     private final UsuarioService service;
+    private final NotificadoraService notificadoraService = new NotificadoraService();
     private final LogService logService = new LogService();
     
     private final MainView mainView;

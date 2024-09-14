@@ -19,6 +19,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
     private final JLabel lblNomeUsuarioLogado = new JLabel();   
     private final JLabel lblTipoUsuarioLogado = new JLabel();
+    
     private Usuario usuarioLogado;
     private UsuarioService usuarioService;
     private LogService logService;
@@ -68,7 +69,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
         toolBar.setEnabled(false);
 
-        btnNotificacoes.setText("Notificações");
+        btnNotificacoes.setText("<total> Notificações");
         btnNotificacoes.setEnabled(false);
         btnNotificacoes.setFocusable(false);
         btnNotificacoes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -144,6 +145,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
         });
         menuUsuarios.add(RegistrosDeUsuario);
 
+        SolicitacoesDosUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/socorro.png"))); // NOI18N
         SolicitacoesDosUsuarios.setText("Solicitações dos Usuários");
         SolicitacoesDosUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,6 +154,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
         });
         menuUsuarios.add(SolicitacoesDosUsuarios);
 
+        btnEnviarNotificacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/enviado.png"))); // NOI18N
         btnEnviarNotificacao.setText("Enviar Notificação");
         btnEnviarNotificacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -250,6 +253,26 @@ public class MainView extends javax.swing.JFrame implements Observer {
     public JButton getBtnNotificacoes() {
         return btnNotificacoes;
     }
+
+    public JMenuItem getConfigurarLog() {
+        return ConfigurarLog;
+    }
+
+    public JMenu getMenuConfigurar() {
+        return menuConfigurar;
+    }
+
+    public JMenu getMenuConta() {
+        return menuConta;
+    }
+
+    public JMenu getMenuUsuarios() {
+        return menuUsuarios;
+    }
+    
+    public void setNotificacoesCount(int count) {
+        btnNotificacoes.setText(count + " Notificações");
+    }
     
     public static void configuraLookAndFeel() {
         try {
@@ -266,22 +289,35 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update() {
+        // Obtém o usuário logado atual
         usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
+
+        // Habilita ou desabilita os menus com base no tipo de usuário
         menuConta.setEnabled(true);
-        
-        if (usuarioLogado.isAdministrador()) {
-            menuUsuarios.setEnabled(true);
-            menuConfigurar.setEnabled(true);
+        menuUsuarios.setEnabled(usuarioLogado.isAdministrador());
+        menuConfigurar.setEnabled(usuarioLogado.isAdministrador());
+
+        // Atualiza as labels com as informações do usuário logado
+        lblNomeUsuarioLogado.setText("Usuário: " + usuarioLogado.getUserName());
+        lblTipoUsuarioLogado.setText("Perfil: " + usuarioLogado.getTipo());
+
+        // Habilita o botão de notificações apenas se o usuário não for administrador
+        btnNotificacoes.setEnabled(!usuarioLogado.isAdministrador());
+
+        // Adiciona os componentes à toolBar se ainda não estiverem presentes
+        if (toolBar.getComponentIndex(lblNomeUsuarioLogado) == -1) {
+            toolBar.add(lblNomeUsuarioLogado);
+        }
+        if (toolBar.getComponentIndex(lblTipoUsuarioLogado) == -1) {
+            toolBar.add(Box.createHorizontalStrut(15));
+            toolBar.add(lblTipoUsuarioLogado);
         }
 
-        if (!usuarioLogado.isAdministrador())
-            btnNotificacoes.setEnabled(true);
-        
-        toolBar.add(lblNomeUsuarioLogado);
-        toolBar.add(Box.createHorizontalStrut(15));
-        toolBar.add(lblTipoUsuarioLogado);
-        
+        // Atualiza a barra de ferramentas
+        toolBar.revalidate();
+        toolBar.repaint();
     }
+
    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
