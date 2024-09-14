@@ -1,0 +1,4 @@
+{"logs": [
+{ "operacao": "Login de usuário", "nome": "admin", "dataHora": "14/09/2024 18:55:54", "usuario": "admin" },
+{ "operacao": "Envio de notificacao", "nome": "joão pedro victor henrique", "dataHora": "14/09/2024 18:56:22", "usuario": "admin" }
+]}
