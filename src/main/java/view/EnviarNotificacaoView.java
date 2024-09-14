@@ -44,7 +44,6 @@ public class EnviarNotificacaoView extends javax.swing.JInternalFrame {
         setTitle("Enviar Notificação");
 
         jSelectUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jSelectUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lblUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblUsuario.setText("Título:");
@@ -59,6 +58,7 @@ public class EnviarNotificacaoView extends javax.swing.JInternalFrame {
         lblMensagemNotificacao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblMensagemNotificacao.setText("Mensagem da Notificação:");
 
+        txtTitulo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtTitulo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTituloActionPerformed(evt);

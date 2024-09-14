@@ -50,17 +50,17 @@ public class CadastroPresenter {
 
     public final void criarView(boolean criadoPelaMainView) {
         view = new CadastroView();
-        view.setVisible(false);
+        
 
         if (criadoPelaMainView) {
+            view.setVisible(false);
             view.getBotaoSalvarUsuario().setText("Salvar");
         } else {
             if (possuiAdministrador) {
                 view.getBotaoSalvarUsuario().setText("Enviar Solicitação");
+                view.setVisible(true);
             }
         } 
-
-        
 
         view.getBotaoSalvarUsuario().addActionListener(new ActionListener() {
             @Override
