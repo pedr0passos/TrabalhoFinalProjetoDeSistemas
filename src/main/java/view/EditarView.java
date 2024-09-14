@@ -33,7 +33,10 @@ public class EditarView extends javax.swing.JInternalFrame {
         txtNome = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
 
+        setClosable(true);
         setTitle("Editar Usuário");
+        setMaximumSize(new java.awt.Dimension(587, 192));
+        setMinimumSize(new java.awt.Dimension(587, 192));
 
         lblNome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNome.setText("Nome:");
@@ -54,7 +57,7 @@ public class EditarView extends javax.swing.JInternalFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(lblNome)
                         .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -63,7 +66,7 @@ public class EditarView extends javax.swing.JInternalFrame {
                 .addComponent(lblNome)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(btnSalvar)
                 .addGap(23, 23, 23))
         );
