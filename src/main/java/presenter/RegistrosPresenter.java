@@ -4,15 +4,21 @@
  */
 package presenter;
 
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.JDesktopPane;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.Usuario;
-import observer.Observer;
-import service.UsuarioService;
 import singleton.UsuarioLogadoSingleton;
+import service.UsuarioService;
+import observer.Observer;
+import java.awt.event.*;
+
+import javax.swing.*;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Usuario;
+
+
+
+import state.*;
 import view.RegistrosView;
 
 /**
@@ -26,22 +32,24 @@ public class RegistrosPresenter implements Observer {
     private final Usuario model;
     private RegistrosView view;
     private UsuarioService service;
-    private JDesktopPane panel;
+    private JDesktopPane pane;
+    private UsuarioState estadoAtual;
     private EditarPresenter editarPresenter;
 
     public RegistrosPresenter(Usuario model, JDesktopPane pane, UsuarioService service) {
         this.model = model;
         this.service = service;
-        panel = pane;
+        this.pane = pane;
         criarView();
         pane.add(view);
-        panel = pane;
     }
 
     public void criarView() {
+        
         view = new RegistrosView();
         view.setVisible(false);
         atualizarView();
+        
         view.getBtnBuscar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,12 +120,22 @@ public class RegistrosPresenter implements Observer {
                     DefaultTableModel model = (DefaultTableModel) tabela.getModel();
                     UUID idUsuario = (UUID) model.getValueAt(tabela.getSelectedRow(), 0);
                     var usuario = service.buscarUsuarioPorId(idUsuario.toString());
-                    mostrarEditarView(usuario.get());
+                    try {
+                        trocarParaEstadoEdicao(usuario.get());
+                    } catch (Exception ex) {
+                        Logger.getLogger(RegistrosPresenter.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });
     }
 
+    private void trocarParaEstadoEdicao(Usuario usuario) throws Exception {
+        this.editarPresenter = new EditarPresenter(pane, usuario, service);
+        this.estadoAtual = new EdicaoState(null, editarPresenter); 
+        estadoAtual.editar();
+    }
+    
     public void atualizarView() {
         List<Usuario> usuarioList = service.listarUsuarios();
         DefaultTableModel tableModel = (DefaultTableModel) view.getTbUsuarios().getModel();
@@ -139,7 +157,7 @@ public class RegistrosPresenter implements Observer {
     }
 
     private void mostrarEditarView(Usuario usuario) {
-        editarPresenter = new EditarPresenter(panel, usuario, service);
+        editarPresenter = new EditarPresenter(pane, usuario, service);
     }
 
     public void setVisible() {

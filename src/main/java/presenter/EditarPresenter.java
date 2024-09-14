@@ -41,7 +41,7 @@ public class EditarPresenter {
         criarView();
     }
 
-    private void criarView() {
+    public void criarView() {
         // Preencher o campo de nome com o nome do usuário atual
         view.getTxtNome().setText(model.getUserName());
 
@@ -53,7 +53,7 @@ public class EditarPresenter {
         });
     }
 
-    private void salvarEdicao() {
+    public void salvarEdicao() {
         String novoNome = view.getTxtNome().getText();
         Log log = logService.getLog();
 
