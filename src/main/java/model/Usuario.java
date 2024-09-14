@@ -86,6 +86,8 @@ public class Usuario {
     public int getNumeroNotificacoesTotal() {
         return numeroNotificacoesTotal;
     }
+    
+    
 
     
     
@@ -119,8 +121,16 @@ public class Usuario {
 
     public void setAdministrador(boolean administrador) {
         this.administrador = administrador;
-    }    
-    
+    }
+
+    public void setNumeroNotificacoesLidas(int numeroNotificacoesLidas) {
+        this.numeroNotificacoesLidas = numeroNotificacoesLidas;
+    }
+
+    public void setNumeroNotificacoesTotal(int numeroNotificacoesTotal) {
+        this.numeroNotificacoesTotal = numeroNotificacoesTotal;
+    }
+
     private void lerNotificacao() {
         
     }

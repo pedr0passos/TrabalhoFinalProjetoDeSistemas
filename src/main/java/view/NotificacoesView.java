@@ -36,6 +36,7 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
         txtBuscarNotificacoes = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         lblBuscar = new javax.swing.JLabel();
+        btnVisualizar = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Notificações");
@@ -48,14 +49,14 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Data", "Título", "Conteúdo"
+                "Id", "Data", "Título", "Conteúdo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -71,9 +72,11 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tbNotificacoes);
         if (tbNotificacoes.getColumnModel().getColumnCount() > 0) {
             tbNotificacoes.getColumnModel().getColumn(0).setResizable(false);
-            tbNotificacoes.getColumnModel().getColumn(0).setPreferredWidth(5);
-            tbNotificacoes.getColumnModel().getColumn(1).setPreferredWidth(30);
-            tbNotificacoes.getColumnModel().getColumn(2).setPreferredWidth(40);
+            tbNotificacoes.getColumnModel().getColumn(0).setPreferredWidth(15);
+            tbNotificacoes.getColumnModel().getColumn(1).setResizable(false);
+            tbNotificacoes.getColumnModel().getColumn(1).setPreferredWidth(5);
+            tbNotificacoes.getColumnModel().getColumn(2).setPreferredWidth(30);
+            tbNotificacoes.getColumnModel().getColumn(3).setPreferredWidth(40);
         }
 
         txtBuscarNotificacoes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -84,31 +87,42 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
         lblBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblBuscar.setText("Buscar Notificações por Título:");
 
+        btnVisualizar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnVisualizar.setText("Visualizar");
+        btnVisualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVisualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblBuscar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblBuscar)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(txtBuscarNotificacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnBuscar)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtBuscarNotificacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnBuscar)
+                            .addGap(12, 12, 12)
+                            .addComponent(btnVisualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(24, 24, 24)
                 .addComponent(lblBuscar)
-                .addGap(13, 13, 13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscarNotificacoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar))
+                    .addComponent(btnBuscar)
+                    .addComponent(btnVisualizar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(31, Short.MAX_VALUE))
@@ -116,6 +130,10 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVisualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisualizarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVisualizarActionPerformed
 
     public JTable getTbNotificacoes() {
         return tbNotificacoes;
@@ -128,10 +146,15 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
     public JTextField getTxtBuscarNotificacoes() {
         return txtBuscarNotificacoes;
     }
+
+    public JButton getBtnVisualizar() {
+        return btnVisualizar;
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnVisualizar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBuscar;
     private javax.swing.JTable tbNotificacoes;
