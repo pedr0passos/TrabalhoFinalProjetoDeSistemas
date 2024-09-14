@@ -34,14 +34,13 @@ public class EnviarNotificacaoPresenter {
     private UsuarioService usuarioService;
     private final JDesktopPane desktopPane;
     private final MainView mainView;
-    private final LogService logService;
+    private final LogService logService = new LogService();
 
     
-    public EnviarNotificacaoPresenter(JDesktopPane desktopPane, NotificadoraService service, UsuarioService usuarioService, MainView mainView, LogService logService){
+    public EnviarNotificacaoPresenter(JDesktopPane desktopPane, NotificadoraService service, UsuarioService usuarioService, MainView mainView){
         this.service = service;
         this.desktopPane = desktopPane;
         this.mainView = mainView;
-        this.logService = logService;
         this.usuarioService = usuarioService;
         
         criarView();
@@ -54,7 +53,7 @@ public class EnviarNotificacaoPresenter {
         view.getBtnEnviar().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                
+                logService.configuraLog();
                 Log log = logService.getLog();
                 
                 String username = view.getJSelectUsuario().getSelectedItem().toString();
@@ -63,17 +62,17 @@ public class EnviarNotificacaoPresenter {
                 
                 if(username.isEmpty()){
                     JOptionPane.showMessageDialog(view, "O nome de usuário é obrigatório!", "Erro", JOptionPane.ERROR_MESSAGE);
-                    //REGISTRAR LOG DE ERRO
+                    registrarLog(log, "O nome de usuário é obrigatório!");
                     return;
                 }
                 if(titulo.isEmpty()){
                     JOptionPane.showMessageDialog(view, "O título é obrigatório!", "Erro", JOptionPane.ERROR_MESSAGE);
-                    //REGISTRAR LOG DE ERRO
+                    registrarLog(log, "O título é obrigatório!");
                     return;
                 }
                 if(mensagem.isEmpty()){
                     JOptionPane.showMessageDialog(view, "A mensagem é obrigatória", "Erro", JOptionPane.ERROR_MESSAGE);
-                    //REGISTRAR LOG DE ERRO
+                    registrarLog(log, "A mensagem é obrigatória");
                     return;
                 }
 
@@ -86,7 +85,7 @@ public class EnviarNotificacaoPresenter {
                 view.getTxtMensagemNotificacao().setText("");
                 JOptionPane.showMessageDialog(view, "Notificação Enviada com Sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 notificarObservadores();
-                //Registrar log de SUCESSO
+                registrarLog(log, null);
             }
         });
     }
@@ -119,4 +118,15 @@ public class EnviarNotificacaoPresenter {
         }
     }
     
+    private void registrarLog(Log log, String mensagemErro) {
+        if (log != null) {
+            log.gravarLog(
+                    mensagemErro == null ? "Envio de notificacao" : "Envio de notificacao",
+                    view.getJSelectUsuario().getSelectedItem().toString(),
+                    UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getUserName(),
+                    mensagemErro == null,
+                    mensagemErro
+            );
+        }
+    }
 }

@@ -44,7 +44,6 @@ public class LoginPresenter {
         this.desktopPane = panel;
         this.service = service;
         this.mainView = mainView;
-        logService.configuraLog();
 
         criarView();
         
@@ -76,7 +75,7 @@ public class LoginPresenter {
             
             String nomeDigitado = view.getTxtNomeUsuario().getText();
             String senhaDigitada = getSenha(view.getTxtSenha());
-            
+            logService.configuraLog();
             Log log = logService.getLog();
 
             if (camposIsNull(nomeDigitado, senhaDigitada)) {
@@ -161,7 +160,7 @@ public class LoginPresenter {
             log.gravarLog(
                 mensagemErro == null ? "Login de usuário" : "Erro: Login de usuário",
                 view.getTxtNomeUsuario().getText(),
-                model.getTipo(),
+                model.getUserName(),
                 mensagemErro == null,
                 mensagemErro
             );

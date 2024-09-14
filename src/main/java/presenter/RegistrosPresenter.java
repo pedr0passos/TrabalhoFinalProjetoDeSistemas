@@ -30,10 +30,16 @@ import view.RegistrosView;
 public class RegistrosPresenter implements Observer {
 
     private RegistrosView view;
+<<<<<<< HEAD
     private final UsuarioService service;
     private final JDesktopPane pane;
     private NotificadoraService notificadoraService;
 
+=======
+    private final  UsuarioService service;
+    private final  JDesktopPane pane;
+    private final NotificadoraService notificadoraService;
+>>>>>>> f39000938a73f8641211188da77be88cd454a206
     
     private UsuarioState estadoAtual;
     private UsuarioState estadoInicial;
