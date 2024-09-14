@@ -114,9 +114,9 @@ public class AlterarSenhaPresenter {
     private void registrarLog(Log log, String mensagemErro) {
         if (log != null) {
             log.gravarLog(
-                    mensagemErro == null ? "Alterar senha de usuário" : "Erro: Alterar senha de usuário",
+                    mensagemErro == null ? "Alterar senha de usuário" : "Alterar senha de usuário",
                     view.getTxtNomeUsuario().getText(),
-                    model.getTipo(),
+                    model.getUserName(),
                     mensagemErro == null,
                     mensagemErro
             );

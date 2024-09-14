@@ -187,9 +187,9 @@ public class CadastroPresenter {
     private void registrarLog(Log log, String mensagemErro) {
         if (log != null) {
             log.gravarLog(
-                    mensagemErro == null ? "Cadastro de usuário" : "Erro: Inclusão de usuário",
+                    mensagemErro == null ? "Cadastro de usuário" : "Inclusão de usuário",
                     view.getTxtNomeUsuario().getText(),
-                    model.getTipo(),
+                    model.getUserName(),
                     mensagemErro == null,
                     mensagemErro
             );

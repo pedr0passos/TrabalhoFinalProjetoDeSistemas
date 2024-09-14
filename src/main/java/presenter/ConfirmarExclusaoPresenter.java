@@ -88,7 +88,7 @@ public class ConfirmarExclusaoPresenter {
             log.gravarLog(
                 mensagemErro == null ? "Exclusão de usuário" : "Erro: Exclusão de usuário",
                 usuario.getUserName(),
-                UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getTipo(),
+                UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getUserName(),
                 mensagemErro == null,
                 mensagemErro
             );

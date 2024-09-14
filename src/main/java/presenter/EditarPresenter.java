@@ -87,7 +87,7 @@ public class EditarPresenter {
             log.gravarLog(
                 mensagemErro == null ? "Edição de usuário" : "Erro: Edição de usuário",
                 model.getUserName(),
-                model.getTipo(),
+                UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getUserName(),
                 mensagemErro == null,
                 mensagemErro
             );

@@ -159,7 +159,7 @@ public class LoginPresenter {
             log.gravarLog(
                 mensagemErro == null ? "Login de usuário" : "Erro: Login de usuário",
                 view.getTxtNomeUsuario().getText(),
-                model.getTipo(),
+                model.getUserName(),
                 mensagemErro == null,
                 mensagemErro
             );
