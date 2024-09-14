@@ -12,6 +12,7 @@ import service.LogService;
 import service.UsuarioService;
 import view.AlterarSenhaView;
 import log.Log;
+import service.ValidadorSenhaService;
 
 /**
  *
@@ -22,13 +23,18 @@ public class AlterarSenhaPresenter {
     private final List<Observer> observers = new ArrayList<>();
     private final Usuario model;
     private AlterarSenhaView view;
+    
+    private final ValidadorSenhaService validadorService;
     private final UsuarioService service;
-    private final LogService logService; // Adicionando o LogService
+    private final LogService logService= new LogService();
 
-    public AlterarSenhaPresenter(Usuario model, JDesktopPane panel, UsuarioService service, LogService logService) {
+    public AlterarSenhaPresenter(Usuario model, JDesktopPane panel, UsuarioService service) {
         this.model = model;
         this.service = service;
-        this.logService = logService; // Inicializando o LogService
+        logService.configuraLog();
+        
+        validadorService = new ValidadorSenhaService();
+        
         criarView();
         panel.add(view);
     }
@@ -61,10 +67,15 @@ public class AlterarSenhaPresenter {
                         return;
                     }
 
-                    // Atualizar a senha do usuário logado diretamente no modelo
+                    try {
+                        validadorService.validarSenha(senha);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(view, ex.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                        registrarLog(log, "Erro de validação da senha");
+                        return;
+                    }
+                    
                     model.setSenha(senha);
-
-                    // Atualizar o usuário no serviço (presumindo que atualiza no banco de dados ou armazenamento)
                     service.atualizarUsuario(model);
 
                     notificarObservadores();

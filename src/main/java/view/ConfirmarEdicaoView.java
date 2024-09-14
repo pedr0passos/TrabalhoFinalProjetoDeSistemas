@@ -8,12 +8,12 @@ package view;
  *
  * @author pedro
  */
-public class ConfirmarExclusaoView extends javax.swing.JInternalFrame {
+public class ConfirmarEdicaoView extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form ConfirmarExclusaoView
+     * Creates new form ConfirmarEdicaoView
      */
-    public ConfirmarExclusaoView() {
+    public ConfirmarEdicaoView() {
         initComponents();
     }
 
@@ -26,26 +26,27 @@ public class ConfirmarExclusaoView extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        label = new javax.swing.JLabel();
-        btnSim = new javax.swing.JButton();
         btnNao = new javax.swing.JButton();
+        btnSim = new javax.swing.JButton();
+        label = new javax.swing.JLabel();
 
-        setTitle("Confirmar Exclusão");
+        setTitle("Confirmar Edição");
         setMaximumSize(new java.awt.Dimension(370, 214));
         setMinimumSize(new java.awt.Dimension(370, 214));
+        setPreferredSize(new java.awt.Dimension(370, 214));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        label.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        label.setText("Deseja realmente excluir esse Usuário?");
-        getContentPane().add(label, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 35, -1, -1));
-
-        btnSim.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnSim.setText("Sim");
-        getContentPane().add(btnSim, new org.netbeans.lib.awtextra.AbsoluteConstraints(87, 73, -1, -1));
 
         btnNao.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnNao.setText("Não");
-        getContentPane().add(btnNao, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 73, -1, -1));
+        getContentPane().add(btnNao, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, -1, -1));
+
+        btnSim.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnSim.setText("Sim");
+        getContentPane().add(btnSim, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, -1, -1));
+
+        label.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        label.setText("Deseja realmente editar esse Usuário?");
+        getContentPane().add(label, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 35, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

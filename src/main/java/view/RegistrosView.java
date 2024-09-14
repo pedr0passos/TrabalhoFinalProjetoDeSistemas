@@ -147,6 +147,10 @@ public class RegistrosView extends javax.swing.JInternalFrame {
         return btnExcluir;
     }
 
+    public JButton getBtnEditar() {
+        return btnEditar;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;

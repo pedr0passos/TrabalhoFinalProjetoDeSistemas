@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import service.LogService;
 import service.UsuarioService;
 import view.ConfiguracaoView;
+import dao.LogDAO;
+import dao.LogDAOSqlite;
 
 /**
  * @author 
@@ -16,12 +18,12 @@ public class ConfiguracaoPresenter {
     
     private final UsuarioService service;
     private final ConfiguracaoView view;
-    private final LogService logService; // Adicionar LogService aqui
+    private final LogService logService = new LogService(); // Adicionar LogService aqui
     
-    public ConfiguracaoPresenter(UsuarioService service, ConfiguracaoView view, LogService logService) {
+    public ConfiguracaoPresenter(UsuarioService service, ConfiguracaoView view) {
         this.service = service;
         this.view = view;
-        this.logService = logService; // Inicializar o LogService
+        logService.configuraLog();
         
         this.view.getBtnSalvar().addActionListener(new ActionListener() {
             @Override
@@ -32,8 +34,11 @@ public class ConfiguracaoPresenter {
     }
     
     public void alterarLog() {
-        String logSelecionado = (String) view.getcBoxLog().getSelectedItem();
-        logService.configuraLog(logSelecionado.toString()); // Configurar o log no LogService
+        String logSelecionado = view.getcBoxLog().getSelectedItem().toString();
+        LogDAO logDAO = new LogDAOSqlite();
+        System.out.println(logSelecionado);
+        logDAO.updateLog(1, logSelecionado);
+        logService.configuraLog(); // Configurar o log no LogService
         view.setVisible(false);
     }
     

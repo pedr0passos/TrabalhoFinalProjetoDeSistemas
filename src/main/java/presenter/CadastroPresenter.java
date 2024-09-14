@@ -1,5 +1,6 @@
 package presenter;
 
+import com.pss.senha.validacao.ValidadorSenha;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -9,34 +10,37 @@ import observer.Observer;
 import service.*;
 import view.*;
 import log.*;
-import singleton.UsuarioLogadoSingleton;
 
 /**
- *
- * @author pedro
+ * @author Catterina Vittorazzi Salvador
+ * @author Pedro Henrique Passos Rocha 
+ * @author João Victor Mascarenhas 
  */
+
 public class CadastroPresenter {
 
     private final List<Observer> observers = new ArrayList<>();
     
+    
     private Usuario model;
     private CadastroView view;
-    
-    private final UsuarioService service;
-    private final JDesktopPane desktopPane;
-    private final boolean possuiAdministrador;
     private final MainView mainView;
-    private final LogService logService; 
+    private final JDesktopPane desktopPane;
+    
+    private final boolean possuiAdministrador;
+
+    private final UsuarioService service;
+    private final ValidadorSenhaService validadorService;
+    private final LogService logService = new LogService();
+    private final AdministradorService adminService;
     
     private LoginPresenter loginPresenter;
-    private AdministradorService adminService;
     
     public CadastroPresenter( 
             Usuario model, 
             JDesktopPane desktopPane, 
             UsuarioService service, 
             MainView mainView, 
-            LogService logService, 
             boolean criadoPelaMainView,
             AdministradorService adminService) {
         
@@ -45,8 +49,11 @@ public class CadastroPresenter {
         this.possuiAdministrador = adminService.existeAdministrador();
         this.desktopPane = desktopPane;
         this.mainView = mainView;
-        this.logService = logService; 
         this.adminService = adminService;
+        this.validadorService = new ValidadorSenhaService();
+        
+        logService.configuraLog();
+        
         criarView(criadoPelaMainView);
         desktopPane.add(view);
     }
@@ -67,7 +74,8 @@ public class CadastroPresenter {
         view.getBotaoSalvarUsuario().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Log log = logService.getLog(); // Obtendo a instância de Log
+                
+                Log log = logService.getLog();
 
                 try {
                     
@@ -78,7 +86,7 @@ public class CadastroPresenter {
 
                         String senha = new String(view.getTxtSenha().getPassword());
                         String confirmarSenha = new String(view.getTxtConfirmarSenha().getPassword());
-
+                        
                         if (username.isEmpty() || senha.isEmpty()) {
                             JOptionPane.showMessageDialog(view, "Nome de usuário e senha são obrigatórios.", "Erro", JOptionPane.ERROR_MESSAGE);
                             registrarLog(log, "Campos Invalidos");
@@ -89,6 +97,14 @@ public class CadastroPresenter {
                             return;
                         }
 
+                        try {
+                            validadorService.validarSenha(senha);
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(view, ex.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                            registrarLog(log, "Erro de validação da senha");
+                            return;
+                        }
+                        
                         boolean permissao = false;
                         boolean administrador = true;
                         
@@ -155,7 +171,7 @@ public class CadastroPresenter {
     }
 
     private void voltarLogin() {
-        loginPresenter = new LoginPresenter(desktopPane, service, mainView, logService);
+        loginPresenter = new LoginPresenter(desktopPane, service, mainView);
     }
 
     public void setVisible() {
