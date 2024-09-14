@@ -3,11 +3,14 @@ package presenter;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import log.Log;
 import model.Usuario;
+import observer.Observer;
 import service.LogService;
 import service.UsuarioService;
 import singleton.UsuarioLogadoSingleton;
@@ -18,6 +21,7 @@ import view.ConfirmarExclusaoView;
  * @author João
  */
 public class ConfirmarExclusaoPresenter {
+     private final List<Observer> observers = new ArrayList<>();
 
     private final ConfirmarExclusaoView view;
     private final UsuarioService usuarioService;
@@ -43,6 +47,7 @@ public class ConfirmarExclusaoPresenter {
             @Override
             public void actionPerformed(ActionEvent e) {
                 confirmarExclusao();
+                notificarObservadores();
             }
         });
 
@@ -87,6 +92,19 @@ public class ConfirmarExclusaoPresenter {
                 mensagemErro == null,
                 mensagemErro
             );
+        }
+    }
+    public void adicionarObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void removerObserver(Observer observer) {
+        observers.remove(observer);
+    }
+    
+    private void notificarObservadores() {
+        for (Observer observer : observers) {
+            observer.update();
         }
     }
 }
