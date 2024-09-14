@@ -4,6 +4,8 @@
  */
 package view;
 
+import javax.swing.JButton;
+
 /**
  *
  * @author pedro
@@ -27,8 +29,8 @@ public class ConfirmarExclusaoView extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnSim = new javax.swing.JButton();
+        btnNao = new javax.swing.JButton();
 
         setTitle("Confirmação de Exclusão");
         setMaximumSize(new java.awt.Dimension(370, 214));
@@ -37,11 +39,11 @@ public class ConfirmarExclusaoView extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Deseja realmente excluir esse Usuário?");
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton1.setText("Sim");
+        btnSim.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnSim.setText("Sim");
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton2.setText("Não");
+        btnNao.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnNao.setText("Não");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -53,9 +55,9 @@ public class ConfirmarExclusaoView extends javax.swing.JInternalFrame {
                 .addContainerGap(68, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(103, 103, 103)
-                .addComponent(jButton1)
+                .addComponent(btnSim)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btnNao)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -65,18 +67,25 @@ public class ConfirmarExclusaoView extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnSim)
+                    .addComponent(btnNao))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public JButton getBtnNao() {
+        return btnNao;
+    }
+
+    public JButton getBtnSim() {
+        return btnSim;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnNao;
+    private javax.swing.JButton btnSim;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
