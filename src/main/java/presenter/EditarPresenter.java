@@ -9,7 +9,6 @@ import model.Usuario;
 import observer.Observer;
 import service.UsuarioService;
 import view.EditarView;
-import singleton.UsuarioLogadoSingleton;
 import java.util.ArrayList;
 import java.util.List;
 import service.LogService;

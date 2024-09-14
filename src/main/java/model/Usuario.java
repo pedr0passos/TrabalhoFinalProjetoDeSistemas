@@ -86,8 +86,6 @@ public class Usuario {
     public int getNumeroNotificacoesTotal() {
         return numeroNotificacoesTotal;
     }
-
-    
     
     public void setId(UUID id) {
         this.id = id;
@@ -120,6 +118,16 @@ public class Usuario {
     public void setAdministrador(boolean administrador) {
         this.administrador = administrador;
     }    
+
+    public void setNumeroNotificacoesLidas(int numeroNotificacoesLidas) {
+        this.numeroNotificacoesLidas = numeroNotificacoesLidas;
+    }
+
+    public void setNumeroNotificacoesTotal(int numeroNotificacoesTotal) {
+        this.numeroNotificacoesTotal = numeroNotificacoesTotal;
+    }
+    
+    
     
     private void lerNotificacao() {
         

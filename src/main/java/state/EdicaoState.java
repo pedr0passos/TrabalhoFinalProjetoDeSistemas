@@ -17,13 +17,13 @@ public class EdicaoState extends UsuarioState {
     
     private Command editarCommand;
     
-    public EdicaoState(CadastroPresenter cadastroPresenter, EditarPresenter editarPresenter) {
-        super(cadastroPresenter, editarPresenter);
+    public EdicaoState(VisualizarUsuarioPresenter visualizarUsuarioPresenter, EditarPresenter editarPresenter) {
+        super(visualizarUsuarioPresenter, editarPresenter);
         inicializaCommand();
     }
     
     @Override
-    public void inserir() throws Exception {
+    public void visualizar() throws Exception {
         throw new UnsupportedOperationException("Não é possível inserir no estado de edição.");
     }
 
@@ -37,9 +37,8 @@ public class EdicaoState extends UsuarioState {
         throw new UnsupportedOperationException("Não é possível deletar no estado de edição.");
     }
 
-    // Método para inicializar a tela de edição
     public void inicializaTela() {
-        editarPresenter.criarView(); // Inicializa a view para edição
+        editarPresenter.criarView(); 
     }
     
     private void inicializaCommand() {

@@ -27,6 +27,7 @@ public class RegistrosView extends javax.swing.JInternalFrame {
         btnLimpar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
+        btnVisualizar = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -79,6 +80,9 @@ public class RegistrosView extends javax.swing.JInternalFrame {
         btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEditar.setText("Editar");
 
+        btnVisualizar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnVisualizar.setText("Visualizar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -95,6 +99,8 @@ public class RegistrosView extends javax.swing.JInternalFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(btnLimpar))
                         .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnVisualizar)
+                            .addGap(18, 18, 18)
                             .addComponent(btnEditar)
                             .addGap(18, 18, 18)
                             .addComponent(btnExcluir))
@@ -116,7 +122,8 @@ public class RegistrosView extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditar)
-                    .addComponent(btnExcluir))
+                    .addComponent(btnExcluir)
+                    .addComponent(btnVisualizar))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -151,11 +158,18 @@ public class RegistrosView extends javax.swing.JInternalFrame {
         return btnEditar;
     }
 
+    public JButton getBtnVisualizar() {
+        return btnVisualizar;
+    }
+
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnLimpar;
+    private javax.swing.JButton btnVisualizar;
     private javax.swing.JLabel lblBuscarUsuario;
     private javax.swing.JScrollPane scrlUsuarios;
     private javax.swing.JTable tbUsuarios;

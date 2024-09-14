@@ -11,18 +11,18 @@ import singleton.*;
 
 public abstract class UsuarioState {
     
-    protected final CadastroPresenter cadastroPresenter;
+    protected final VisualizarUsuarioPresenter visualizarUsuarioPresenter;
     protected final EditarPresenter editarPresenter;
     protected Usuario usuarioLogado; 
     
-    public UsuarioState(CadastroPresenter cadastroPresenter, EditarPresenter editarPresenter) {
-        this.cadastroPresenter = cadastroPresenter;
+    public UsuarioState(VisualizarUsuarioPresenter visualizarUsuarioPresenter, EditarPresenter editarPresenter) {
+        this.visualizarUsuarioPresenter = visualizarUsuarioPresenter;
         this.editarPresenter = editarPresenter;
         
         this.usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
     }
     
-    public void inserir() throws Exception {
+    public void visualizar() throws Exception {
         throw new RuntimeException("Não é possível inserir.");
     }
     

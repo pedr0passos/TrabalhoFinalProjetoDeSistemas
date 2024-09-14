@@ -4,20 +4,18 @@
  */
 package presenter;
 
-import command.EditarCommand;
+import command.*;
 import javax.swing.table.DefaultTableModel;
+
 import singleton.UsuarioLogadoSingleton;
-import service.UsuarioService;
+import service.*;
 import observer.Observer;
-import java.awt.event.*;
 
 import javax.swing.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Usuario;
-
-
 
 import state.*;
 import view.RegistrosView;
@@ -30,55 +28,37 @@ import view.RegistrosView;
 
 public class RegistrosPresenter implements Observer {
 
-    private final Usuario model;
     private RegistrosView view;
-    private UsuarioService service;
-    private JDesktopPane pane;
+    private final UsuarioService service;
+    private final JDesktopPane pane;
     
     private UsuarioState estadoAtual;
+    private UsuarioState estadoInicial;
+    
     private EditarPresenter editarPresenter;
+    private VisualizarUsuarioPresenter visualizarUsuarioPresenter;
 
     public RegistrosPresenter(Usuario model, JDesktopPane pane, UsuarioService service) {
-        this.model = model;
         this.service = service;
         this.pane = pane;
+        this.view = view = new RegistrosView();
         criarView();
+        setupListeners();
+        atualizarView();
     }
 
-    public void criarView() {
-        
-        view = new RegistrosView();
+    private void setupListeners() {
+        view.getBtnBuscar().addActionListener(e -> buscarUsuarios());
+        view.getBtnLimpar().addActionListener(e -> limparBusca());
+        view.getBtnExcluir().addActionListener(e -> excluirUsuario());
+        view.getBtnEditar().addActionListener(e -> editarUsuario());
+        view.getBtnVisualizar().addActionListener(e -> visualizarUsuario());  
+    }
+    
+    public final void criarView() {
         view.setVisible(false);
         pane.add(view);
         atualizarView();
-        
-        view.getBtnBuscar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buscarUsuarios();
-            }
-        });
-
-        view.getBtnLimpar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                limparBusca();
-            }
-        });
-
-        view.getBtnExcluir().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                excluirUsuario();
-            }
-        });
-
-        view.getBtnEditar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editarUsuario();
-            }
-        });
     }
 
     private void buscarUsuarios() {
@@ -124,8 +104,8 @@ public class RegistrosPresenter implements Observer {
     private void excluirUsuario() {
         var tabela = view.getTbUsuarios();
         if (tabela.getSelectedRow() != -1) {
-            DefaultTableModel model = (DefaultTableModel) tabela.getModel();
-            UUID idUsuario = (UUID) model.getValueAt(tabela.getSelectedRow(), 0);
+            var tableModel = (DefaultTableModel) tabela.getModel();
+            UUID idUsuario = (UUID) tableModel.getValueAt(tabela.getSelectedRow(), 0);
 
             if (idUsuario.equals(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId())) {
                 JOptionPane.showMessageDialog(view, "Não é possível excluir a si mesmo", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -152,15 +132,48 @@ public class RegistrosPresenter implements Observer {
         }
     }
 
+    private void visualizarUsuario() {
+        var tabela = view.getTbUsuarios();
+        if (tabela.getSelectedRow() != -1) { // Verifica se uma linha está selecionada
+
+            DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+            UUID idUsuario = (UUID) model.getValueAt(tabela.getSelectedRow(), 0); // Pega o ID do usuário selecionado
+
+            var usuario = service.buscarUsuarioPorId(idUsuario.toString());
+
+            if (usuario.isPresent()) {
+                try {
+                    trocarParaEstadoVisualizacao(usuario.get());
+                } catch (Exception ex) {
+                    Logger.getLogger(RegistrosPresenter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(view, "Usuário não encontrado", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(view, "Selecione um usuário para visualizar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    
     private void trocarParaEstadoEdicao(Usuario usuario) throws Exception {
         this.editarPresenter = new EditarPresenter(pane, usuario, service);
-        this.estadoAtual = new EdicaoState(null, editarPresenter); 
+        this.estadoAtual = new EdicaoState(visualizarUsuarioPresenter, editarPresenter); 
         
         var editarCommand = new EditarCommand((EdicaoState) estadoAtual);
         editarCommand.executar();
     }
     
-    public void atualizarView() {
+    private void trocarParaEstadoVisualizacao(Usuario usuario) throws Exception {
+        this.visualizarUsuarioPresenter = new VisualizarUsuarioPresenter(pane, usuario, new NotificadoraService());
+        this.estadoAtual = new VisualizacaoState(visualizarUsuarioPresenter, editarPresenter); 
+
+        var visualizarCommand = new VisualizarCommand((VisualizacaoState) estadoAtual);
+        visualizarCommand.executar();
+    }
+
+    
+    public final void atualizarView() {
         List<Usuario> usuarioList = service.listarUsuarios();
         DefaultTableModel tableModel = (DefaultTableModel) view.getTbUsuarios().getModel();
         tableModel.setRowCount(0);
