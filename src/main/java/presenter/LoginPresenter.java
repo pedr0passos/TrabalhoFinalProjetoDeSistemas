@@ -86,6 +86,11 @@ public class LoginPresenter {
 
             Optional<Usuario> usuarioOptional = service.buscarUsuarioPorNome(nomeDigitado);
             
+            if (!usuarioOptional.isPresent()) {
+                exibirMensagemErro("Usuário não cadastrado!");
+                return;
+            }
+            
             if (!usuarioOptional.get().getIsAutorizado()) {
                 exibirMensagemErro("Você não possui autorização!");
                 return;
@@ -98,7 +103,7 @@ public class LoginPresenter {
                 if (usuario.getSenha().equals(senhaDigitada)) {
                     
                     JOptionPane.showMessageDialog(view, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    
+
                     UsuarioLogadoSingleton.getInstancia().setUsuarioLogado(usuario);
                     model = usuario;
                     

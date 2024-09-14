@@ -3,13 +3,13 @@ package presenter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Solicitacao;
-import model.Usuario;
 import observer.Observer;
 import service.SolicitacaoService; 
 import service.UsuarioService;
@@ -20,8 +20,9 @@ import view.SolicitacoesView;
  * @author Pedro Henrique Passos Rocha 
  * @author João Victor Mascarenhas 
  */
-public class SolicitacoesPresenter implements Observer {
+public class SolicitacoesPresenter {
 
+    private final List<Observer> observers = new ArrayList<>();
     private final SolicitacaoService service;
     private final UsuarioService usuarioService;
     private SolicitacoesView view;
@@ -37,8 +38,8 @@ public class SolicitacoesPresenter implements Observer {
     private void criarView() {
         
         view = new SolicitacoesView(); 
-        view.setVisible(true);
-        update();
+        view.setVisible(false);
+        atualizarView();
         
         view.getBtnBuscar().addActionListener(new ActionListener() {
             @Override
@@ -64,6 +65,7 @@ public class SolicitacoesPresenter implements Observer {
                             });
                         }
                     }
+                    
                 } catch ( NumberFormatException exception) {
                     exception.getStackTrace();                    
                 }
@@ -90,6 +92,7 @@ public class SolicitacoesPresenter implements Observer {
             public void actionPerformed(ActionEvent e) {
                 
                 aprovarSolicitacoes();
+                notificarObservadores();
                 JOptionPane.showMessageDialog(view, "Solicitações Aprovadas!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             
             }
@@ -122,7 +125,7 @@ public class SolicitacoesPresenter implements Observer {
                 service.aprovarSolicitacao(solicitacao.getNomeUsuario());
             }
         }
-        update();
+        atualizarView();
     }
     private void recusarSolicitacoes() {
         int[] selectedRows = view.getTbSolicitacoes().getSelectedRows();
@@ -133,7 +136,7 @@ public class SolicitacoesPresenter implements Observer {
                 usuarioService.deletarUsuario(solicitacao.getIdUsuario());
             }
         }
-        update();
+        atualizarView();
     }
     
     private Solicitacao getSolicitacaoSelecionada(int rowIndex) {
@@ -152,8 +155,21 @@ public class SolicitacoesPresenter implements Observer {
         return null;
     }
 
-    @Override
-    public void update() {
-        atualizarView();
+    public void adicionarObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void removerObserver(Observer observer) {
+        observers.remove(observer);
+    }
+    
+    private void notificarObservadores() {
+        for (Observer observer : observers) {
+            observer.update();
+        }
+    }
+
+    public void setVisible() {
+        this.view.setVisible(true);
     }
 }

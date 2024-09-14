@@ -7,12 +7,6 @@ import singleton.UsuarioLogadoSingleton;
 import observer.Observer;
 import presenter.*;
 import service.*;
-import service.LogService;
-import service.UsuarioService;
-import main.Main;
-import model.Notificacao;
-import service.NotificadoraService;
-
 
 /**
  * @author 
@@ -28,9 +22,11 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private Usuario usuarioLogado;
     private UsuarioService usuarioService;
     private LogService logService;
-
+    
     private CadastroPresenter cadastroPresenter;
     private RegistrosPresenter registrosPresenter;
+    private SolicitacoesPresenter solicitacoesPresenter;
+    private EnviarNotificacaoPresenter enviarNotificacaoPresenter;
     
     public MainView(UsuarioService usuarioService, LogService logService) {
         this.usuarioService = usuarioService;
@@ -196,6 +192,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
     private void RegistrosDeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrosDeUsuarioActionPerformed
         registrosPresenter.setVisible();
+        registrosPresenter.atualizarView();
     }//GEN-LAST:event_RegistrosDeUsuarioActionPerformed
 
     private void ConfigurarLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigurarLogActionPerformed
@@ -206,7 +203,8 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_btnInformacoesContaActionPerformed
 
     private void SolicitacoesDosUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitacoesDosUsuariosActionPerformed
-        var solicitacoesPresenter = new SolicitacoesPresenter(new SolicitacaoService(), new UsuarioService(), mainPane);
+        solicitacoesPresenter.setVisible();
+        solicitacoesPresenter.atualizarView();
     }//GEN-LAST:event_SolicitacoesDosUsuariosActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
@@ -214,14 +212,19 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnEnviarNotificacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarNotificacaoActionPerformed
-        var enviarNotificacaoPresenter = new EnviarNotificacaoPresenter(mainPane, new NotificadoraService(), new UsuarioService(), this, logService);
+         enviarNotificacaoPresenter.setVisible();
+         enviarNotificacaoPresenter.atualizarView();
     }//GEN-LAST:event_btnEnviarNotificacaoActionPerformed
     
     public void initInternalFrames() {
         this.cadastroPresenter = new CadastroPresenter(usuarioLogado, mainPane, new UsuarioService(), this, logService, true, new AdministradorService());
         this.registrosPresenter = new RegistrosPresenter(usuarioLogado, mainPane, new UsuarioService());
+        this.solicitacoesPresenter = new SolicitacoesPresenter(new SolicitacaoService(), new UsuarioService(), mainPane);
+        this.enviarNotificacaoPresenter = new EnviarNotificacaoPresenter(mainPane, new NotificadoraService(), new UsuarioService(), this, logService);
         
         cadastroPresenter.adicionarObserver(registrosPresenter);
+        solicitacoesPresenter.adicionarObserver(registrosPresenter);
+        enviarNotificacaoPresenter.adicionarObserver(registrosPresenter);
     }
     
     public void setUsuario (Usuario usuario) {
@@ -263,7 +266,6 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update() {
-        
         usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
         menuConta.setEnabled(true);
         

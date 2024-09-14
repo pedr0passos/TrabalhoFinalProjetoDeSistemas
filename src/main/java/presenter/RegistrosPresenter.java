@@ -18,12 +18,12 @@ import view.RegistrosView;
 
 /**
  * @author Catterina Vittorazzi Salvador
- * @author Pedro Henrique Passos Rocha 
- * @author João Victor Mascarenhas 
+ * @author Pedro Henrique Passos Rocha
+ * @author João Victor Mascarenhas
  */
 
 public class RegistrosPresenter implements Observer {
-    
+
     private final Usuario model;
     private RegistrosView view;
     private UsuarioService service;
@@ -37,7 +37,7 @@ public class RegistrosPresenter implements Observer {
         criarView();
         pane.add(view);
     }
-    
+
     public void criarView() {
         view = new RegistrosView(); 
         view.setVisible(false);
@@ -47,15 +47,15 @@ public class RegistrosPresenter implements Observer {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String nomeBusca = view.getTxtBuscarUsuario().getText().trim();
-            
+
                     if (nomeBusca.isEmpty()) {
-                        atualizarView(); 
+                        atualizarView();
                         return;
                     }
 
                     List<Usuario> usuarioList = service.listarUsuarios();
                     DefaultTableModel tableModel = (DefaultTableModel) view.getTbUsuarios().getModel();
-                    tableModel.setRowCount(0); 
+                    tableModel.setRowCount(0);
 
                     for (Usuario usuario : usuarioList) {
                         usuario.setNumeroNotificacoesTotal(notificadoraService.countNotificacoesPorDestinatario(usuario.getId()));
@@ -70,8 +70,8 @@ public class RegistrosPresenter implements Observer {
                             });
                         }
                     }
-                } catch ( NumberFormatException exception) {
-                    exception.getStackTrace();                    
+                } catch (NumberFormatException exception) {
+                    exception.getStackTrace();
                 }
             }
         });
@@ -79,11 +79,12 @@ public class RegistrosPresenter implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (!view.getTxtBuscarUsuario().getText().isEmpty()) 
-                        view.getTxtBuscarUsuario().setText("");                    
+                    if (!view.getTxtBuscarUsuario().getText().isEmpty()) {
+                        view.getTxtBuscarUsuario().setText("");
+                    }
                     atualizarView();
-                } catch ( NumberFormatException exception) {
-                    exception.getStackTrace();                    
+                } catch (NumberFormatException exception) {
+                    exception.getStackTrace();
                 }
             }
         });
@@ -107,7 +108,7 @@ public class RegistrosPresenter implements Observer {
             }
         });
     }
-    
+
     public void atualizarView() {
         List<Usuario> usuarioList = service.listarUsuarios();
         DefaultTableModel tableModel = (DefaultTableModel) view.getTbUsuarios().getModel();
@@ -116,13 +117,17 @@ public class RegistrosPresenter implements Observer {
         for (Usuario usuario : usuarioList) {
             usuario.setNumeroNotificacoesTotal(notificadoraService.countNotificacoesPorDestinatario(usuario.getId()));
             usuario.setNumeroNotificacoesLidas(notificadoraService.countNotificacoesLidasPorDestinatario(usuario.getId()));
-            tableModel.addRow(new Object[] {
+
+            if (!usuario.isAdministrador() && usuario.getIsAutorizado()) {
+                tableModel.addRow(new Object[] {
                 usuario.getId(),
                 usuario.getUserName(),
                 usuario.getDataCriacao(),
                 usuario.getNumeroNotificacoesLidas(),
                 usuario.getNumeroNotificacoesTotal()
             });
+            }
+
         }
     }
 
