@@ -71,7 +71,9 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
         toolBar.setEnabled(false);
 
-        btnNotificacoes.setText("<total> Notificações");
+        btnNotificacoes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnNotificacoes.setText("Notificações");
+        btnNotificacoes.setToolTipText("");
         btnNotificacoes.setEnabled(false);
         btnNotificacoes.setFocusable(false);
         btnNotificacoes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -296,22 +298,14 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update() {
-        // Obtém o usuário logado atual
         usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
 
-        // Habilita ou desabilita os menus com base no tipo de usuário
         menuConta.setEnabled(true);
         menuUsuarios.setEnabled(usuarioLogado.isAdministrador());
         menuConfigurar.setEnabled(usuarioLogado.isAdministrador());
 
-        // Atualiza as labels com as informações do usuário logado
-        lblNomeUsuarioLogado.setText("Usuário: " + usuarioLogado.getUserName());
-        lblTipoUsuarioLogado.setText("Perfil: " + usuarioLogado.getTipo());
-
-        // Habilita o botão de notificações apenas se o usuário não for administrador
         btnNotificacoes.setEnabled(!usuarioLogado.isAdministrador());
 
-        // Adiciona os componentes à toolBar se ainda não estiverem presentes
         if (toolBar.getComponentIndex(lblNomeUsuarioLogado) == -1) {
             toolBar.add(lblNomeUsuarioLogado);
         }
@@ -320,7 +314,6 @@ public class MainView extends javax.swing.JFrame implements Observer {
             toolBar.add(lblTipoUsuarioLogado);
         }
 
-        // Atualiza a barra de ferramentas
         toolBar.revalidate();
         toolBar.repaint();
     }

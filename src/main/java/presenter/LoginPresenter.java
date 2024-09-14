@@ -110,6 +110,7 @@ public class LoginPresenter {
                     
                     mainView.getLblNomeUsuarioLogado().setText(model.getUserName());
                     mainView.getLblTipoUsuarioLogado().setText(model.getTipo());
+                    mainView.getBtnNotificacoes().setText(notificadoraService.countNotificacoesPorDestinatario(model.getId()).toString() + "  Notificações");
                     
                     view.dispose();
                     logarUsuario();
