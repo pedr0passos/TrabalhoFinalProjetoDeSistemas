@@ -4,10 +4,49 @@
  */
 package state;
 
+import command.Command;
+import command.EditarCommand;
+import command.ExcluirCommand;
+import presenter.ConfirmarExclusaoPresenter;
+import presenter.EditarPresenter;
+import presenter.VisualizarUsuarioPresenter;
+
 /**
  *
  * @author pedro
  */
-public class ExcluirState {
+public class ExcluirState extends UsuarioState{
+    private Command excluirCommand;
     
+    public ExcluirState (
+            VisualizarUsuarioPresenter visualizarUsuarioPresenter, 
+            EditarPresenter editarPresenter, 
+            ConfirmarExclusaoPresenter confirmarExclusaoPresenter) 
+    {
+        super(visualizarUsuarioPresenter, editarPresenter, confirmarExclusaoPresenter);
+        inicializaCommand();
+    }
+    
+    @Override
+    public void visualizar() throws Exception {
+        throw new UnsupportedOperationException("Não é possível inserir no estado de exclusão.");
+    }
+
+    @Override
+    public void editar() throws Exception {
+        throw new UnsupportedOperationException("Não é possível inserir no estado de exclusão.");
+    }
+
+    @Override
+    public void deletar() throws Exception {
+        excluirCommand.executar();
+    }
+
+    public void inicializaTela() {
+        confirmarExclusaoPresenter.criarView(); 
+    }
+    
+    private void inicializaCommand() {
+        this.excluirCommand = new ExcluirCommand(this);
+    }
 }
