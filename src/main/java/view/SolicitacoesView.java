@@ -38,6 +38,7 @@ public class SolicitacoesView extends javax.swing.JInternalFrame {
         btnRecusar = new javax.swing.JButton();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Solicitações de Entrada");
         setMaximumSize(new java.awt.Dimension(366, 638));
         setMinimumSize(new java.awt.Dimension(366, 638));

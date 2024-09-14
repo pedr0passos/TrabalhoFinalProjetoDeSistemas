@@ -18,6 +18,7 @@ import observer.*;
 import service.LogService;
 import service.NotificadoraService;
 import service.UsuarioService;
+import singleton.UsuarioLogadoSingleton;
 import view.EnviarNotificacaoView;
 import view.MainView;
 
@@ -49,7 +50,6 @@ public class EnviarNotificacaoPresenter {
         view = new EnviarNotificacaoView();
         view.setVisible(false);
         desktopPane.add(view);
-        atualizarView();
         
         view.getBtnEnviar().addActionListener(new ActionListener(){
             @Override
@@ -61,24 +61,43 @@ public class EnviarNotificacaoPresenter {
                 String titulo = view.getTxtTitulo().getText();
                 String mensagem = view.getTxtMensagemNotificacao().getText();
                 
+                if(username.isEmpty()){
+                    JOptionPane.showMessageDialog(view, "O nome de usuário é obrigatório!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    //REGISTRAR LOG DE ERRO
+                    return;
+                }
+                if(titulo.isEmpty()){
+                    JOptionPane.showMessageDialog(view, "O título é obrigatório!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    //REGISTRAR LOG DE ERRO
+                    return;
+                }
+                if(mensagem.isEmpty()){
+                    JOptionPane.showMessageDialog(view, "A mensagem é obrigatória", "Erro", JOptionPane.ERROR_MESSAGE);
+                    //REGISTRAR LOG DE ERRO
+                    return;
+                }
+
                 Usuario usuario = usuarioService.buscarUsuarioPorNome(username).get();
                 
                 Notificacao novaNotificacao = new Notificacao(usuario.getId(), titulo, mensagem);
+
                 service.enviarNotificacao(novaNotificacao);
-                
                 view.getTxtTitulo().setText("");
                 view.getTxtMensagemNotificacao().setText("");
                 JOptionPane.showMessageDialog(view, "Notificação Enviada com Sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 notificarObservadores();
+                //Registrar log de SUCESSO
             }
         });
     }
     
     public void atualizarView(){
         List<Usuario> usuarioList = usuarioService.listarUsuarios();
-        view.getJSelectUsuario().removeAll();
+        view.getJSelectUsuario().removeAllItems();
         for(Usuario usuario : usuarioList){
-            view.getJSelectUsuario().addItem(usuario.getUserName());
+            if(!usuario.getId().equals(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId())){
+                view.getJSelectUsuario().addItem(usuario.getUserName());
+            }
         }
     }
     
