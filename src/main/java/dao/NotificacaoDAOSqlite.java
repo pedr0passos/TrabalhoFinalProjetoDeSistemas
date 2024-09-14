@@ -56,25 +56,12 @@ public class NotificacaoDAOSqlite implements NotificacaoDAO{
 
     @Override
     public void lerNotificacao(UUID idNotificacao) {
-        String sql = "UPDATE usuarios SET lida = 1 WHERE id = ?";
+        String sql = "UPDATE notificacao SET lida = 1 WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, idNotificacao.toString());
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao ler notificação: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public Integer countNotificacoesLidasPorDestinatario(UUID idUsuarioDestinatario) {
-        String sql = "SELECT COUNT(*) as contador FROM notificacao WHERE id_usuario_destinatario = ? AND lida = 1";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)){
-            stmt.setString(1, idUsuarioDestinatario.toString());
-            try(ResultSet rs = stmt.executeQuery()){
-                return rs.getInt("contador");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar notificações: " + e.getMessage());
         }
     }
 
@@ -97,5 +84,29 @@ public class NotificacaoDAOSqlite implements NotificacaoDAO{
             throw new RuntimeException("Erro ao enviar notificação: " + e.getMessage());
         }
         
+    }
+
+    @Override
+    public Optional<Notificacao> buscarPorId(UUID idNotificacao) {
+        String sql = "SELECT * FROM Notificacao WHERE id = ?";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setString(1, idNotificacao.toString());
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Notificacao notificacao = new Notificacao();
+                    notificacao.setId(UUID.fromString(rs.getString("id")));
+                    notificacao.setIdUsuarioDestinatario(UUID.fromString(rs.getString("id_usuario_destinatario")));
+                    notificacao.setTitulo(rs.getString("titulo"));
+                    notificacao.setConteudo(rs.getString("mensagem"));
+                    notificacao.setLida(rs.getBoolean("lida"));
+                    notificacao.setDataCriacao(LocalDate.parse(rs.getString("data_criacao")));
+                    return Optional.of(notificacao);
+                } else {
+                    return Optional.empty();
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar usuário pelo ID: " + e.getMessage());
+        }
     }
 }

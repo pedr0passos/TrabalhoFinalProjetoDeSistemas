@@ -24,7 +24,6 @@ public class ConfiguracaoView extends javax.swing.JInternalFrame {
         btnSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
-        setIconifiable(true);
         setTitle("Configuração do Sistema");
         setMinimumSize(new java.awt.Dimension(290, 192));
         setPreferredSize(new java.awt.Dimension(290, 192));

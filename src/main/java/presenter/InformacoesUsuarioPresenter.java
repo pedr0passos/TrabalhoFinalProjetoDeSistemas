@@ -8,36 +8,33 @@ import model.Usuario;
 import service.UsuarioService;
 import view.InformacoesUsuarioView;
 import service.LogService;
+import singleton.UsuarioLogadoSingleton;
 
 public class InformacoesUsuarioPresenter {
 
-    private final Usuario model;
+    private Usuario model;
     private InformacoesUsuarioView view;
     private final UsuarioService service;
     private final JDesktopPane panel;
     private final LogService logService;
 
-    public InformacoesUsuarioPresenter(Usuario model, JDesktopPane panel, UsuarioService service, LogService logService) {
+    public InformacoesUsuarioPresenter( JDesktopPane panel, UsuarioService service, LogService logService) {
         
-        this.model = model;
         this.panel = panel;
         this.service = service;
         this.logService = logService;
 
         configurarView();
-        panel.add(view);
+    }
+    
+    public void setVisible(){
+        view.setVisible(true);
     }
 
     private void configurarView() {
         view = new InformacoesUsuarioView(); 
-        view.setVisible(true);
-        
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String dataFormatada = model.getDataCriacao().format(formatter);
-        
-        view.getTxtDataCriacao().setText(dataFormatada);
-        view.getTxtNome().setText(model.getUserName());
-        view.getTxtTipo().setText(model.getTipo());
+        view.setVisible(false);
+        panel.add(view);
         
         view.getBtnTrocarSenha().addActionListener(new ActionListener() {
             @Override
@@ -50,6 +47,16 @@ public class InformacoesUsuarioPresenter {
                 }
             }
         });
+    }
+    
+    public void atualizarView(){
+        this.model = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dataFormatada = model.getDataCriacao().format(formatter);
+        
+        view.getTxtDataCriacao().setText(dataFormatada);
+        view.getTxtNome().setText(model.getUserName());
+        view.getTxtTipo().setText(model.getTipo());
     }
 
 }

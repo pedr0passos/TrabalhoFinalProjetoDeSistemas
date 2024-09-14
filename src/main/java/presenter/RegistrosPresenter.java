@@ -6,7 +6,8 @@ package presenter;
 
 import command.*;
 import javax.swing.table.DefaultTableModel;
-
+import model.Usuario;
+import observer.Observer;
 import singleton.UsuarioLogadoSingleton;
 import service.*;
 import observer.Observer;
@@ -31,15 +32,20 @@ public class RegistrosPresenter implements Observer {
     private RegistrosView view;
     private final UsuarioService service;
     private final JDesktopPane pane;
+    private NotificadoraService notificadoraService;
+
     
     private UsuarioState estadoAtual;
     private UsuarioState estadoInicial;
     
     private EditarPresenter editarPresenter;
     private VisualizarUsuarioPresenter visualizarUsuarioPresenter;
+    private ConfirmarExclusaoPresenter confirmarExclusaoPresenter;
 
     public RegistrosPresenter(Usuario model, JDesktopPane pane, UsuarioService service) {
         this.service = service;
+        this.notificadoraService = new NotificadoraService();
+        
         this.pane = pane;
         this.view = view = new RegistrosView();
         criarView();
@@ -75,8 +81,10 @@ public class RegistrosPresenter implements Observer {
             tableModel.setRowCount(0);
 
             for (Usuario usuario : usuarioList) {
-                if (usuario.getUserName().toLowerCase().contains(nomeBusca.toLowerCase()) && !usuario.isAdministrador()) {
-                    tableModel.addRow(new Object[]{
+                usuario.setNumeroNotificacoesTotal(notificadoraService.countNotificacoesPorDestinatario(usuario.getId()));
+                usuario.setNumeroNotificacoesLidas(notificadoraService.countNotificacoesLidasPorDestinatario(usuario.getId()));
+                if (usuario.getUserName().toLowerCase().contains(nomeBusca.toLowerCase())) {
+                    tableModel.addRow(new Object[] {
                         usuario.getId(),
                         usuario.getUserName(),
                         usuario.getDataCriacao(),
@@ -86,7 +94,7 @@ public class RegistrosPresenter implements Observer {
                 }
             }
         } catch (NumberFormatException exception) {
-            exception.printStackTrace();
+            exception.getStackTrace();
         }
     }
 
@@ -110,7 +118,7 @@ public class RegistrosPresenter implements Observer {
             if (idUsuario.equals(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId())) {
                 JOptionPane.showMessageDialog(view, "Não é possível excluir a si mesmo", "Erro", JOptionPane.ERROR_MESSAGE);
             } else {
-                service.deletarUsuario(idUsuario);
+                mostraConfirmarExclusao(idUsuario);
                 atualizarView();
             }
         }
@@ -179,18 +187,25 @@ public class RegistrosPresenter implements Observer {
         tableModel.setRowCount(0);
 
         for (Usuario usuario : usuarioList) {
+            usuario.setNumeroNotificacoesTotal(notificadoraService.countNotificacoesPorDestinatario(usuario.getId()));
+            usuario.setNumeroNotificacoesLidas(notificadoraService.countNotificacoesLidasPorDestinatario(usuario.getId()));
 
             if (!usuario.isAdministrador() && usuario.getIsAutorizado()) {
-                tableModel.addRow(new Object[]{
-                    usuario.getId(),
-                    usuario.getUserName(),
-                    usuario.getDataCriacao(),
-                    usuario.getNumeroNotificacoesLidas(),
-                    usuario.getNumeroNotificacoesLidas()
-                });
+                tableModel.addRow(new Object[] {
+                usuario.getId(),
+                usuario.getUserName(),
+                usuario.getDataCriacao(),
+                usuario.getNumeroNotificacoesLidas(),
+                usuario.getNumeroNotificacoesTotal()
+            });
             }
 
         }
+    }
+    
+    private void mostraConfirmarExclusao(UUID idUsuario){
+        confirmarExclusaoPresenter =  new ConfirmarExclusaoPresenter(pane ,service, idUsuario);
+        confirmarExclusaoPresenter.adicionarObserver(this);
     }
 
     public void setVisible() {

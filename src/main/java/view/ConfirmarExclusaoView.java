@@ -18,6 +18,7 @@ public class ConfirmarExclusaoView extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+
         label = new javax.swing.JLabel();
         btnSim = new javax.swing.JButton();
         btnNao = new javax.swing.JButton();
@@ -33,11 +34,36 @@ public class ConfirmarExclusaoView extends javax.swing.JInternalFrame {
 
         btnSim.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnSim.setText("Sim");
-        getContentPane().add(btnSim, new org.netbeans.lib.awtextra.AbsoluteConstraints(87, 73, -1, -1));
 
         btnNao.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnNao.setText("Não");
-        getContentPane().add(btnNao, new org.netbeans.lib.awtextra.AbsoluteConstraints(177, 73, -1, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(67, Short.MAX_VALUE)
+                .addComponent(label)
+                .addContainerGap(68, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(103, 103, 103)
+                .addComponent(btnSim)
+                .addGap(18, 18, 18)
+                .addComponent(btnNao)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(label)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSim)
+                    .addComponent(btnNao))
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
