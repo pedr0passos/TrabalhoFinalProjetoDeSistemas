@@ -26,7 +26,7 @@ public class LoginPresenter {
     private final List<Observer> observers = new ArrayList<>();
     
     private final UsuarioService service;
-    private final LogService logService;
+    private final LogService logService = new LogService();
     
     private final MainView mainView;
     
@@ -37,13 +37,13 @@ public class LoginPresenter {
     private LoginView view;
     private final JDesktopPane desktopPane;
 
-    public LoginPresenter(JDesktopPane panel, UsuarioService service, MainView mainView, LogService logService) {
+    public LoginPresenter(JDesktopPane panel, UsuarioService service, MainView mainView) {
         
         this.model = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
         this.desktopPane = panel;
         this.service = service;
         this.mainView = mainView;
-        this.logService = logService;
+        logService.configuraLog();
 
         criarView();
         
@@ -147,7 +147,7 @@ public class LoginPresenter {
     }
 
     private void mostrarCadastroView() {
-        cadastroPresenter = new CadastroPresenter(model, desktopPane, service, mainView, logService, false, new AdministradorService());
+        cadastroPresenter = new CadastroPresenter(model, desktopPane, service, mainView, false, new AdministradorService());
     }
 
     private void exibirMensagemErro(String mensagem) {

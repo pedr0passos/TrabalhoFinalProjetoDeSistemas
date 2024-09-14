@@ -43,8 +43,6 @@ public class JsonLog {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(conteudoAtual.toString());
         }
-
-        System.out.println("Log JSON atualizado com sucesso.");
     }
 
     private String criarLogEntry(String operacao, String nome, String usuario) {
@@ -58,11 +56,7 @@ public class JsonLog {
     public File createFile() {
         try {
             File jsonFile = new File(FILE_PATH);
-            if (jsonFile.createNewFile()) {
-                System.out.println("Arquivo JSON criado: " + jsonFile.getName());
-            } else {
-                System.out.println("Arquivo JSON já existe.");
-            }
+            jsonFile.createNewFile();
             return jsonFile;
         } catch (IOException e) {
             System.out.println("Erro ao criar o arquivo JSON.");

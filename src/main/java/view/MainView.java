@@ -28,9 +28,9 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private SolicitacoesPresenter solicitacoesPresenter;
     private EnviarNotificacaoPresenter enviarNotificacaoPresenter;
     
-    public MainView(UsuarioService usuarioService, LogService logService) {
+    public MainView(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
-        this.logService = logService;
+        this.logService = new LogService();
         
         configuraLookAndFeel();  
         initComponents();
@@ -217,7 +217,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_btnEnviarNotificacaoActionPerformed
     
     public void initInternalFrames() {
-        this.cadastroPresenter = new CadastroPresenter(usuarioLogado, mainPane, new UsuarioService(), this, logService, true, new AdministradorService());
+        this.cadastroPresenter = new CadastroPresenter(usuarioLogado, mainPane, new UsuarioService(), this, true, new AdministradorService());
         this.registrosPresenter = new RegistrosPresenter(usuarioLogado, mainPane, new UsuarioService());
         this.solicitacoesPresenter = new SolicitacoesPresenter(new SolicitacaoService(), new UsuarioService(), mainPane);
         this.enviarNotificacaoPresenter = new EnviarNotificacaoPresenter(mainPane, new NotificadoraService(), new UsuarioService(), this, logService);

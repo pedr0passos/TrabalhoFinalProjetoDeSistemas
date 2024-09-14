@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import model.Notificacao;
+import singleton.ConexaoSingleton;
 
 
 /**
@@ -23,15 +24,10 @@ import model.Notificacao;
  */
 public class NotificacaoDAOSqlite implements NotificacaoDAO{
     
-    private Connection conexao;
+    private static Connection conexao;
     
     public NotificacaoDAOSqlite() {
-        String url = "jdbc:sqlite:db/database.db";
-        try {
-            conexao = DriverManager.getConnection(url);
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao conectar ao banco de dados: " + ex.getMessage());
-        }
+        this.conexao = ConexaoSingleton.getInstance().getConnection();
     }
 
     @Override

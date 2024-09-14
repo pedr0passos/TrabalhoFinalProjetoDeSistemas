@@ -23,12 +23,12 @@ public class AlterarSenhaPresenter {
     private final Usuario model;
     private AlterarSenhaView view;
     private final UsuarioService service;
-    private final LogService logService; // Adicionando o LogService
+    private final LogService logService= new LogService(); // Adicionando o LogService
 
-    public AlterarSenhaPresenter(Usuario model, JDesktopPane panel, UsuarioService service, LogService logService) {
+    public AlterarSenhaPresenter(Usuario model, JDesktopPane panel, UsuarioService service) {
         this.model = model;
         this.service = service;
-        this.logService = logService; // Inicializando o LogService
+        logService.configuraLog();// Inicializando o LogService
         criarView();
         panel.add(view);
     }

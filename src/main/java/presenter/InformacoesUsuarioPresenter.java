@@ -43,7 +43,7 @@ public class InformacoesUsuarioPresenter {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    new AlterarSenhaPresenter(model, panel, service, logService);
+                    new AlterarSenhaPresenter(model, panel, service);
                 } catch (Exception exception) { // Mudança de NumberFormatException para Exception
                     System.err.println("Erro ao alterar senha: " + exception.getMessage());
                     exception.printStackTrace(); // Log completo do erro para debug
