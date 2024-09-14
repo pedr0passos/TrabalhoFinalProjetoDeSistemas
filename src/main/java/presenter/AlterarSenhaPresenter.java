@@ -8,93 +8,90 @@ import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import model.Usuario;
 import observer.Observer;
-import service.LogService;
-import service.UsuarioService;
+import service.*;
 import view.AlterarSenhaView;
 import log.Log;
-import service.ValidadorSenhaService;
 
-/**
- *
- * @author Joao Victor
- */
 public class AlterarSenhaPresenter {
 
     private final List<Observer> observers = new ArrayList<>();
     private final Usuario model;
     private AlterarSenhaView view;
-    
+
     private final ValidadorSenhaService validadorService;
+    private ValidadorTrocarSenhaService validadorSenhaService;
     private final UsuarioService service;
-    private final LogService logService= new LogService();
+    private final LogService logService = new LogService();
 
     public AlterarSenhaPresenter(Usuario model, JDesktopPane panel, UsuarioService service) {
         this.model = model;
         this.service = service;
-        
-        validadorService = new ValidadorSenhaService();
-        
+        this.validadorService = new ValidadorSenhaService();
+
         criarView();
         panel.add(view);
     }
 
-    public final void criarView() {
-
+    private void criarView() {
         view = new AlterarSenhaView();
         view.setVisible(true);
-        view.toFront(); 
+        view.toFront();
         view.getTxtNomeUsuario().setText(model.getUserName());
-        
+        configurarListeners();
+    }
+
+    private void configurarListeners() {
         view.getBtnSalvarUsuario().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                logService.configuraLog();
-                Log log = logService.getLog(); // Obtendo a instância de Log
-
-                try {
-                    String senhaAtual = new String(view.getTxtSenhaAtual().getPassword());
-                    String senha = new String(view.getTxtSenha().getPassword());
-                    String confirmarSenha = new String(view.getTxtConfirmarSenha().getPassword());
-                    var usuarioSalvo = service.buscarUsuarioPorNome(view.getTxtNomeUsuario().getText());
-
-                    if (senha.isEmpty()) {
-                        JOptionPane.showMessageDialog(view, "Senha é obrigatória.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        registrarLog(log, "Senha vazia");
-                        return;
-                    } else if (!senha.equals(confirmarSenha) || !senhaAtual.equals(usuarioSalvo.get().getSenha())) {
-                        JOptionPane.showMessageDialog(view, "Senhas diferentes na confirmação.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        registrarLog(log, "Senha de confirmação vazia");
-                        return;
-                    }
-
-                    try {
-                        validadorService.validarSenha(senha);
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(view, ex.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
-                        registrarLog(log, "Erro de validação da senha");
-                        return;
-                    }
-                    
-                    model.setSenha(senha);
-                    service.atualizarUsuario(model);
-
-                    notificarObservadores();
-                    registrarLog(log, null);
-                    JOptionPane.showMessageDialog(view, "Senha alterada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    limparDados();
-
-                } catch (NumberFormatException exception) {
-                    registrarLog(log, "Erro inesperado");
-                    exception.getStackTrace();
-                }
+                processarAlteracaoSenha();
             }
         });
     }
 
-    private void limparDados() {
-        // Limpa apenas os campos de senha
+    private void processarAlteracaoSenha() {
+        logService.configuraLog();
+        Log log = logService.getLog();
+
+        try {
+            String senhaAtual = new String(view.getTxtSenhaAtual().getPassword());
+            String senha = new String(view.getTxtSenha().getPassword());
+            String confirmarSenha = new String(view.getTxtConfirmarSenha().getPassword());
+            var usuarioSalvo = service.buscarUsuarioPorNome(view.getTxtNomeUsuario().getText());
+
+            validadorSenhaService = new ValidadorTrocarSenhaService(validadorService, view, log, senhaAtual, usuarioSalvo.get().getSenha(), senha, confirmarSenha);
+            if (!validadorSenhaService.validar()) {
+                return;
+            }
+
+            model.setSenha(senha);
+            service.atualizarUsuario(model);
+            notificarObservadores();
+            registrarLog(log, null);
+            JOptionPane.showMessageDialog(view, "Senha alterada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            limparCamposSenha();
+
+        } catch (Exception exception) {
+            registrarLog(log, "Erro inesperado");
+            exception.printStackTrace();
+        }
+    }
+
+    private void limparCamposSenha() {
         view.getTxtSenha().setText("");
         view.getTxtConfirmarSenha().setText("");
+    }
+
+    private void registrarLog(Log log, String mensagemErro) {
+        if (log != null) {
+            log.gravarLog(
+                mensagemErro == null ? "Alterar senha de usuário" : "Erro ao alterar senha",
+                view.getTxtNomeUsuario().getText(),
+                model.getUserName(),
+                mensagemErro == null,
+                mensagemErro
+            );
+        }
     }
 
     public void adicionarObserver(Observer observer) {
@@ -108,18 +105,6 @@ public class AlterarSenhaPresenter {
     private void notificarObservadores() {
         for (Observer observer : observers) {
             observer.update();
-        }
-    }
-    
-    private void registrarLog(Log log, String mensagemErro) {
-        if (log != null) {
-            log.gravarLog(
-                    mensagemErro == null ? "Alterar senha de usuário" : "Alterar senha de usuário",
-                    view.getTxtNomeUsuario().getText(),
-                    model.getUserName(),
-                    mensagemErro == null,
-                    mensagemErro
-            );
         }
     }
 }

@@ -5,7 +5,6 @@
 package state;
 
 import command.Command;
-import command.EditarCommand;
 import command.ExcluirCommand;
 import presenter.ConfirmarExclusaoPresenter;
 import presenter.EditarPresenter;

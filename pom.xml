@@ -26,10 +26,6 @@
             <artifactId>LoggerTrabalhoFinal</artifactId>
             <version>2.0</version>
         </dependency>       
-<<<<<<< HEAD
-=======
-
->>>>>>> c3dfa812263d737fcd6104b68d7ceb78488ec009
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

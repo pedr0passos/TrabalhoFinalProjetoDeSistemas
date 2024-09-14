@@ -81,12 +81,8 @@ public class SolicitacoesPresenter {
             public void actionPerformed(ActionEvent e) {
                 logService.configuraLog();
                 Log log = logService.getLog();
-
                 try {
-
                     recusarSolicitacoes(log, null);
-                    JOptionPane.showMessageDialog(view, "Solicitações recusadas!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
                 } catch (NumberFormatException exception) {
                     exception.printStackTrace();
                     registrarLogErrado(log, exception.getMessage());
@@ -99,11 +95,8 @@ public class SolicitacoesPresenter {
             public void actionPerformed(ActionEvent e) {
                 logService.configuraLog();
                 Log log = logService.getLog();
-
                 aprovarSolicitacoes(log, null);
                 notificarObservadores();
-                JOptionPane.showMessageDialog(view, "Solicitações Aprovadas!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
             }
         });
     }
@@ -127,45 +120,64 @@ public class SolicitacoesPresenter {
     }
 
     private void aprovarSolicitacoes(Log log, String erro) {
-        int[] selectedRows = view.getTbSolicitacoes().getSelectedRows();
-        for (int rowIndex : selectedRows) {
-            Solicitacao solicitacao = getSolicitacaoSelecionada(rowIndex);
-            if (solicitacao != null && !solicitacao.isAprovada()) {
+        List<Solicitacao> solicitacoesParaAprovar = getSolicitacoesSelecionadas();  // Captura as solicitações selecionadas
+
+        if (solicitacoesParaAprovar.isEmpty()) {  // Verifica se não há solicitações selecionadas
+            JOptionPane.showMessageDialog(view, "Nenhuma solicitação selecionada. Selecione pelo menos uma para aprovar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;  // Sai do método se não houver seleções
+        }
+
+        for (Solicitacao solicitacao : solicitacoesParaAprovar) {
+            if (!solicitacao.isAprovada()) {
                 service.aprovarSolicitacao(solicitacao.getNomeUsuario());
                 registrarLog(log, erro, solicitacao);
             }
         }
-        atualizarView();
+
+        atualizarView();  // Atualiza a tabela após as aprovações
+        JOptionPane.showMessageDialog(view, "Solicitações aprovadas com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void recusarSolicitacoes(Log log, String erro) {
-        int[] selectedRows = view.getTbSolicitacoes().getSelectedRows();
-        for (int rowIndex : selectedRows) {
-            Solicitacao solicitacao = getSolicitacaoSelecionada(rowIndex);
-            if (solicitacao != null) {
-                service.removerSolicitacao(solicitacao.getNomeUsuario());
-                registrarLog(log, erro, solicitacao);
-                usuarioService.deletarUsuario(solicitacao.getIdUsuario());
+        List<Solicitacao> solicitacoesParaRecusar = getSolicitacoesSelecionadas();  // Captura as solicitações selecionadas
+
+        if (solicitacoesParaRecusar.isEmpty()) {  // Verifica se não há solicitações selecionadas
+            JOptionPane.showMessageDialog(view, "Nenhuma solicitação selecionada. Selecione pelo menos uma para recusar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;  // Sai do método se não houver seleções
+        }
+
+        for (Solicitacao solicitacao : solicitacoesParaRecusar) {
+            service.removerSolicitacao(solicitacao.getNomeUsuario());
+            registrarLog(log, erro, solicitacao);
+            usuarioService.deletarUsuario(solicitacao.getIdUsuario());
+        }
+
+        atualizarView();  // Atualiza a tabela após as recusas
+        JOptionPane.showMessageDialog(view, "Solicitações recusadas com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+
+    private List<Solicitacao> getSolicitacoesSelecionadas() {
+        List<Solicitacao> solicitacoesSelecionadas = new ArrayList<>();
+        DefaultTableModel model = (DefaultTableModel) view.getTbSolicitacoes().getModel();
+
+        // Percorre todas as linhas da tabela
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Boolean isSelected = (Boolean) model.getValueAt(i, 0);  // Verifica o valor da coluna checkbox
+            if (isSelected != null && isSelected) {  // Se está marcado
+                String nomeUsuario = (String) model.getValueAt(i, 1);  // Pega o nome do usuário
+                LocalDate dataSolicitacao = LocalDate.parse((String) model.getValueAt(i, 2));  // Pega a data de solicitação
+
+                // Busca o usuário e cria uma nova instância de Solicitacao
+                var usuario = usuarioService.buscarUsuarioPorNome(nomeUsuario);
+                Solicitacao solicitacao = new Solicitacao(UUID.randomUUID(), usuario.get(), dataSolicitacao, false);
+                solicitacoesSelecionadas.add(solicitacao);
             }
         }
-        atualizarView();
+
+        return solicitacoesSelecionadas;  // Retorna todas as solicitações que foram selecionadas pelas checkboxes
     }
 
-    private Solicitacao getSolicitacaoSelecionada(int rowIndex) {
-        DefaultTableModel model = (DefaultTableModel) view.getTbSolicitacoes().getModel();
-        if (rowIndex >= 0 && rowIndex < model.getRowCount()) {
-
-            boolean aprovado = false;
-            String usuarioNome = (String) model.getValueAt(rowIndex, 1);
-            String dataEnvioStr = (String) model.getValueAt(rowIndex, 2);
-            LocalDate dataEnvio = LocalDate.parse(dataEnvioStr);
-
-            var usuario = usuarioService.buscarUsuarioPorNome(usuarioNome);
-
-            return new Solicitacao(UUID.randomUUID(), usuario.get(), dataEnvio, aprovado);
-        }
-        return null;
-    }
 
     public void adicionarObserver(Observer observer) {
         observers.add(observer);
@@ -198,15 +210,16 @@ public class SolicitacoesPresenter {
     }
 
     private void registrarLogErrado(Log log, String erro) {
-        int[] selectedRows = view.getTbSolicitacoes().getSelectedRows();
-        for (int rowIndex : selectedRows) {
-            Solicitacao solicitacao = getSolicitacaoSelecionada(rowIndex);
+        List<Solicitacao> solicitacoesSelecionadas = getSolicitacoesSelecionadas();  // Obtem todas as solicitações selecionadas pelas checkboxes
+
+        for (Solicitacao solicitacao : solicitacoesSelecionadas) {
             if (solicitacao != null) {
-                registrarLog(log, erro, solicitacao);
+                registrarLog(log, erro, solicitacao);  // Registra o log para cada solicitação corretamente selecionada
             } else {
-                registrarLog(log, "Erro na selecao de usuario", solicitacao);
+                registrarLog(log, "Erro na seleção de usuário", solicitacao);  // Registra o erro se a solicitação for nula (embora esse caso seja improvável aqui)
             }
         }
     }
+
 
 }

@@ -6,9 +6,6 @@ package presenter;
 
 import command.*;
 import javax.swing.table.DefaultTableModel;
-import model.Usuario;
-import observer.Observer;
-import singleton.UsuarioLogadoSingleton;
 import service.*;
 import observer.Observer;
 

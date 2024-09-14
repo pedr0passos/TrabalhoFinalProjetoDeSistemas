@@ -319,6 +319,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
             toolBar.revalidate();
             toolBar.repaint();
         }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem ConfigurarLog;
     private javax.swing.JMenuItem NovoUsuario;

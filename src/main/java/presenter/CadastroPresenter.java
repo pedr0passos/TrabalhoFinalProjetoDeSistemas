@@ -1,6 +1,5 @@
 package presenter;
 
-import com.pss.senha.validacao.ValidadorSenha;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.util.*;

@@ -1,15 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
 import com.pss.senha.validacao.ValidadorSenha;
 
 /**
- *
- * @author pedro
+ * @author Catterina Vittorazzi Salvador
+ * @author Pedro Henrique Passos Rocha 
+ * @author João Victor Mascarenhas 
  */
+
 public class ValidadorSenhaService {
     
     private ValidadorSenha validador;
