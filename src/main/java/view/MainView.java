@@ -299,13 +299,12 @@ public class MainView extends javax.swing.JFrame implements Observer {
         menuConta.setEnabled(true);
 
         menuConfigurar.setEnabled(true);
-
+        btnNotificacoes.setEnabled(!usuarioLogado.isAdministrador());
+        
         if (usuarioLogado.isAdministrador()) {
             menuUsuarios.setEnabled(true);
 
             menuUsuarios.setEnabled(usuarioLogado.isAdministrador());
-
-            btnNotificacoes.setEnabled(!usuarioLogado.isAdministrador());
 
             if (toolBar.getComponentIndex(lblNomeUsuarioLogado) == -1) {
                 toolBar.add(lblNomeUsuarioLogado);

@@ -9,6 +9,7 @@ import observer.Observer;
 import service.*;
 import view.*;
 import log.*;
+import singleton.UsuarioLogadoSingleton;
 
 /**
  * @author Catterina Vittorazzi Salvador
@@ -115,6 +116,7 @@ public class CadastroPresenter {
                         
                         model = novoUsuario;
                         service.cadastrarUsuario(novoUsuario);
+                        registrarLog(log, null);
 
                         boolean enviouNotificacao = false;
                         
@@ -125,10 +127,6 @@ public class CadastroPresenter {
                             service.enviarSolicitacao(solicitacao);
                             JOptionPane.showMessageDialog(view, "Solicitação de cadastro enviada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                             enviouNotificacao = true;
-                        }
-
-                        if (log != null) {
-                            log.gravarLog("Cadastro de usuário", username, model.getTipo(), true, null); // Registrar log
                         }
                         
                         if (!enviouNotificacao)
@@ -186,7 +184,7 @@ public class CadastroPresenter {
             log.gravarLog(
                     mensagemErro == null ? "Cadastro de usuário" : "Inclusão de usuário",
                     view.getTxtNomeUsuario().getText(),
-                    model.getUserName(),
+                    UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getUserName() == null ? model.getUserName() : UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getUserName(),
                     mensagemErro == null,
                     mensagemErro
             );

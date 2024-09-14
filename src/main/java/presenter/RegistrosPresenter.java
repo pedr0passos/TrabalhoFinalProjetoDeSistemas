@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import log.Log;
 import model.Usuario;
 
 import state.*;
@@ -23,7 +24,6 @@ import view.RegistrosView;
  * @author Pedro Henrique Passos Rocha
  * @author João Victor Mascarenhas
  */
-
 public class RegistrosPresenter implements Observer {
 
     private RegistrosView view;
@@ -32,7 +32,7 @@ public class RegistrosPresenter implements Observer {
     private final NotificadoraService notificadoraService;
     private UsuarioState estadoAtual;
     private UsuarioState estadoInicial;
-    
+    private final LogService logService = new LogService();
     private EditarPresenter editarPresenter;
     private VisualizarUsuarioPresenter visualizarUsuarioPresenter;
     private ConfirmarExclusaoPresenter confirmarExclusaoPresenter;
@@ -40,7 +40,7 @@ public class RegistrosPresenter implements Observer {
     public RegistrosPresenter(Usuario model, JDesktopPane pane, UsuarioService service) {
         this.service = service;
         this.notificadoraService = new NotificadoraService();
-        
+
         this.pane = pane;
         this.view = view = new RegistrosView();
         criarView();
@@ -53,9 +53,9 @@ public class RegistrosPresenter implements Observer {
         view.getBtnLimpar().addActionListener(e -> limparBusca());
         view.getBtnExcluir().addActionListener(e -> excluirUsuario());
         view.getBtnEditar().addActionListener(e -> editarUsuario());
-        view.getBtnVisualizar().addActionListener(e -> visualizarUsuario());  
+        view.getBtnVisualizar().addActionListener(e -> visualizarUsuario());
     }
-    
+
     public final void criarView() {
         view.setVisible(false);
         pane.add(view);
@@ -79,7 +79,7 @@ public class RegistrosPresenter implements Observer {
                 usuario.setNumeroNotificacoesTotal(notificadoraService.countNotificacoesPorDestinatario(usuario.getId()));
                 usuario.setNumeroNotificacoesLidas(notificadoraService.countNotificacoesLidasPorDestinatario(usuario.getId()));
                 if (usuario.getUserName().toLowerCase().contains(nomeBusca.toLowerCase())) {
-                    tableModel.addRow(new Object[] {
+                    tableModel.addRow(new Object[]{
                         usuario.getId(),
                         usuario.getUserName(),
                         usuario.getDataCriacao(),
@@ -105,6 +105,8 @@ public class RegistrosPresenter implements Observer {
     }
 
     private void excluirUsuario() {
+        logService.configuraLog();
+        Log log = logService.getLog();
         var tabela = view.getTbUsuarios();
         if (tabela.getSelectedRow() != -1) {
             var tableModel = (DefaultTableModel) tabela.getModel();
@@ -160,34 +162,32 @@ public class RegistrosPresenter implements Observer {
         }
     }
 
-    
     private void trocarParaEstadoEdicao(Usuario usuario) throws Exception {
         this.editarPresenter = new EditarPresenter(pane, usuario, service);
         this.editarPresenter.adicionarObserver(this);
-        this.estadoAtual = new EdicaoState(visualizarUsuarioPresenter, editarPresenter, confirmarExclusaoPresenter); 
-        
+        this.estadoAtual = new EdicaoState(visualizarUsuarioPresenter, editarPresenter, confirmarExclusaoPresenter);
+
         var editarCommand = new EditarCommand((EdicaoState) estadoAtual);
         editarCommand.executar();
     }
-    
-    private void trocarParaEstadoExclusao(Usuario usuario) throws Exception{
+
+    private void trocarParaEstadoExclusao(Usuario usuario) throws Exception {
         this.confirmarExclusaoPresenter = new ConfirmarExclusaoPresenter(pane, service, usuario.getId());
         this.confirmarExclusaoPresenter.adicionarObserver(this);
         this.estadoAtual = new ExcluirState(visualizarUsuarioPresenter, editarPresenter, confirmarExclusaoPresenter);
-        
+
         var excluirCommand = new ExcluirCommand((ExcluirState) estadoAtual);
         excluirCommand.executar();
     }
-    
+
     private void trocarParaEstadoVisualizacao(Usuario usuario) throws Exception {
         this.visualizarUsuarioPresenter = new VisualizarUsuarioPresenter(pane, usuario, new NotificadoraService());
-        this.estadoAtual = new VisualizacaoState(visualizarUsuarioPresenter, editarPresenter, confirmarExclusaoPresenter); 
+        this.estadoAtual = new VisualizacaoState(visualizarUsuarioPresenter, editarPresenter, confirmarExclusaoPresenter);
 
         var visualizarCommand = new VisualizarCommand((VisualizacaoState) estadoAtual);
         visualizarCommand.executar();
     }
 
-    
     public final void atualizarView() {
         List<Usuario> usuarioList = service.listarUsuarios();
         DefaultTableModel tableModel = (DefaultTableModel) view.getTbUsuarios().getModel();
@@ -198,13 +198,13 @@ public class RegistrosPresenter implements Observer {
             usuario.setNumeroNotificacoesLidas(notificadoraService.countNotificacoesLidasPorDestinatario(usuario.getId()));
 
             if (!usuario.isAdministrador() && usuario.getIsAutorizado()) {
-                tableModel.addRow(new Object[] {
-                usuario.getId(),
-                usuario.getUserName(),
-                usuario.getDataCriacao(),
-                usuario.getNumeroNotificacoesLidas(),
-                usuario.getNumeroNotificacoesTotal()
-            });
+                tableModel.addRow(new Object[]{
+                    usuario.getId(),
+                    usuario.getUserName(),
+                    usuario.getDataCriacao(),
+                    usuario.getNumeroNotificacoesLidas(),
+                    usuario.getNumeroNotificacoesTotal()
+                });
             }
 
         }
@@ -218,4 +218,5 @@ public class RegistrosPresenter implements Observer {
     public void update() {
         atualizarView();
     }
+    
 }
