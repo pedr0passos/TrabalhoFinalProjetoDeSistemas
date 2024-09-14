@@ -53,15 +53,11 @@ public class AlterarSenhaPresenter {
 
                     if (senha.isEmpty()) {
                         JOptionPane.showMessageDialog(view, "Senha é obrigatória.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        if (log != null) {
-                            log.gravarLog("Erro: Alteração de senha", model.getUserName(), model.getTipo(), false, "Senha vazia"); // Registrar log
-                        }
+                        registrarLog(log, "Senha vazia");
                         return;
                     } else if (!senha.equals(confirmarSenha) || !senhaAtual.equals(usuarioSalvo.get().getSenha())) {
                         JOptionPane.showMessageDialog(view, "Senhas diferentes na confirmação.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        if (log != null) {
-                            log.gravarLog("Erro: Alteração de senha", model.getUserName(), model.getTipo(), false, "Senha de confirmação vazia"); // Registrar log
-                        }
+                        registrarLog(log, "Senha de confirmação vazia");
                         return;
                     }
 
@@ -72,18 +68,12 @@ public class AlterarSenhaPresenter {
                     service.atualizarUsuario(model);
 
                     notificarObservadores();
-
-                    if (log != null) {
-                        log.gravarLog("Alteração de senha", model.getUserName(), model.getTipo(), true, null); // Registrar log
-                    }
-
+                    registrarLog(log, null);
                     JOptionPane.showMessageDialog(view, "Senha alterada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     limparDados();
 
                 } catch (NumberFormatException exception) {
-                    if (log != null) {
-                        log.gravarLog("Erro: Alteração de senha", model.getUserName(), model.getTipo(), false, "Erro ao alterar senha"); // Registrar log
-                    }
+                    registrarLog(log, "Erro inesperado");
                     exception.getStackTrace();
                 }
             }
@@ -107,6 +97,18 @@ public class AlterarSenhaPresenter {
     private void notificarObservadores() {
         for (Observer observer : observers) {
             observer.update();
+        }
+    }
+    
+    private void registrarLog(Log log, String mensagemErro) {
+        if (log != null) {
+            log.gravarLog(
+                    mensagemErro == null ? "Alterar senha de usuário" : "Erro: Alterar senha de usuário",
+                    view.getTxtNomeUsuario().getText(),
+                    model.getTipo(),
+                    mensagemErro == null,
+                    mensagemErro
+            );
         }
     }
 }

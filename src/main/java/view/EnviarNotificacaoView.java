@@ -7,6 +7,7 @@ package view;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  *
@@ -30,21 +31,22 @@ public class EnviarNotificacaoView extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jSelectUsuario = new javax.swing.JComboBox<>();
         lblUsuario = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtMensagemNotificacao = new javax.swing.JTextArea();
         btnEnviar = new javax.swing.JButton();
         lblMensagemNotificacao = new javax.swing.JLabel();
+        txtTitulo = new javax.swing.JTextField();
+        lblUsuario1 = new javax.swing.JLabel();
 
         setClosable(true);
         setTitle("Enviar Notificação");
 
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jSelectUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         lblUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblUsuario.setText("Usuário:");
+        lblUsuario.setText("Título:");
 
         txtMensagemNotificacao.setColumns(20);
         txtMensagemNotificacao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -55,6 +57,16 @@ public class EnviarNotificacaoView extends javax.swing.JInternalFrame {
 
         lblMensagemNotificacao.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblMensagemNotificacao.setText("Mensagem da Notificação:");
+
+        txtTitulo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTitulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTituloActionPerformed(evt);
+            }
+        });
+
+        lblUsuario1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblUsuario1.setText("Usuário:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -69,9 +81,14 @@ public class EnviarNotificacaoView extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 525, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblUsuario)
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblUsuario)
+                                    .addComponent(lblUsuario1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtTitulo)
+                                    .addComponent(jSelectUsuario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -79,39 +96,55 @@ public class EnviarNotificacaoView extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSelectUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUsuario1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblUsuario))
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addComponent(lblMensagemNotificacao)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnEnviar)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTituloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTituloActionPerformed
+
     public JButton getBtnEnviar() {
         return btnEnviar;
     }
 
-    public JComboBox<String> getjComboBox1() {
-        return jComboBox1;
+    public JComboBox<String> getJSelectUsuario() {
+        return jSelectUsuario;
     }
 
     public JTextArea getTxtMensagemNotificacao() {
         return txtMensagemNotificacao;
     }
+
+    public JTextField getTxtTitulo() {
+        return txtTitulo;
+    }
+    
+    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> jSelectUsuario;
     private javax.swing.JLabel lblMensagemNotificacao;
     private javax.swing.JLabel lblUsuario;
+    private javax.swing.JLabel lblUsuario1;
     private javax.swing.JTextArea txtMensagemNotificacao;
+    private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

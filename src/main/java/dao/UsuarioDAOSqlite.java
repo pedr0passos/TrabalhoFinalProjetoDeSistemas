@@ -13,7 +13,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import model.Usuario;
+import singleton.ConexaoSingleton;
 import model.Administrador;
+import singleton.ConexaoSingleton;
 
 /**
  * @author 

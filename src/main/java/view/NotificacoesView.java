@@ -4,9 +4,14 @@
  */
 package view;
 
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
 /**
  *
  * @author pedro
+ * @author CAtterina Vittorazzi Salvador
  */
 public class NotificacoesView extends javax.swing.JInternalFrame {
 
@@ -34,6 +39,8 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("Notificações");
+        setMaximumSize(new java.awt.Dimension(466, 565));
+        setMinimumSize(new java.awt.Dimension(466, 565));
 
         tbNotificacoes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tbNotificacoes.setModel(new javax.swing.table.DefaultTableModel(
@@ -63,31 +70,35 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
         tbNotificacoes.setMinimumSize(new java.awt.Dimension(374, 717));
         jScrollPane1.setViewportView(tbNotificacoes);
         if (tbNotificacoes.getColumnModel().getColumnCount() > 0) {
-            tbNotificacoes.getColumnModel().getColumn(0).setPreferredWidth(8);
+            tbNotificacoes.getColumnModel().getColumn(0).setResizable(false);
+            tbNotificacoes.getColumnModel().getColumn(0).setPreferredWidth(5);
             tbNotificacoes.getColumnModel().getColumn(1).setPreferredWidth(30);
             tbNotificacoes.getColumnModel().getColumn(2).setPreferredWidth(40);
         }
 
+        txtBuscarNotificacoes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBuscar.setText("Buscar");
 
         lblBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblBuscar.setText("Buscar Notificações:");
+        lblBuscar.setText("Buscar Notificações por Título:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblBuscar)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblBuscar)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(txtBuscarNotificacoes)
+                            .addComponent(txtBuscarNotificacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(btnBuscar))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                            .addComponent(btnBuscar)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,12 +111,24 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
                     .addComponent(btnBuscar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public JTable getTbNotificacoes() {
+        return tbNotificacoes;
+    }
+
+    public JButton getBtnBuscar() {
+        return btnBuscar;
+    }
+
+    public JTextField getTxtBuscarNotificacoes() {
+        return txtBuscarNotificacoes;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
