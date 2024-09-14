@@ -86,6 +86,11 @@ public class LoginPresenter {
 
             Optional<Usuario> usuarioOptional = service.buscarUsuarioPorNome(nomeDigitado);
             
+            if (!usuarioOptional.isPresent()) {
+                exibirMensagemErro("Usuário não cadastrado!");
+                return;
+            }
+            
             if (!usuarioOptional.get().getIsAutorizado()) {
                 exibirMensagemErro("Você não possui autorização!");
                 return;
