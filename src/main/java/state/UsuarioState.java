@@ -33,4 +33,8 @@ public abstract class UsuarioState {
     public void deletar() throws Exception {
         throw new RuntimeException("Não é possível deletar.");
     }
+    
+    public void voltar() throws Exception {
+        throw new RuntimeException("Não é possível voltar.");
+    }
 }

@@ -4,6 +4,8 @@
  */
 package state;
 
+import command.Command;
+import command.EditarCommand;
 import presenter.*;
 
 /**
@@ -13,9 +15,11 @@ import presenter.*;
 
 public class EdicaoState extends UsuarioState {
     
+    private Command editarCommand;
+    
     public EdicaoState(CadastroPresenter cadastroPresenter, EditarPresenter editarPresenter) {
         super(cadastroPresenter, editarPresenter);
-        inicializaTela();
+        inicializaCommand();
     }
     
     @Override
@@ -25,7 +29,7 @@ public class EdicaoState extends UsuarioState {
 
     @Override
     public void editar() throws Exception {
-        editarPresenter.salvarEdicao(); 
+        editarCommand.executar();
     }
 
     @Override
@@ -36,5 +40,9 @@ public class EdicaoState extends UsuarioState {
     // Método para inicializar a tela de edição
     public void inicializaTela() {
         editarPresenter.criarView(); // Inicializa a view para edição
+    }
+    
+    private void inicializaCommand() {
+        this.editarCommand = new EditarCommand(this);
     }
 }

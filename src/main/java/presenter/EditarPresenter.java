@@ -15,8 +15,11 @@ import java.util.List;
 import service.LogService;
 
 /**
+ * @author Pedro Henrique Passos Rocha
  * @author João Victor Mascarenhas
+ * @author Catterina Vittorazzi Salvador 
  */
+
 public class EditarPresenter {
 
     private final List<Observer> observers = new ArrayList<>();
@@ -24,7 +27,7 @@ public class EditarPresenter {
     private final UsuarioService service;
     private final LogService logService = new LogService();
     
-    private final EditarView view;
+    private EditarView view;
     private final JDesktopPane desktopPane;
     private Usuario model;
 
@@ -33,16 +36,13 @@ public class EditarPresenter {
         this.service = service;
         this.model = usuario;
         logService.configuraLog();
-
-        view = new EditarView();
-        desktopPane.add(view);
-        view.setVisible(true);
-
-        criarView();
     }
 
     public void criarView() {
-        // Preencher o campo de nome com o nome do usuário atual
+        view = new EditarView();
+        desktopPane.add(view);
+        view.setVisible(true);
+        
         view.getTxtNome().setText(model.getUserName());
 
         view.getBtnSalvar().addActionListener(new ActionListener() {
