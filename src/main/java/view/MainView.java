@@ -15,7 +15,7 @@ import service.*;
  * João Victor Mascarenhas
  */
 
-public class MainView extends javax.swing.JFrame implements Observer {
+public final class MainView extends javax.swing.JFrame implements Observer {
 
     private final JLabel lblNomeUsuarioLogado = new JLabel();   
     private final JLabel lblTipoUsuarioLogado = new JLabel();

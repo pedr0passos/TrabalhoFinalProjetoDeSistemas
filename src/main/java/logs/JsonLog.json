@@ -42,5 +42,7 @@
 { "dataHora": "13/09/2024 02:20:27", "operacao": "Login de usuário", "nome": "admin", "usuario": "Administrador" },
 { "dataHora": "13/09/2024 02:20:38", "operacao": "Cadastro de usuário", "nome": "teste4", "usuario": "Usuário" },
 { "dataHora": "13/09/2024 02:20:58", "operacao": "Cadastro de usuário", "nome": "teste5", "usuario": "Usuário" },
-{ "dataHora": "13/09/2024 19:03:07", "operacao": "Login de usuário", "nome": "admin", "usuario": "Administrador" }
+{ "dataHora": "13/09/2024 19:03:07", "operacao": "Login de usuário", "nome": "admin", "usuario": "Administrador" },
+{ "dataHora": "13/09/2024 19:16:03", "operacao": "Login de usuário", "nome": "admin", "usuario": "Administrador" },
+{ "dataHora": "13/09/2024 19:45:50", "operacao": "Login de usuário", "nome": "admin", "usuario": "Administrador" }
 ]}

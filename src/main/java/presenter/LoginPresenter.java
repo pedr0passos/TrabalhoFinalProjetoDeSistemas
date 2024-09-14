@@ -1,5 +1,6 @@
 package presenter;
 
+import com.pss.senha.validacao.ValidadorSenha;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import view.*;
 public class LoginPresenter {
 
     private final List<Observer> observers = new ArrayList<>();
+    private final ValidadorSenha validadorSenha;
     
     private final UsuarioService service;
     private final LogService logService;
@@ -45,6 +47,8 @@ public class LoginPresenter {
         this.mainView = mainView;
         this.logService = logService;
 
+        this.validadorSenha = new ValidadorSenha();
+        
         criarView();
         
         adicionarObserver(mainView);
@@ -75,6 +79,8 @@ public class LoginPresenter {
             
             String nomeDigitado = view.getTxtNomeUsuario().getText();
             String senhaDigitada = getSenha(view.getTxtSenha());
+            
+            var senhaValidada = validadorSenha.validar(senhaDigitada);
             
             Log log = logService.getLog();
 

@@ -16,11 +16,12 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.46.1.0</version>
         </dependency>
-	<dependency>
-	    <groupId>com.github.claytonfraga</groupId>
-	    <artifactId>validadorsenha</artifactId>
-	    <version>master</version>
-	</dependency>        
+            <dependency>
+                <groupId>com.github.claytonfraga</groupId>
+                <artifactId>validadorsenha</artifactId>
+                <version>master-c949bd44ba-1</version>
+                <type>jar</type>
+            </dependency>      
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -10,6 +10,7 @@ import singleton.UsuarioLogadoSingleton;
 import presenter.*;
 import service.*;
 import view.*;
+import com.pss.senha.validacao.ValidadorSenha;
 
 /**
  * @author Pedro Henrique Passos Rocha
