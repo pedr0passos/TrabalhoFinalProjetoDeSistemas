@@ -13,8 +13,12 @@ public class VisualizacaoState extends UsuarioState {
     
     private Command visualizarCommand;
     
-    public VisualizacaoState(VisualizarUsuarioPresenter visualizarUsuarioPresenter, EditarPresenter editarPresenter) {
-        super(visualizarUsuarioPresenter, editarPresenter);
+    public VisualizacaoState(
+            VisualizarUsuarioPresenter visualizarUsuarioPresenter, 
+            EditarPresenter editarPresenter, 
+            ConfirmarExclusaoPresenter confirmarExclusaoPresenter) 
+    {
+        super(visualizarUsuarioPresenter, editarPresenter, confirmarExclusaoPresenter);
         inicializaCommand();
     }
     

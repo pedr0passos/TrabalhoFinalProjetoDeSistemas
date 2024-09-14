@@ -13,11 +13,17 @@ public abstract class UsuarioState {
     
     protected final VisualizarUsuarioPresenter visualizarUsuarioPresenter;
     protected final EditarPresenter editarPresenter;
+    protected final ConfirmarExclusaoPresenter confirmarExclusaoPresenter;
     protected Usuario usuarioLogado; 
     
-    public UsuarioState(VisualizarUsuarioPresenter visualizarUsuarioPresenter, EditarPresenter editarPresenter) {
+    public UsuarioState(
+            VisualizarUsuarioPresenter visualizarUsuarioPresenter, 
+            EditarPresenter editarPresenter, 
+            ConfirmarExclusaoPresenter confirmarExclusaoPresenter) 
+    {
         this.visualizarUsuarioPresenter = visualizarUsuarioPresenter;
         this.editarPresenter = editarPresenter;
+        this.confirmarExclusaoPresenter = confirmarExclusaoPresenter;
         
         this.usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
     }
