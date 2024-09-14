@@ -18,13 +18,16 @@ import singleton.UsuarioLogadoSingleton;
 public class CadastroPresenter {
 
     private final List<Observer> observers = new ArrayList<>();
+    
     private Usuario model;
     private CadastroView view;
+    
     private final UsuarioService service;
     private final JDesktopPane desktopPane;
     private final boolean possuiAdministrador;
     private final MainView mainView;
     private final LogService logService; 
+    
     private LoginPresenter loginPresenter;
     private AdministradorService adminService;
     
@@ -50,7 +53,6 @@ public class CadastroPresenter {
 
     public final void criarView(boolean criadoPelaMainView) {
         view = new CadastroView();
-        
 
         if (criadoPelaMainView) {
             view.setVisible(false);
@@ -58,8 +60,8 @@ public class CadastroPresenter {
         } else {
             if (possuiAdministrador) {
                 view.getBotaoSalvarUsuario().setText("Enviar Solicitação");
-                view.setVisible(true);
             }
+            view.setVisible(true);
         } 
 
         view.getBotaoSalvarUsuario().addActionListener(new ActionListener() {
@@ -87,18 +89,23 @@ public class CadastroPresenter {
                             return;
                         }
 
+                        boolean permissao = false;
                         boolean administrador = true;
+                        
+                        if (criadoPelaMainView)
+                            permissao = true;
+                        
                         if (adminService.existeAdministrador())
                             administrador = false;
                         
-                        Usuario novoUsuario = new Usuario(username, senha, administrador, administrador);
+                        Usuario novoUsuario = new Usuario(username, senha, administrador, permissao);
                         
                         model = novoUsuario;
                         service.cadastrarUsuario(novoUsuario);
 
                         boolean enviouNotificacao = false;
                         
-                        if (!criadoPelaMainView) {
+                        if (!criadoPelaMainView && possuiAdministrador) {
                             UUID idSolicitacao = UUID.randomUUID();
                             LocalDate dataSolicitacao = LocalDate.now();
                             Solicitacao solicitacao = new Solicitacao(idSolicitacao, novoUsuario, dataSolicitacao, false);
