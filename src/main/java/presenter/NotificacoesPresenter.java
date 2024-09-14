@@ -31,13 +31,11 @@ public class NotificacoesPresenter {
     private JDesktopPane panel;
     private NotificadoraService service;
     
-    public NotificacoesPresenter(Usuario usuario, JDesktopPane panel, NotificadoraService service) {
-        model = usuario;
+    public NotificacoesPresenter( JDesktopPane panel, NotificadoraService service) {
         this.panel = panel;       
         this.service = service;
         
         gerarView();
-        atualizarView();
         view.getBtnBuscar().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
@@ -71,13 +69,13 @@ public class NotificacoesPresenter {
         view.getBtnVisualizar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Notificacao notificacao = new Notificacao();
                 var row = view.getTbNotificacoes().getSelectedRow();
-                UUID id = UUID.fromString(view.getTbNotificacoes().getValueAt(row, 0).toString());
-                service.lerNotificacao(id);
-                new VisualizacaoNotificacoesPresenter(id, service, panel);
-                
-                
+                if(row != -1){
+                    Notificacao notificacao = new Notificacao();
+                    UUID id = UUID.fromString(view.getTbNotificacoes().getValueAt(row, 0).toString());
+                    service.lerNotificacao(id);
+                    new VisualizacaoNotificacoesPresenter(id, service, panel);
+                }
             }
         });
     }
@@ -85,10 +83,15 @@ public class NotificacoesPresenter {
     private void gerarView() {
         view = new NotificacoesView();
         panel.add(view);
+        view.setVisible(false);
+    }
+    
+    public void setVisible(){
         view.setVisible(true);
     }
     
     public void atualizarView(){
+        this.model = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
         List<Notificacao> notificacoes = service.buscarPorIdDestinatario(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId());
         
         DefaultTableModel tableModel = (DefaultTableModel) view.getTbNotificacoes().getModel();

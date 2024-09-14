@@ -39,6 +39,7 @@ public class NotificacoesView extends javax.swing.JInternalFrame {
         btnVisualizar = new javax.swing.JButton();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Notificações");
         setMaximumSize(new java.awt.Dimension(466, 565));
         setMinimumSize(new java.awt.Dimension(466, 565));
