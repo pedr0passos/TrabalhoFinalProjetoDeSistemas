@@ -27,6 +27,8 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private RegistrosPresenter registrosPresenter;
     private SolicitacoesPresenter solicitacoesPresenter;
     private EnviarNotificacaoPresenter enviarNotificacaoPresenter;
+    private InformacoesUsuarioPresenter informacoesUsuarioPresenter;
+    private NotificacoesPresenter notificacoesPresenter;
     
     public MainView(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
@@ -187,7 +189,8 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_NovoUsuarioActionPerformed
 
     private void btnNotificacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificacoesActionPerformed
-        var notificacoesPresenter = new NotificacoesPresenter(usuarioLogado, mainPane, new NotificadoraService());
+        notificacoesPresenter.setVisible();
+        notificacoesPresenter.atualizarView();
     }//GEN-LAST:event_btnNotificacoesActionPerformed
 
     private void RegistrosDeUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrosDeUsuarioActionPerformed
@@ -199,7 +202,8 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_ConfigurarLogActionPerformed
 
     private void btnInformacoesContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesContaActionPerformed
-        var informacoesUsuarioPresenter = new InformacoesUsuarioPresenter(usuarioLogado, mainPane, new UsuarioService(), logService);
+        informacoesUsuarioPresenter.setVisible();
+        informacoesUsuarioPresenter.atualizarView();
     }//GEN-LAST:event_btnInformacoesContaActionPerformed
 
     private void SolicitacoesDosUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitacoesDosUsuariosActionPerformed
@@ -221,6 +225,9 @@ public class MainView extends javax.swing.JFrame implements Observer {
         this.registrosPresenter = new RegistrosPresenter(usuarioLogado, mainPane, new UsuarioService());
         this.solicitacoesPresenter = new SolicitacoesPresenter(new SolicitacaoService(), new UsuarioService(), mainPane);
         this.enviarNotificacaoPresenter = new EnviarNotificacaoPresenter(mainPane, new NotificadoraService(), new UsuarioService(), this, logService);
+        this.informacoesUsuarioPresenter = new InformacoesUsuarioPresenter(mainPane, new UsuarioService(), logService);
+        this.notificacoesPresenter = new NotificacoesPresenter(mainPane, new NotificadoraService());
+        
         
         cadastroPresenter.adicionarObserver(registrosPresenter);
         solicitacoesPresenter.adicionarObserver(registrosPresenter);

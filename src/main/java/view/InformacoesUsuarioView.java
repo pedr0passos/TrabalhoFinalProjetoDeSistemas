@@ -36,6 +36,7 @@ public class InformacoesUsuarioView extends javax.swing.JInternalFrame {
         btnTrocarSenha = new javax.swing.JButton();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Informaçãoes da Conta");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/images/usuario.png"))); // NOI18N
         setInheritsPopupMenu(true);

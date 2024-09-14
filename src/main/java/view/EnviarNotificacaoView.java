@@ -41,6 +41,7 @@ public class EnviarNotificacaoView extends javax.swing.JInternalFrame {
         lblUsuario1 = new javax.swing.JLabel();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Enviar Notificação");
 
         jSelectUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N

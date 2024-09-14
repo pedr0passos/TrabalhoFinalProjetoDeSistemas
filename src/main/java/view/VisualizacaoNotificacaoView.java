@@ -4,6 +4,9 @@
  */
 package view;
 
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 /**
  *
  * @author pedro
@@ -33,15 +36,21 @@ public class VisualizacaoNotificacaoView extends javax.swing.JInternalFrame {
         lblDataEnvio = new javax.swing.JLabel();
         txtDataEnvio = new javax.swing.JTextField();
 
+        setClosable(true);
         setTitle("Visualização da Notificação");
 
+        txtConteudo.setEditable(false);
         txtConteudo.setColumns(20);
         txtConteudo.setRows(5);
         jScrollPane1.setViewportView(txtConteudo);
 
+        txtTitulo.setEditable(false);
+
         lblTitulo.setText("Título");
 
         lblDataEnvio.setText("Data de Envio");
+
+        txtDataEnvio.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -81,6 +90,19 @@ public class VisualizacaoNotificacaoView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public JTextArea getTxtConteudo() {
+        return txtConteudo;
+    }
+
+    public JTextField getTxtDataEnvio() {
+        return txtDataEnvio;
+    }
+
+    public JTextField getTxtTitulo() {
+        return txtTitulo;
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
