@@ -275,10 +275,10 @@ public class MainView extends javax.swing.JFrame implements Observer {
     public void update() {
         usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
         menuConta.setEnabled(true);
+        menuConfigurar.setEnabled(true);
         
         if (usuarioLogado.isAdministrador()) {
             menuUsuarios.setEnabled(true);
-            menuConfigurar.setEnabled(true);
         }
 
         if (!usuarioLogado.isAdministrador())
