@@ -34,8 +34,6 @@ public class ConfirmarExclusaoPresenter {
         this.usuarioService = usuarioService;
         this.idusuario = usuario;
         this.view = new ConfirmarExclusaoView();
-
-        logService.configuraLog();
         desktopPane.add(view);
         view.setVisible(true);
 
@@ -60,6 +58,7 @@ public class ConfirmarExclusaoPresenter {
     }
 
     private void confirmarExclusao() {
+        logService.configuraLog();
         Log log = logService.getLog();
         var usuarioTemp = usuarioService.buscarUsuarioPorId(idusuario.toString());
         try {

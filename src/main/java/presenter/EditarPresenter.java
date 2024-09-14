@@ -12,6 +12,7 @@ import view.EditarView;
 import java.util.ArrayList;
 import java.util.List;
 import service.LogService;
+import singleton.UsuarioLogadoSingleton;
 
 /**
  * @author Pedro Henrique Passos Rocha
@@ -34,7 +35,6 @@ public class EditarPresenter {
         this.desktopPane = panel;
         this.service = service;
         this.model = usuario;
-        logService.configuraLog();
     }
 
     public void criarView() {
@@ -54,6 +54,7 @@ public class EditarPresenter {
 
     public void salvarEdicao() {
         String novoNome = view.getTxtNome().getText();
+        logService.configuraLog();
         Log log = logService.getLog();
 
         if (novoNome == null || novoNome.trim().isEmpty()) {

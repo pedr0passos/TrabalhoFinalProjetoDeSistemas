@@ -52,8 +52,6 @@ public class CadastroPresenter {
         this.adminService = adminService;
         this.validadorService = new ValidadorSenhaService();
         
-        logService.configuraLog();
-        
         criarView(criadoPelaMainView);
         desktopPane.add(view);
     }
@@ -74,7 +72,7 @@ public class CadastroPresenter {
         view.getBotaoSalvarUsuario().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                logService.configuraLog();
                 Log log = logService.getLog();
 
                 try {

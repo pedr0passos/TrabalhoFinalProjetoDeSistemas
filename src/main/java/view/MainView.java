@@ -224,7 +224,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
         this.cadastroPresenter = new CadastroPresenter(usuarioLogado, mainPane, new UsuarioService(), this, true, new AdministradorService());
         this.registrosPresenter = new RegistrosPresenter(usuarioLogado, mainPane, new UsuarioService());
         this.solicitacoesPresenter = new SolicitacoesPresenter(new SolicitacaoService(), new UsuarioService(), mainPane);
-        this.enviarNotificacaoPresenter = new EnviarNotificacaoPresenter(mainPane, new NotificadoraService(), new UsuarioService(), this, logService);
+        this.enviarNotificacaoPresenter = new EnviarNotificacaoPresenter(mainPane, new NotificadoraService(), new UsuarioService(), this);
         this.informacoesUsuarioPresenter = new InformacoesUsuarioPresenter(mainPane, new UsuarioService(), logService);
         this.notificacoesPresenter = new NotificacoesPresenter(mainPane, new NotificadoraService());
         

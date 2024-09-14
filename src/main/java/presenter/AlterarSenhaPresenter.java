@@ -31,7 +31,6 @@ public class AlterarSenhaPresenter {
     public AlterarSenhaPresenter(Usuario model, JDesktopPane panel, UsuarioService service) {
         this.model = model;
         this.service = service;
-        logService.configuraLog();
         
         validadorService = new ValidadorSenhaService();
         
@@ -49,6 +48,7 @@ public class AlterarSenhaPresenter {
         view.getBtnSalvarUsuario().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                logService.configuraLog();
                 Log log = logService.getLog(); // Obtendo a instância de Log
 
                 try {

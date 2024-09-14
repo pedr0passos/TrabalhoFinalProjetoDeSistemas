@@ -43,7 +43,6 @@ public class LoginPresenter {
         this.desktopPane = panel;
         this.service = service;
         this.mainView = mainView;
-        logService.configuraLog();
 
         criarView();
         
@@ -75,7 +74,7 @@ public class LoginPresenter {
             
             String nomeDigitado = view.getTxtNomeUsuario().getText();
             String senhaDigitada = getSenha(view.getTxtSenha());
-            
+            logService.configuraLog();
             Log log = logService.getLog();
 
             if (camposIsNull(nomeDigitado, senhaDigitada)) {
