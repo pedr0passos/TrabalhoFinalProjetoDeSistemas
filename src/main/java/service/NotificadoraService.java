@@ -7,6 +7,7 @@ package service;
 import dao.NotificacaoDAO;
 import dao.NotificacaoDAOSqlite;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import model.Notificacao;
 
@@ -20,6 +21,10 @@ public class NotificadoraService {
      
     public NotificadoraService(){
         this.notificacaoDAO = new NotificacaoDAOSqlite();
+    }
+    
+    public Optional<Notificacao> buscarPorId(UUID idNotificacao){
+        return notificacaoDAO.buscarPorId(idNotificacao);
     }
      
     public List<Notificacao> buscarPorIdDestinatario(UUID idUsuarioDestinatario){

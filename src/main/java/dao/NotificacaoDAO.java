@@ -20,5 +20,7 @@ public interface NotificacaoDAO {
     void lerNotificacao(UUID idNotificacao);
     
     void enviarNotificacao(Notificacao notificacao);
+
+    public Optional<Notificacao> buscarPorId(UUID idNotificacao);
     
 }
