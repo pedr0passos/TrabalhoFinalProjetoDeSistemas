@@ -42,6 +42,7 @@ public class RegistrosPresenter implements Observer {
     
     private UsuarioState estadoAtual;
     private EditarPresenter editarPresenter;
+    private ConfirmarExclusaoPresenter confirmarExclusaoPresenter;
 
     public RegistrosPresenter(Usuario model, JDesktopPane pane, UsuarioService service) {
         this.model = model;
@@ -139,7 +140,7 @@ public class RegistrosPresenter implements Observer {
             if (idUsuario.equals(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId())) {
                 JOptionPane.showMessageDialog(view, "Não é possível excluir a si mesmo", "Erro", JOptionPane.ERROR_MESSAGE);
             } else {
-                service.deletarUsuario(idUsuario);
+                mostraConfirmarExclusao(idUsuario);
                 atualizarView();
             }
         }
@@ -189,6 +190,11 @@ public class RegistrosPresenter implements Observer {
             }
 
         }
+    }
+    
+    private void mostraConfirmarExclusao(UUID idUsuario){
+        confirmarExclusaoPresenter =  new ConfirmarExclusaoPresenter(pane ,service, idUsuario);
+        confirmarExclusaoPresenter.adicionarObserver(this);
     }
 
     public void setVisible() {
