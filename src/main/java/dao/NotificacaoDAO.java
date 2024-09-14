@@ -15,14 +15,12 @@ import model.Notificacao;
  */
 public interface NotificacaoDAO {
     
-//    Optional<Notificacao> buscarPorTitulo(String titulo);
-    
     List<Notificacao> buscarPorIdDestinatario(UUID idUsuarioDestinatario);
     
     void lerNotificacao(UUID idNotificacao);
     
-    Integer countNotificacoesLidasPorDestinatario(UUID idUsuarioDestinatario);
-    
     void enviarNotificacao(Notificacao notificacao);
+
+    public Optional<Notificacao> buscarPorId(UUID idNotificacao);
     
 }

@@ -7,6 +7,7 @@ package presenter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.UUID;
 import model.Notificacao;
 import service.NotificadoraService;
 import singleton.UsuarioLogadoSingleton;
@@ -40,21 +41,21 @@ public class NotificacoesPresenter {
         view.getBtnBuscar().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                                try {
+                try {
                     String nomeBusca = view.getTxtBuscarNotificacoes().getText().trim();
             
                     if (nomeBusca.isEmpty()) {
                         atualizarView(); 
                         return;
                     }
-
                     List<Notificacao> notificacoes = service.buscarPorIdDestinatario(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId());
                     DefaultTableModel tableModel = (DefaultTableModel) view.getTbNotificacoes().getModel();
                     tableModel.setRowCount(0); 
-
+                   
                     for (Notificacao notificacao : notificacoes) {
                         if (notificacao.getTitulo().toLowerCase().contains(nomeBusca.toLowerCase())) {
                             tableModel.addRow(new Object[] {
+                                notificacao.getId().toString(),
                                 notificacao.getDataCriacao().toString(),
                                 notificacao.getTitulo(),
                                 notificacao.getConteudo()
@@ -64,6 +65,19 @@ public class NotificacoesPresenter {
                 } catch ( NumberFormatException exception) {
                     exception.getStackTrace();                    
                 }
+            }
+        });
+        
+        view.getBtnVisualizar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Notificacao notificacao = new Notificacao();
+                var row = view.getTbNotificacoes().getSelectedRow();
+                UUID id = UUID.fromString(view.getTbNotificacoes().getValueAt(row, 0).toString());
+                service.lerNotificacao(id);
+                new VisualizacaoNotificacoesPresenter(id, service, panel);
+                
+                
             }
         });
     }
@@ -78,9 +92,11 @@ public class NotificacoesPresenter {
         List<Notificacao> notificacoes = service.buscarPorIdDestinatario(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId());
         
         DefaultTableModel tableModel = (DefaultTableModel) view.getTbNotificacoes().getModel();
+        tableModel.setRowCount(0);
         
         for (Notificacao notificacao : notificacoes){
             tableModel.addRow(new Object[] {
+                notificacao.getId().toString(),
                 notificacao.getDataCriacao().toString(),
                 notificacao.getTitulo(),
                 notificacao.getConteudo()
