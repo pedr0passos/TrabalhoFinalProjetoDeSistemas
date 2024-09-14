@@ -20,6 +20,7 @@ import view.RegistrosView;
  * @author Pedro Henrique Passos Rocha
  * @author João Victor Mascarenhas
  */
+
 public class RegistrosPresenter implements Observer {
 
     private final Usuario model;

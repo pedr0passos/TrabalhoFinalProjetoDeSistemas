@@ -25,6 +25,7 @@ import view.MainView;
  * @author Catterina Salvador
  */
 public class EnviarNotificacaoPresenter {
+    
     private EnviarNotificacaoView view;
     private final List<Observer> observers = new ArrayList<>();
     private NotificadoraService service;
@@ -45,13 +46,14 @@ public class EnviarNotificacaoPresenter {
     }
     public final void criarView(){
         view = new EnviarNotificacaoView();
-        view.setVisible(true);
+        view.setVisible(false);
         desktopPane.add(view);
         atualizarView();
         
         view.getBtnEnviar().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
+                
                 Log log = logService.getLog();
                 
                 String username = view.getJSelectUsuario().getSelectedItem().toString();
@@ -62,7 +64,7 @@ public class EnviarNotificacaoPresenter {
                 
                 Notificacao novaNotificacao = new Notificacao(usuario.getId(), titulo, mensagem);
                 service.enviarNotificacao(novaNotificacao);
-                
+                notificarObservadores();
             }
         });
     }
@@ -73,6 +75,10 @@ public class EnviarNotificacaoPresenter {
         for(Usuario usuario : usuarioList){
             view.getJSelectUsuario().addItem(usuario.getUserName());
         }
+    }
+    
+    public void setVisible() {
+        this.view.setVisible(true);
     }
     
     public void adicionarObserver(Observer observer) {
