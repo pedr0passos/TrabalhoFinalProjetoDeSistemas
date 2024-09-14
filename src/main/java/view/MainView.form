@@ -67,6 +67,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="SolicitacoesDosUsuarios">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/images/socorro.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Solicita&#xe7;&#xf5;es dos Usu&#xe1;rios"/>
               </Properties>
               <Events>
@@ -75,6 +78,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="btnEnviarNotificacao">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/images/enviado.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Enviar Notifica&#xe7;&#xe3;o"/>
               </Properties>
               <Events>
@@ -179,7 +185,11 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="btnNotificacoes">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Notifica&#xe7;&#xf5;es"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>

@@ -9,32 +9,30 @@ import presenter.*;
 import service.*;
 
 /**
- * @author 
- * Pedro Henrique Passos Rocha
- * Catterina Salvador
- * João Victor Mascarenhas
+ * @author Pedro Henrique Passos Rocha Catterina Salvador João Victor
+ * Mascarenhas
  */
-
 public class MainView extends javax.swing.JFrame implements Observer {
 
-    private final JLabel lblNomeUsuarioLogado = new JLabel();   
+    private final JLabel lblNomeUsuarioLogado = new JLabel();
     private final JLabel lblTipoUsuarioLogado = new JLabel();
+
     private Usuario usuarioLogado;
     private UsuarioService usuarioService;
     private LogService logService;
-    
+
     private CadastroPresenter cadastroPresenter;
     private RegistrosPresenter registrosPresenter;
     private SolicitacoesPresenter solicitacoesPresenter;
     private EnviarNotificacaoPresenter enviarNotificacaoPresenter;
     private InformacoesUsuarioPresenter informacoesUsuarioPresenter;
     private NotificacoesPresenter notificacoesPresenter;
-    
+
     public MainView(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
         this.logService = new LogService();
-        
-        configuraLookAndFeel();  
+
+        configuraLookAndFeel();
         initComponents();
         initInternalFrames();
     }
@@ -70,7 +68,9 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
         toolBar.setEnabled(false);
 
+        btnNotificacoes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnNotificacoes.setText("Notificações");
+        btnNotificacoes.setToolTipText("");
         btnNotificacoes.setEnabled(false);
         btnNotificacoes.setFocusable(false);
         btnNotificacoes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -146,6 +146,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
         });
         menuUsuarios.add(RegistrosDeUsuario);
 
+        SolicitacoesDosUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/socorro.png"))); // NOI18N
         SolicitacoesDosUsuarios.setText("Solicitações dos Usuários");
         SolicitacoesDosUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,6 +155,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
         });
         menuUsuarios.add(SolicitacoesDosUsuarios);
 
+        btnEnviarNotificacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/enviado.png"))); // NOI18N
         btnEnviarNotificacao.setText("Enviar Notificação");
         btnEnviarNotificacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,10 +218,10 @@ public class MainView extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnEnviarNotificacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarNotificacaoActionPerformed
-         enviarNotificacaoPresenter.setVisible();
-         enviarNotificacaoPresenter.atualizarView();
+        enviarNotificacaoPresenter.setVisible();
+        enviarNotificacaoPresenter.atualizarView();
     }//GEN-LAST:event_btnEnviarNotificacaoActionPerformed
-    
+
     public void initInternalFrames() {
         this.cadastroPresenter = new CadastroPresenter(usuarioLogado, mainPane, new UsuarioService(), this, true, new AdministradorService());
         this.registrosPresenter = new RegistrosPresenter(usuarioLogado, mainPane, new UsuarioService());
@@ -227,21 +229,20 @@ public class MainView extends javax.swing.JFrame implements Observer {
         this.enviarNotificacaoPresenter = new EnviarNotificacaoPresenter(mainPane, new NotificadoraService(), new UsuarioService(), this);
         this.informacoesUsuarioPresenter = new InformacoesUsuarioPresenter(mainPane, new UsuarioService(), logService);
         this.notificacoesPresenter = new NotificacoesPresenter(mainPane, new NotificadoraService());
-        
-        
+
         cadastroPresenter.adicionarObserver(registrosPresenter);
         solicitacoesPresenter.adicionarObserver(registrosPresenter);
         enviarNotificacaoPresenter.adicionarObserver(registrosPresenter);
     }
-    
-    public void setUsuario (Usuario usuario) {
+
+    public void setUsuario(Usuario usuario) {
         usuarioLogado = usuario;
     }
-    
+
     public void addConfigurarLogActionListener(ActionListener listener) {
         ConfigurarLog.addActionListener(listener);
     }
-    
+
     public JLabel getLblNomeUsuarioLogado() {
         return lblNomeUsuarioLogado;
     }
@@ -249,7 +250,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     public JLabel getLblTipoUsuarioLogado() {
         return lblTipoUsuarioLogado;
     }
-    
+
     public JDesktopPane getMainPane() {
         return mainPane;
     }
@@ -257,7 +258,27 @@ public class MainView extends javax.swing.JFrame implements Observer {
     public JButton getBtnNotificacoes() {
         return btnNotificacoes;
     }
-    
+
+    public JMenuItem getConfigurarLog() {
+        return ConfigurarLog;
+    }
+
+    public JMenu getMenuConfigurar() {
+        return menuConfigurar;
+    }
+
+    public JMenu getMenuConta() {
+        return menuConta;
+    }
+
+    public JMenu getMenuUsuarios() {
+        return menuUsuarios;
+    }
+
+    public void setNotificacoesCount(int count) {
+        btnNotificacoes.setText(count + " Notificações");
+    }
+
     public static void configuraLookAndFeel() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -268,29 +289,36 @@ public class MainView extends javax.swing.JFrame implements Observer {
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }    
+        }
     }
 
     @Override
     public void update() {
         usuarioLogado = UsuarioLogadoSingleton.getInstancia().getUsuarioLogado();
+
         menuConta.setEnabled(true);
-        
+
+        menuConfigurar.setEnabled(true);
+
         if (usuarioLogado.isAdministrador()) {
             menuUsuarios.setEnabled(true);
-            menuConfigurar.setEnabled(true);
-        }
 
-        if (!usuarioLogado.isAdministrador())
-            btnNotificacoes.setEnabled(true);
-        
-        toolBar.add(lblNomeUsuarioLogado);
-        toolBar.add(Box.createHorizontalStrut(15));
-        toolBar.add(lblTipoUsuarioLogado);
-        
-    }
-   
-    
+            menuUsuarios.setEnabled(usuarioLogado.isAdministrador());
+
+            btnNotificacoes.setEnabled(!usuarioLogado.isAdministrador());
+
+            if (toolBar.getComponentIndex(lblNomeUsuarioLogado) == -1) {
+                toolBar.add(lblNomeUsuarioLogado);
+            }
+            if (toolBar.getComponentIndex(lblTipoUsuarioLogado) == -1) {
+                toolBar.add(Box.createHorizontalStrut(15));
+                toolBar.add(lblTipoUsuarioLogado);
+
+            }
+
+            toolBar.revalidate();
+            toolBar.repaint();
+        }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem ConfigurarLog;
     private javax.swing.JMenuItem NovoUsuario;

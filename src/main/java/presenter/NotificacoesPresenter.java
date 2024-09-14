@@ -14,8 +14,10 @@ import singleton.UsuarioLogadoSingleton;
 
 import javax.swing.JDesktopPane;
 import javax.swing.table.DefaultTableModel;
+import log.Log;
 import main.Main;
 import model.Usuario;
+import service.LogService;
 import view.NotificacoesView;
 
 /**
@@ -27,7 +29,7 @@ public class NotificacoesPresenter {
     
     private Usuario model;
     private NotificacoesView view;
-    
+    private final LogService logService= new LogService();
     private JDesktopPane panel;
     private NotificadoraService service;
     
@@ -69,11 +71,14 @@ public class NotificacoesPresenter {
         view.getBtnVisualizar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                logService.configuraLog();
+                Log log = logService.getLog();
                 var row = view.getTbNotificacoes().getSelectedRow();
                 if(row != -1){
                     Notificacao notificacao = new Notificacao();
                     UUID id = UUID.fromString(view.getTbNotificacoes().getValueAt(row, 0).toString());
                     service.lerNotificacao(id);
+                    registrarLog(log, null);
                     new VisualizacaoNotificacoesPresenter(id, service, panel);
                 }
             }
@@ -104,6 +109,17 @@ public class NotificacoesPresenter {
                 notificacao.getTitulo(),
                 notificacao.getConteudo()
             });
+        }
+    }
+     private void registrarLog(Log log, String mensagemErro) {
+        if (log != null) {
+            log.gravarLog(
+                    mensagemErro == null ? "Mensagem visualizada" : "Mensagem visualizada",
+                    UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getUserName(),
+                    UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getUserName(),
+                    mensagemErro == null,
+                    mensagemErro
+            );
         }
     }
 }

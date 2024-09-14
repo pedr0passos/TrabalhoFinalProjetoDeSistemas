@@ -9,7 +9,6 @@ import presenter.*;
  * @author João Victor Mascarenhas 
  */
 
-
 public class VisualizacaoState extends UsuarioState {
     
     private Command visualizarCommand;
