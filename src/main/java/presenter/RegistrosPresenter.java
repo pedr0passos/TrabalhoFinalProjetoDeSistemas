@@ -25,17 +25,20 @@ public class RegistrosPresenter implements Observer {
     private final Usuario model;
     private RegistrosView view;
     private UsuarioService service;
+    private JDesktopPane panel;
+    private EditarPresenter editarPresenter;
 
     public RegistrosPresenter(Usuario model, JDesktopPane pane, UsuarioService service) {
         this.model = model;
         this.service = service;
-
+        panel = pane;
         criarView();
         pane.add(view);
+        panel = pane;
     }
 
     public void criarView() {
-        view = new RegistrosView(); 
+        view = new RegistrosView();
         view.setVisible(false);
         atualizarView();
         view.getBtnBuscar().addActionListener(new ActionListener() {
@@ -84,20 +87,31 @@ public class RegistrosPresenter implements Observer {
         });
         view.getBtnExcluir().addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e){
-                
+            public void actionPerformed(ActionEvent e) {
+
                 var tabela = view.getTbUsuarios();
-                if(tabela.getSelectedRow() != -1){
+                if (tabela.getSelectedRow() != -1) {
                     DefaultTableModel model = (DefaultTableModel) tabela.getModel();
                     UUID idUsuario = (UUID) model.getValueAt(tabela.getSelectedRow(), 0);
 
-                    if(idUsuario.equals(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId())){
+                    if (idUsuario.equals(UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getId())) {
                         JOptionPane.showMessageDialog(view, "Não é possível excluir a si mesmo", "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else{
+                    } else {
                         service.deletarUsuario(idUsuario);
                         atualizarView();
                     }
+                }
+            }
+        });
+        view.getBtnEditar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                var tabela = view.getTbUsuarios();
+                if (tabela.getSelectedRow() != -1) {
+                    DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+                    UUID idUsuario = (UUID) model.getValueAt(tabela.getSelectedRow(), 0);
+                    var usuario = service.buscarUsuarioPorId(idUsuario.toString());
+                    mostrarEditarView(usuario.get());
                 }
             }
         });
@@ -111,22 +125,26 @@ public class RegistrosPresenter implements Observer {
         for (Usuario usuario : usuarioList) {
 
             if (!usuario.isAdministrador() && usuario.getIsAutorizado()) {
-                tableModel.addRow(new Object[] {
-                usuario.getId(),
-                usuario.getUserName(),
-                usuario.getDataCriacao(),
-                usuario.getNumeroNotificacoesLidas(),
-                usuario.getNumeroNotificacoesLidas()
-            });
+                tableModel.addRow(new Object[]{
+                    usuario.getId(),
+                    usuario.getUserName(),
+                    usuario.getDataCriacao(),
+                    usuario.getNumeroNotificacoesLidas(),
+                    usuario.getNumeroNotificacoesLidas()
+                });
             }
 
         }
     }
 
+    private void mostrarEditarView(Usuario usuario) {
+        editarPresenter = new EditarPresenter(panel, usuario, service);
+    }
+
     public void setVisible() {
         this.view.setVisible(true);
     }
-    
+
     @Override
     public void update() {
         atualizarView();

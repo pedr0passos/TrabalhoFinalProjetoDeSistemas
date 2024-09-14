@@ -33,7 +33,7 @@ public class Main {
             usuarioLogado.setUsuarioLogado(usuario);
         }
         
-        var mainView = new MainView(usuarioService, logService);
+        var mainView = new MainView(usuarioService);
         var panel = mainView.getMainPane();
         
         mainView.setVisible(true);
@@ -41,12 +41,12 @@ public class Main {
         var configView = new ConfiguracaoView();
         initView(configView, panel);
         
-        var configPresenter = new ConfiguracaoPresenter(usuarioService, configView, logService);
+        var configPresenter = new ConfiguracaoPresenter(usuarioService, configView);
 
         mainView.addConfigurarLogActionListener(evt -> configView.setVisible(true));
         
-        logService.configuraLog(configView.getcBoxLog().getSelectedItem().toString());
-        var loginPresenter = new LoginPresenter(panel, usuarioService, mainView, logService);
+        logService.configuraLog();
+        var loginPresenter = new LoginPresenter(panel, usuarioService, mainView);
     }
     
     public static void initView(JInternalFrame internalFrame, JDesktopPane desktopPane) {

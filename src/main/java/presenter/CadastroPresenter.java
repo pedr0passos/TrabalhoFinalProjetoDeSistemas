@@ -24,7 +24,7 @@ public class CadastroPresenter {
     private final JDesktopPane desktopPane;
     private final boolean possuiAdministrador;
     private final MainView mainView;
-    private final LogService logService; 
+    private final LogService logService = new LogService();
     private LoginPresenter loginPresenter;
     private AdministradorService adminService;
     
@@ -33,7 +33,6 @@ public class CadastroPresenter {
             JDesktopPane desktopPane, 
             UsuarioService service, 
             MainView mainView, 
-            LogService logService, 
             boolean criadoPelaMainView,
             AdministradorService adminService) {
         
@@ -42,7 +41,7 @@ public class CadastroPresenter {
         this.possuiAdministrador = adminService.existeAdministrador();
         this.desktopPane = desktopPane;
         this.mainView = mainView;
-        this.logService = logService; 
+        logService.configuraLog();
         this.adminService = adminService;
         criarView(criadoPelaMainView);
         desktopPane.add(view);
@@ -50,7 +49,7 @@ public class CadastroPresenter {
 
     public final void criarView(boolean criadoPelaMainView) {
         view = new CadastroView();
-        view.setVisible(false);
+        view.setVisible(true);
 
         if (criadoPelaMainView) {
             view.getBotaoSalvarUsuario().setText("Salvar");
@@ -148,7 +147,7 @@ public class CadastroPresenter {
     }
 
     private void voltarLogin() {
-        loginPresenter = new LoginPresenter(desktopPane, service, mainView, logService);
+        loginPresenter = new LoginPresenter(desktopPane, service, mainView);
     }
 
     public void setVisible() {

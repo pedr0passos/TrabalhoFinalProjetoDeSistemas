@@ -73,11 +73,6 @@ public class RegistrosView extends javax.swing.JInternalFrame {
 
         btnExcluir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnExcluir.setText("Excluir");
-        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExcluirActionPerformed(evt);
-            }
-        });
 
         btnEditar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEditar.setText("Editar");
@@ -118,9 +113,7 @@ public class RegistrosView extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(scrlUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnExcluir)
-                    .addComponent(btnEditar))
+                .addComponent(btnEditar)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -149,6 +142,10 @@ public class RegistrosView extends javax.swing.JInternalFrame {
 
     public JButton getBtnExcluir() {
         return btnExcluir;
+    }
+
+    public JButton getBtnEditar() {
+        return btnEditar;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

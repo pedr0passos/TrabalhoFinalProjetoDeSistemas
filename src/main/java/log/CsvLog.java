@@ -25,13 +25,11 @@ public class CsvLog {
             writer.write(novoLog);
             writer.newLine();
         }
-
-        System.out.println("Log CSV atualizado com sucesso.");
     }
 
     private String criarLogEntry(String operacao, String nome, String usuario) {
         String dataHora = LocalDateTime.now().format(DATE_FORMATTER);
-        return String.format("\"%s\", \"%s\", \"%s\", \"%s\"",
+        return String.format("\"%s\"; \"%s\"; \"%s\"; \"%s\"",
             dataHora, operacao, nome, usuario
         );
     }
@@ -39,11 +37,7 @@ public class CsvLog {
     public File createFile() {
         try {
             File csvFile = new File(FILE_PATH);
-            if (csvFile.createNewFile()) {
-                System.out.println("Arquivo CSV criado: " + csvFile.getName());
-            } else {
-                System.out.println("Arquivo CSV já existe.");
-            }
+            csvFile.createNewFile();
             return csvFile;
         } catch (IOException e) {
             System.out.println("Erro ao criar o arquivo CSV.");

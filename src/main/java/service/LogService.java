@@ -5,6 +5,8 @@
 package service;
 
 import log.*;
+import dao.LogDAO;
+import dao.LogDAOSqlite;
 
 /**
  *
@@ -18,10 +20,11 @@ public class LogService {
         // Construtor sem argumentos, você configura o log depois
     }
 
-    public void configuraLog(String tipoLog) {   
-        if ("CSV".equalsIgnoreCase(tipoLog)) {
+    public void configuraLog() {  
+        LogDAO logDAO = new LogDAOSqlite();
+        if ("CSV".equalsIgnoreCase(logDAO.retornaTipo())) {
             log = new CsvAdapter(new CsvLog());
-        } else if ("Json".equalsIgnoreCase(tipoLog)) {
+        } else if ("Json".equalsIgnoreCase(logDAO.retornaTipo())) {
             log = new JsonAdapter(new JsonLog());
         }
     }
