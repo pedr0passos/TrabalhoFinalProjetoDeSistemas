@@ -1,0 +1,19 @@
+{"logs": [
+{ "operacao": "Cadastro de usuário", "nome": "admin", "dataHora": "14/09/2024 20:35:32", "usuario": "admin" },
+{ "operacao": "Login de usuário", "nome": "admin", "dataHora": "14/09/2024 20:35:42", "usuario": "admin" },
+{ "operacao": "Alterar senha de usuário", "nome": "admin", "dataHora": "14/09/2024 20:36:36", "usuario": "admin" },
+{ "operacao": "Login de usuário", "nome": "admin", "dataHora": "14/09/2024 20:39:07", "usuario": "admin" },
+{ "operacao": "Erro: Erro ao alterar senha", "nome": "admin", "dataHora": "14/09/2024 20:39:59", "usuario": "admin" },
+{ "operacao": "Erro: Erro ao alterar senha", "nome": "admin", "dataHora": "14/09/2024 20:40:34", "usuario": "admin" },
+{ "operacao": "Erro: Erro ao alterar senha", "nome": "admin", "dataHora": "14/09/2024 20:40:40", "usuario": "admin" },
+{ "operacao": "Alterar senha de usuário", "nome": "admin", "dataHora": "14/09/2024 20:40:45", "usuario": "admin" },
+{ "operacao": "Cadastro de usuário", "nome": "Jefersson", "dataHora": "14/09/2024 20:41:07", "usuario": "admin" },
+{ "operacao": "Cadastro de usuário", "nome": "usuario1", "dataHora": "14/09/2024 20:41:42", "usuario": "admin" },
+{ "operacao": "Login de usuário", "nome": "admin", "dataHora": "14/09/2024 21:01:42", "usuario": "admin" },
+{ "operacao": "Login de usuário", "nome": "admin", "dataHora": "14/09/2024 21:06:12", "usuario": "admin" },
+{ "operacao": "Erro: Vizualizar usuário", "nome": "Jefersson", "dataHora": "14/09/2024 21:06:17", "usuario": "admin" },
+{ "operacao": "Login de usuário", "nome": "admin", "dataHora": "14/09/2024 21:07:41", "usuario": "admin" },
+{ "operacao": "Erro: Vizualizar usuário", "nome": "Jefersson", "dataHora": "14/09/2024 21:09:26", "usuario": "admin" },
+{ "operacao": "Login de usuário", "nome": "admin", "dataHora": "14/09/2024 21:17:09", "usuario": "admin" },
+{ "operacao": "Erro: Vizualizar usuário", "nome": "Jefersson", "dataHora": "14/09/2024 21:17:13", "usuario": "admin" }
+]}

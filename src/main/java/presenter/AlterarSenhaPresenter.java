@@ -61,6 +61,7 @@ public class AlterarSenhaPresenter {
 
             validadorSenhaService = new ValidadorTrocarSenhaService(validadorService, view, log, senhaAtual, usuarioSalvo.get().getSenha(), senha, confirmarSenha);
             if (!validadorSenhaService.validar()) {
+                registrarLog(log, "senhas incompativeis");
                 return;
             }
 
@@ -85,7 +86,7 @@ public class AlterarSenhaPresenter {
     private void registrarLog(Log log, String mensagemErro) {
         if (log != null) {
             log.gravarLog(
-                mensagemErro == null ? "Alterar senha de usuário" : "Erro ao alterar senha",
+                mensagemErro == null ? "Alterar senha de usuário" : "Ao alterar senha",
                 view.getTxtNomeUsuario().getText(),
                 model.getUserName(),
                 mensagemErro == null,
