@@ -12,6 +12,7 @@ import observer.Observer;
 import javax.swing.*;
 import java.util.*;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import log.Log;
 import model.Usuario;
@@ -42,7 +43,7 @@ public class RegistrosPresenter implements Observer {
     public RegistrosPresenter(Usuario model, JDesktopPane pane, UsuarioService service) {
         this.service = service;
         this.notificadoraService = new NotificadoraService();
-        
+
         this.pane = pane;
         this.view = view = new RegistrosView();
         criarView();
@@ -119,9 +120,8 @@ public class RegistrosPresenter implements Observer {
                 try {
                     user = usuario.get();
                     trocarParaEstadoExclusao(usuario.get());
-                    registrarLogExcluir(log, null);
                 } catch (Exception ex) {
-                    registrarLogExcluir(log, ex.getMessage());
+                    Logger.getLogger(RegistrosPresenter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -140,7 +140,7 @@ public class RegistrosPresenter implements Observer {
                     user = usuario.get();
                     trocarParaEstadoEdicao(usuario.get());
                 } catch (Exception ex) {
-                    registrarLogEditar(log, ex.getMessage());
+                    Logger.getLogger(RegistrosPresenter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -162,15 +162,13 @@ public class RegistrosPresenter implements Observer {
                     user = usuario.get();
                     trocarParaEstadoVisualizacao(usuario.get());
                 } catch (Exception ex) {
-                    registrarLogVisualizar(log, ex.getMessage());
+                    Logger.getLogger(RegistrosPresenter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 JOptionPane.showMessageDialog(view, "Usuário não encontrado", "Erro", JOptionPane.ERROR_MESSAGE);
-                registrarLogVisualizar(log, "Usuário não encontrado");
             }
         } else {
             JOptionPane.showMessageDialog(view, "Selecione um usuário para visualizar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            registrarLogVisualizar(log, "nao foi selecionado um usuário para visualizar");
         }
     }
 
@@ -180,10 +178,9 @@ public class RegistrosPresenter implements Observer {
         this.editarPresenter = new EditarPresenter(pane, usuario, service);
         this.editarPresenter.adicionarObserver(this);
         this.estadoAtual = new EdicaoState(visualizarUsuarioPresenter, editarPresenter, confirmarExclusaoPresenter);
-        
+
         var editarCommand = new EditarCommand((EdicaoState) estadoAtual);
         editarCommand.executar();
-        registrarLogEditar(log, null);
     }
 
     private void trocarParaEstadoExclusao(Usuario usuario) throws Exception {
@@ -192,10 +189,9 @@ public class RegistrosPresenter implements Observer {
         this.confirmarExclusaoPresenter = new ConfirmarExclusaoPresenter(pane, service, usuario.getId());
         this.confirmarExclusaoPresenter.adicionarObserver(this);
         this.estadoAtual = new ExcluirState(visualizarUsuarioPresenter, editarPresenter, confirmarExclusaoPresenter);
-        
+
         var excluirCommand = new ExcluirCommand((ExcluirState) estadoAtual);
         excluirCommand.executar();
-        registrarLogExcluir(log, null);
     }
 
     private void trocarParaEstadoVisualizacao(Usuario usuario) throws Exception {
@@ -206,7 +202,6 @@ public class RegistrosPresenter implements Observer {
 
         var visualizarCommand = new VisualizarCommand((VisualizacaoState) estadoAtual);
         visualizarCommand.executar();
-        registrarLogVisualizar(log, null);
     }
 
     public final void atualizarView() {
@@ -238,40 +233,5 @@ public class RegistrosPresenter implements Observer {
     @Override
     public void update() {
         atualizarView();
-    }
-    
-    private void registrarLogVisualizar(Log log, String mensagemErro) {
-        if (log != null) {
-            log.gravarLog(
-                mensagemErro == null ? "Vizualizar usuário" : "Vizualizar usuário",
-                user.getUserName(),
-                UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getUserName(),
-                mensagemErro == null,
-                mensagemErro
-            );
-        }
-    }
-    
-    private void registrarLogEditar(Log log, String mensagemErro) {
-        if (log != null) {
-            log.gravarLog(
-                mensagemErro == null ? "Edicao de usuário" : "Ao editar usuário",
-                user.getUserName(),
-                UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getUserName(),
-                mensagemErro == null,
-                mensagemErro
-            );
-        }
-    }
-    private void registrarLogExcluir(Log log, String mensagemErro) {
-        if (log != null) {
-            log.gravarLog(
-                mensagemErro == null ? "Exclusao de usuário" : "Ao excluir usuario",
-                user.getUserName(),
-                UsuarioLogadoSingleton.getInstancia().getUsuarioLogado().getUserName(),
-                mensagemErro == null,
-                mensagemErro
-            );
-        }
     }
 }
