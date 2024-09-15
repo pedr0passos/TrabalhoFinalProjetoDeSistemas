@@ -39,8 +39,8 @@ public class VisualizarUsuarioPresenter {
         view.getTxtNome().setText(model.getUserName());
         view.getTxtDataCriacao().setText(model.getDataCriacao().toString());
         view.getTxtTipo().setText(model.getTipo());
-        view.getTxtTotalNotificaoes().setText(String.valueOf(model.getNotificacoes().size())); 
-        view.getTxtNotificacoesLidas().setText(String.valueOf(model.getNumeroNotificacoesLidas()));
+        view.getTxtTotalNotificaoes().setText(String.valueOf(service.countNotificacoesPorDestinatario(model.getId()))); 
+        view.getTxtNotificacoesLidas().setText(String.valueOf(service.countNotificacoesLidasPorDestinatario(model.getId())));
 
         view.getTxtNome().setEditable(false);
         view.getTxtDataCriacao().setEditable(false);

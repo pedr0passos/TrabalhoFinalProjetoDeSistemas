@@ -1,0 +1,16 @@
+{"logs": [
+{ "operacao": "Erro: Erro: Login de usuário", "nome": "", "dataHora": "14/09/2024 21:01:45", "usuario": "null" },
+{ "operacao": "Erro: Inclusão de usuário", "nome": "admin", "dataHora": "14/09/2024 21:02:05", "usuario": "null" },
+{ "operacao": "Cadastro de usuário", "nome": "admin", "dataHora": "14/09/2024 21:02:13", "usuario": "admin" },
+{ "operacao": "Login de usuário", "nome": "admin", "dataHora": "14/09/2024 21:02:25", "usuario": "admin" },
+{ "operacao": "Cadastro de usuário", "nome": "Catterina", "dataHora": "14/09/2024 21:02:46", "usuario": "admin" },
+{ "operacao": "Login de usuário", "nome": "Catterina", "dataHora": "14/09/2024 21:03:10", "usuario": "Catterina" },
+{ "operacao": "Login de usuário", "nome": "admin", "dataHora": "14/09/2024 21:03:36", "usuario": "admin" },
+{ "operacao": "Login de usuário", "nome": "admin", "dataHora": "14/09/2024 21:05:32", "usuario": "admin" },
+{ "operacao": "Envio de notificacao", "nome": "Catterina", "dataHora": "14/09/2024 21:05:54", "usuario": "admin" },
+{ "operacao": "Login de usuário", "nome": "admin", "dataHora": "14/09/2024 21:08:39", "usuario": "admin" },
+{ "operacao": "Envio de notificacao", "nome": "Catterina", "dataHora": "14/09/2024 21:09:19", "usuario": "admin" },
+{ "operacao": "Login de usuário", "nome": "Catterina", "dataHora": "14/09/2024 21:10:29", "usuario": "Catterina" },
+{ "operacao": "Mensagem visualizada", "nome": "Catterina", "dataHora": "14/09/2024 21:10:34", "usuario": "Catterina" },
+{ "operacao": "Login de usuário", "nome": "admin", "dataHora": "14/09/2024 21:10:57", "usuario": "admin" }
+]}
